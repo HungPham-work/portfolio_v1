@@ -1,0 +1,80 @@
+---
+---
+<div class="not-prose my-12 border border-border rounded-2xl bg-surface p-8">
+  <div class="relative w-full aspect-[2/1] min-h-[300px] bg-white border border-[#E5E5E5] rounded-xl overflow-hidden font-['Inter']">
+    
+    <!-- Y-Axis Label -->
+    <div class="absolute left-4 top-1/2 -translate-y-1/2 -rotate-90 origin-center text-[#111111] uppercase tracking-[0.08em] text-[10px] font-semibold whitespace-nowrap z-20">
+      Learner Emotional Response
+      <div class="flex justify-between w-full text-[#6B6B6B] text-[8px] font-normal mt-1">
+        <span>&larr; Negative Affect</span>
+        <span>Positive Flow &rarr;</span>
+      </div>
+    </div>
+
+    <!-- X-Axis Label -->
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#111111] uppercase tracking-[0.08em] text-[10px] font-semibold text-center z-20 w-3/4">
+      Cognitive Load / Lesson Difficulty
+      <div class="flex justify-between w-full text-[#6B6B6B] text-[8px] font-normal mt-1">
+        <span>Low</span>
+        <span>High</span>
+      </div>
+    </div>
+
+    <!-- The Plot Area -->
+    <div class="absolute inset-0 ml-12 mb-12 p-4">
+      
+      <!-- Axis Lines -->
+      <div class="absolute left-0 bottom-0 top-0 w-[1px] bg-[#E5E5E5]"></div>
+      <div class="absolute left-0 bottom-0 right-0 h-[1px] bg-[#E5E5E5]"></div>
+
+      <!-- Grid lines (subtle) -->
+      <div class="absolute left-0 right-0 top-[25%] h-[1px] border-t border-dashed border-[#F5F5F5]"></div>
+      <div class="absolute left-0 right-0 top-[50%] h-[1px] border-t border-dashed border-[#F5F5F5]"></div>
+      <div class="absolute left-0 right-0 top-[75%] h-[1px] border-t border-dashed border-[#F5F5F5]"></div>
+
+      <!-- SVG Curve and Shading -->
+      <svg class="w-full h-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none">
+        
+        <!-- Target Shaded Area (Goldilocks Zone) -->
+        <!-- Draws a vertical band at the apex -->
+        <rect x="40" y="0" width="20" height="100" fill="#079AED" fill-opacity="0.04" />
+        <rect x="45" y="0" width="10" height="100" fill="#079AED" fill-opacity="0.04" />
+        
+        <!-- The Parabolic Trajectory -->
+        <path d="M 0 90 Q 50 -20 100 90" fill="none" stroke="#111111" stroke-width="1.5" vector-effect="non-scaling-stroke" />
+        
+        <!-- Apex Marker -->
+        <circle cx="50" cy="8" r="3" fill="#079AED" vector-effect="non-scaling-stroke" />
+
+      </svg>
+
+      <!-- HTML Labels positioned over the SVG -->
+      
+      <!-- Too Easy -->
+      <div class="absolute bottom-[15%] left-[5%] text-[#6B6B6B] text-[10px] leading-snug w-[120px]">
+        <strong>Too Easy &rarr;</strong><br/>
+        Disengagement &amp;<br/>
+        Boredom Zone
+      </div>
+
+      <!-- Goldilocks Apex -->
+      <div class="absolute top-[12%] left-1/2 -translate-x-1/2 text-center text-[#079AED] text-[10px] font-semibold uppercase tracking-[0.05em] bg-white px-2 py-1 border border-[#E5E5E5] rounded shadow-sm">
+        Goldilocks Zone<br/>
+        <span class="text-[8px] font-normal text-[#6B6B6B] tracking-normal capitalize">Productive Struggle</span>
+      </div>
+
+      <!-- Too Hard -->
+      <div class="absolute bottom-[15%] right-[5%] text-right text-[#6B6B6B] text-[10px] leading-snug w-[120px]">
+        <strong>&larr; Too Hard</strong><br/>
+        Anxiety &amp;<br/>
+        Mental Paralysis
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+</style>

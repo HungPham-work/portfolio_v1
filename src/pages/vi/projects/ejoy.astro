@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
+import MicroDashboard from '../../../components/ejoy/MicroDashboard.astro';
+import GoldilocksMatrix from '../../../components/ejoy/GoldilocksMatrix.astro';
+import WireframeBlueprint from '../../../components/ejoy/WireframeBlueprint.astro';
+import "../../../styles/case-study-hero.css";
+import "../../../styles/case-study-content.css";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={`${t('project.ejoy.heading')} — Phạm Quốc Hưng`} description="Nghiên cứu insight người dùng cho ứng dụng eJoy.">
+  <Header />
+
+  <article>
+    <header class="hero-section">
+      <img class="hero-bg" src="/ejoy-hero.jpg" alt="eJOY learning app" />
+      <div class="hero-overlay">
+        <div class="content-container">
+          <a href={`/${lang}/`} style="color: rgba(255,255,255,0.7); text-decoration: none; font-family: 'Inter', sans-serif; font-size: 14px; margin-bottom: 24px; display: inline-block;">
+            ← {t('ejoy.back')}
+          </a>
+          <h1>{t('project.ejoy.heading')}</h1>
+        </div>
+      </div>
+    </header>
+
+    <main class="content-container">
+      <section class="article-body" style="padding-top: 40px;">
+        <div class="case-meta" style="margin-top: 0;">
+          <span class="tool-chip">{t('project.ejoy.pill')}</span>
+          <span class="tool-chip">{t('ejoy.pill1')}</span>
+          <span class="tool-chip">{t('ejoy.pill2')}</span>
+          <span class="tool-chip">{t('ejoy.pill3')}</span>
+          <span class="tool-chip">{t('ejoy.pill4')}</span>
+          <a href="#" style="color: inherit; text-decoration: underline;">{t('ejoy.github')}</a>
+        </div>
+        
+        <h2>{t('ejoy.overviewTitle')}</h2>
+        <p>{t('ejoy.overviewP1')}</p>
+        <p>{t('ejoy.overviewP2')}</p>
+        <p>{t('ejoy.overviewP3')}</p>
+      </section>
+
+      <section class="article-body">
+        <h2>{t('ejoy.researchTitle')}</h2>
+        <p>{t('ejoy.researchP1')}</p>
+        <p>{t('ejoy.researchP2')}</p>
+      </section>
+
+      <section class="article-body">
+        <h2>{t('ejoy.focusGroupTitle')}</h2>
+        <p>{t('ejoy.focusGroupP1')}</p>
+        <p>{t('ejoy.focusGroupP2')}</p>
+        <p>{t('ejoy.focusGroupP3')}</p>
+      </section>
+
+      <section class="article-body">
+        <h2>{t('ejoy.findingsTitle')}</h2>
+        <p>{t('ejoy.findingsP1')}</p>
+      </section>
+
+      <GoldilocksMatrix />
+
+      <section class="article-body">
+        <p>{t('ejoy.findingsP2')}</p>
+      </section>
+
+      <MicroDashboard />
+
+      <section class="article-body">
+        <p>{t('ejoy.findingsP3')}</p>
+      </section>
+
+      <section class="article-body">
+        <h2>{t('ejoy.marketTitle')}</h2>
+        <p>{t('ejoy.marketIntro')}</p>
+        
+        <div class="swot-grid">
+          <div class="swot-cell">
+            <h3>{t('ejoy.swotStrengthsLabel')}</h3>
+            <p>{t('ejoy.swotStrengths')}</p>
+          </div>
+          <div class="swot-cell">
+            <h3>{t('ejoy.swotWeaknessesLabel')}</h3>
+            <p>{t('ejoy.swotWeaknesses')}</p>
+          </div>
+          <div class="swot-cell">
+            <h3>{t('ejoy.swotOpportunitiesLabel')}</h3>
+            <p>{t('ejoy.swotOpportunities')}</p>
+          </div>
+          <div class="swot-cell">
+            <h3>{t('ejoy.swotThreatsLabel')}</h3>
+            <p>{t('ejoy.swotThreats')}</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="article-body">
+        <h2>{t('ejoy.recommendationsTitle')}</h2>
+        <p>{t('ejoy.recommendationsP1')}</p>
+      </section>
+
+      <WireframeBlueprint />
+
+      <section class="article-body">
+        <p>{t('ejoy.recommendationsP2')}</p>
+      </section>
+
+      <section class="article-body">
+        <h2>{t('ejoy.reflectionTitle')}</h2>
+        <p>{t('ejoy.reflectionP1')}</p>
+
+        <div style="margin-top: 48px; text-align: center;">
+          <a href={`/${lang}/projects/tiktok-imc`} style="font-family: 'Inter', sans-serif; font-size: 16px; color: #111; text-decoration: none; border-bottom: 1px solid #111; padding-bottom: 2px;">
+            {t('ejoy.next')}
+          </a>
+        </div>
+      </section>
+    </main>
+  </article>
+
+  <Footer />
+</BaseLayout>

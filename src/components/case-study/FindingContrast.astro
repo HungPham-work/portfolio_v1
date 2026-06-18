@@ -1,0 +1,76 @@
+<section class="finding-contrast">
+  <div class="fc-col">
+    <span class="fc-label">FACILITIES</span>
+    <div class="fc-number weak">-0.045</div>
+    <p class="fc-desc">
+      Weakest relative strength
+    </p>
+  </div>
+
+  <div class="fc-col">
+    <span class="fc-label">STAFF</span>
+    <div class="fc-number strong">-0.605</div>
+    <p class="fc-desc">
+      Strongest relative strength
+    </p>
+  </div>
+
+</section>
+
+<style>
+.finding-contrast{
+  padding:120px 0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+}
+
+.fc-col{
+  display:flex;
+  flex-direction:column;
+}
+
+.fc-label{
+  font-family:Inter,sans-serif;
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#999;
+}
+
+.fc-number{
+  font-family:Georgia,serif;
+  font-size:clamp(72px,10vw,160px);
+  line-height:1;
+  margin:10px 0;
+}
+
+.fc-number.weak{
+  color:#bdbdbd;
+}
+
+.fc-number.strong{
+  color:#111;
+}
+
+.fc-desc{
+  font-family:Inter,sans-serif;
+  color:#666;
+}
+
+.fc-caption{
+  grid-column:1/-1;
+  max-width:720px;
+  font-family:'Source Serif 4',serif;
+  font-size:1.2rem;
+  line-height:1.8;
+  margin-top:20px;
+}
+
+@media(max-width:768px){
+  .finding-contrast{
+    grid-template-columns:1fr;
+    gap:48px;
+  }
+}
+</style>

@@ -1,0 +1,458 @@
+---
+---
+<div class="wireframe-blueprint not-prose">
+  
+  <!-- Section 1: Mascot expression sheet -->
+  <div class="wf-section section-mascots">
+    <div class="wf-section-label">Expression States</div>
+    <div class="mascot-sheet">
+      <div class="mascot-col">
+        <img src="/ejoy-mascot-neutral.png" alt="Neutral Mascot" class="mascot-img" />
+        <div class="mascot-label">Neutral</div>
+        <div class="mascot-note">idle state</div>
+      </div>
+      <div class="mascot-col">
+        <img src="/ejoy-mascot-puzzled.png" alt="Puzzled Mascot" class="mascot-img" />
+        <div class="mascot-label">Puzzled</div>
+        <div class="mascot-note">wrong answer</div>
+      </div>
+      <div class="mascot-col">
+        <img src="/ejoy-mascot-celebrating.png" alt="Celebrating Mascot" class="mascot-img" />
+        <div class="mascot-label">Celebrating</div>
+        <div class="mascot-note">streak milestone</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-divider"></div>
+
+  <!-- Section 2: UI wireframes -->
+  <div class="wf-section section-wireframes">
+    <div class="phones-container">
+      
+      <!-- Phone 1: Error State -->
+      <div class="phone-wrapper">
+        <div class="wf-section-label text-center">Error State</div>
+        <div class="phone-frame">
+          <div class="status-bar"></div>
+          
+          <div class="phone-content">
+            <!-- Wrong answer input -->
+            <div class="wrong-input-field relative">
+              <div class="badge-error">!</div>
+            </div>
+            
+            <!-- Mascot -->
+            <img src="/ejoy-mascot-puzzled.png" alt="Puzzled" class="phone-mascot puzzled" />
+            
+            <!-- Chat bubble -->
+            <div class="chat-bubble">
+              <div class="placeholder-line w-full"></div>
+              <div class="placeholder-line w-[85%]"></div>
+              <div class="placeholder-line w-[60%]"></div>
+            </div>
+            
+            <div class="spacer"></div>
+            
+            <!-- CTAs -->
+            <div class="btn-outline">Get a hint</div>
+            <div class="btn-filled">Try again</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone 2: Success State -->
+      <div class="phone-wrapper">
+        <div class="wf-section-label text-center">Success State</div>
+        <div class="phone-frame">
+          <div class="status-bar"></div>
+          
+          <div class="phone-content">
+            
+            <!-- Streak badge -->
+            <div class="flex-center mt-2">
+              <div class="streak-badge">★ Day 5 streak</div>
+            </div>
+            
+            <div class="spacer"></div>
+            
+            <!-- Mascot -->
+            <img src="/ejoy-mascot-celebrating.png" alt="Celebrating" class="phone-mascot celebrating" />
+            
+            <!-- Progress bar -->
+            <div class="progress-container">
+              <div class="progress-track">
+                <div class="progress-fill"></div>
+              </div>
+              <div class="progress-labels">
+                <span>Day 1</span>
+                <span>Day 7</span>
+              </div>
+            </div>
+            
+            <div class="spacer"></div>
+            
+            <!-- CTA -->
+            <div class="btn-filled">Keep going →</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="wf-divider"></div>
+
+  <!-- Section 3: Expression Context mapping -->
+  <div class="wf-section section-mapping">
+    <div class="mapping-row">
+      <div class="mapping-box">
+        <div class="box-title">Neutral</div>
+        <div class="box-sub">idle/browsing</div>
+      </div>
+      <div class="mapping-arrow">
+        <span class="desktop-arrow">→</span>
+        <span class="mobile-arrow">↓</span>
+      </div>
+      <div class="mapping-box">
+        <div class="box-title">Puzzled</div>
+        <div class="box-sub">wrong answer</div>
+      </div>
+      <div class="mapping-arrow">
+        <span class="desktop-arrow">→</span>
+        <span class="mobile-arrow">↓</span>
+      </div>
+      <div class="mapping-box">
+        <div class="box-title">Celebrating</div>
+        <div class="box-sub">streak/milestone</div>
+      </div>
+      <div class="mapping-arrow">
+        <span class="desktop-arrow">→</span>
+        <span class="mobile-arrow">↓</span>
+      </div>
+      <div class="mapping-box box-highlight">
+        <div class="box-title">Emotional continuity</div>
+        <div class="box-sub">companion, not scorekeeper</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+.wireframe-blueprint {
+  background-color: #F7F5F0;
+  border-radius: 12px;
+  padding: 2rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #333;
+}
+
+.wf-section {
+  position: relative;
+}
+
+.wf-section-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* SECTION 1: Mascot Sheet */
+.section-mascots {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.12) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+}
+
+.mascot-sheet {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.mascot-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.mascot-img {
+  max-width: 160px;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.mascot-label {
+  font-size: 11px;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.mascot-note {
+  font-size: 10px;
+  font-style: italic;
+  color: #aaa;
+}
+
+/* DIVIDER */
+.wf-divider {
+  border-top: 1px dashed #ddd;
+  margin: 2rem 0;
+}
+
+/* SECTION 2: Phones */
+.phones-container {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.phone-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-frame {
+  width: 200px;
+  height: 380px;
+  border: 2px solid #222;
+  border-radius: 24px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.status-bar {
+  height: 20px;
+  background-color: #f5f5f5;
+  width: 100%;
+}
+
+.phone-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 0.75rem;
+}
+
+.wrong-input-field {
+  height: 40px;
+  border: 1px solid #e05555;
+  background-color: #fef0f0;
+  border-radius: 8px;
+  position: relative;
+}
+
+.badge-error {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: #e05555;
+  color: #fff;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-mascot {
+  margin: 0 auto;
+}
+
+.phone-mascot.puzzled {
+  width: 72px;
+}
+
+.phone-mascot.celebrating {
+  width: 80px;
+}
+
+.chat-bubble {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  border-bottom-left-radius: 2px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.placeholder-line {
+  height: 6px;
+  background-color: #ddd;
+  border-radius: 3px;
+}
+.w-full { width: 100%; }
+.w-\[85\%\] { width: 85%; }
+.w-\[60\%\] { width: 60%; }
+
+.btn-outline {
+  border: 1px solid #ddd;
+  color: #666;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 11px;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-filled {
+  background-color: #333;
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 11px;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.streak-badge {
+  border-radius: 20px;
+  background-color: #fff8e8;
+  border: 1px solid #f0a830;
+  color: #d4880a;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  display: inline-block;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
+.mt-2 { margin-top: 0.5rem; }
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.progress-track {
+  width: 100%;
+  height: 6px;
+  background-color: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 70%;
+  height: 100%;
+  background-color: #333;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #aaa;
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* SECTION 3: Mapping Row */
+.mapping-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mapping-box {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px 16px;
+  background-color: #fff;
+  min-width: 120px;
+  text-align: center;
+}
+
+.mapping-box.box-highlight {
+  background-color: #f5f5f2;
+}
+
+.box-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.box-sub {
+  font-size: 10px;
+  font-style: italic;
+  color: #999;
+}
+
+.mapping-arrow {
+  color: #bbb;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-arrow {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .mascot-sheet {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .phones-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .mapping-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .desktop-arrow {
+    display: none;
+  }
+  
+  .mobile-arrow {
+    display: inline;
+  }
+  
+  .mapping-box {
+    width: 100%;
+  }
+}
+</style>

@@ -1,0 +1,192 @@
+---
+const facilities = {
+  label: "Facilities",
+  value: -0.045,
+  desc: "Smallest gap — guests don't single it out",
+};
+
+const staff = {
+  label: "Staff",
+  value: -0.605,
+  desc: "Largest gap — the biggest strength of the market",
+};
+
+// width of underline bar, scaled to |value|, capped relative to staff
+const maxAbs = Math.abs(staff.value);
+const facilitiesBarPct = (Math.abs(facilities.value) / maxAbs) * 100;
+const staffBarPct = (Math.abs(staff.value) / maxAbs) * 100;
+---
+
+<section class="gap-contrast">
+  <div class="gap-col">
+    <span class="gap-eyebrow">{facilities.label}</span>
+    <span class="gap-number" data-target={facilities.value}>0.000</span>
+    <span class="gap-bar" style={`--w: ${facilitiesBarPct}%`} data-variant="weak"></span>
+    <p class="gap-desc">{facilities.desc}</p>
+  </div>
+
+  <div class="gap-col">
+    <span class="gap-eyebrow">{staff.label}</span>
+    <span class="gap-number" data-target={staff.value}>0.000</span>
+    <span class="gap-bar" style={`--w: ${staffBarPct}%`} data-variant="strong"></span>
+    <p class="gap-desc">{staff.desc}</p>
+  </div>
+
+  <p class="gap-caption">
+    gap = sub-score − overall score, across 7 experience dimensions
+  </p>
+</section>
+
+<style>
+  .gap-contrast {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    padding: 64px 0;
+    position: relative;
+  }
+
+  .gap-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .gap-eyebrow {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 8px;
+  }
+
+  .gap-number {
+    font-family: "Georgia", "Times New Roman", serif;
+    font-weight: 700;
+    font-size: clamp(56px, 9vw, 120px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .gap-col:first-child .gap-number {
+    color: #b3b3b3;
+  }
+
+  .gap-col:last-child .gap-number {
+    color: #111;
+  }
+
+  .gap-bar {
+    display: block;
+    height: 3px;
+    width: var(--w, 0%);
+    margin-top: 14px;
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+
+  .gap-bar[data-variant="weak"] {
+    background: #cccccc;
+  }
+
+  .gap-bar[data-variant="strong"] {
+    background: #111111;
+  }
+
+  .gap-desc {
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #444;
+    max-width: 280px;
+    margin-top: 16px;
+  }
+
+  .gap-caption {
+    grid-column: 1 / -1;
+    font-family: monospace;
+    font-size: 12px;
+    color: #aaa;
+    text-align: center;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 720px) {
+    .gap-contrast {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 40px 0;
+    }
+    .gap-desc {
+      max-width: 100%;
+    }
+  }
+</style>
+
+<script is:inline>
+  function initGapContrast() {
+    if (typeof gsap === "undefined") return;
+
+    const section = document.querySelector(".gap-contrast");
+    if (!section || section.dataset.inited) return;
+
+    const numbers = section.querySelectorAll(".gap-number");
+    const bars = section.querySelectorAll(".gap-bar");
+
+    const run = () => {
+      section.dataset.inited = "true";
+
+      numbers.forEach((el, i) => {
+        const target = parseFloat(el.getAttribute("data-target") || "0");
+        gsap.fromTo(
+          { val: 0 },
+          { val: 0 },
+          {
+            val: target,
+            duration: 1.6,
+            delay: i * 0.3,
+            ease: "power3.out",
+            onUpdate: function () {
+              const v = this.targets()[0].val;
+              el.textContent = v.toFixed(3);
+            },
+          }
+        );
+      });
+
+      bars.forEach((el, i) => {
+        gsap.to(el, {
+          scaleX: 1,
+          duration: 1.2,
+          delay: 0.2 + i * 0.3,
+          ease: "power3.out",
+        });
+      });
+    };
+
+    // run once visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            run();
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    observer.observe(section);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initGapContrast);
+  } else {
+    initGapContrast();
+  }
+  document.addEventListener("astro:page-load", initGapContrast);
+</script>

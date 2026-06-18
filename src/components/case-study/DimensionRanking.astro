@@ -1,0 +1,111 @@
+---
+const dimensions = [
+  { label: "Staff", value: -0.605 },
+  { label: "Location", value: -0.522 },
+  { label: "Wi-Fi", value: -0.346 },
+  { label: "Value for Money", value: -0.284 },
+  { label: "Comfort", value: -0.221 },
+  { label: "Cleanliness", value: -0.218 },
+  { label: "Facilities", value: -0.045 }
+];
+
+const max = 0.605;
+---
+
+<section class="dimension-ranking">
+  <h2 class="dr-title">
+    What the Ranking Revealed
+  </h2>
+
+  <div class="dr-ranking">
+    {dimensions.map((item) => (
+      <div class="dr-row">
+        <span class="dr-label">{item.label}</span>
+
+        <div class="dr-line-wrap">
+          <div
+            class="dr-line"
+            style={`width:${(Math.abs(item.value) / max) * 100}%`}
+          />
+        </div>
+
+        <span class="dr-value">
+          {item.value.toFixed(3)}
+        </span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+.dimension-ranking{
+  padding:120px 0;
+}
+
+.dr-eyebrow{
+  font-family:Inter,sans-serif;
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#999;
+}
+
+.dr-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(36px,5vw,64px);
+  margin:20px 0;
+}
+
+.dr-intro{
+  font-family:'Source Serif 4',serif;
+  font-size:1.2rem;
+  line-height:1.8;
+  max-width:700px;
+  margin-bottom:60px;
+}
+
+.dr-ranking{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+
+.dr-row{
+  display:grid;
+  grid-template-columns:160px 1fr 90px;
+  gap:20px;
+  align-items:center;
+}
+
+.dr-label{
+  font-family:Inter,sans-serif;
+  font-weight:500;
+}
+
+.dr-line-wrap{
+  height:1px;
+  background:#ececec;
+  position:relative;
+}
+
+.dr-line{
+  position:absolute;
+  left:0;
+  top:0;
+  height:1px;
+  background:#111;
+}
+
+.dr-value{
+  text-align:right;
+  font-family:Georgia,serif;
+  font-variant-numeric:tabular-nums;
+}
+
+@media(max-width:768px){
+  .dr-row{
+    grid-template-columns:100px 1fr 70px;
+    gap:12px;
+  }
+}
+</style>

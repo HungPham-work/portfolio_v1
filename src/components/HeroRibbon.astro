@@ -1,0 +1,247 @@
+---
+// HeroRibbon.astro
+---
+
+<div id="hero-ribbon-container">
+  <canvas id="hero-ribbon-canvas"></canvas>
+  <svg class="noise-overlay" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <filter id="noiseFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch" result="noise" />
+      <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.14 0" />
+    </filter>
+    <rect width="100%" height="100%" filter="url(#noiseFilter)" />
+  </svg>
+</div>
+
+<script>
+  function initHeroRibbon() {
+    const canvas = document.getElementById('hero-ribbon-canvas') as HTMLCanvasElement;
+    const container = document.getElementById('hero-ribbon-container');
+    console.log("HeroRibbon: init called", { canvas, container });
+    if (!canvas || !container) return;
+    
+    if ((canvas as any)._initialized) return;
+    (canvas as any)._initialized = true;
+
+    const THREE = (window as any).THREE;
+    if (!THREE) {
+      console.error("Three.js not loaded");
+      return;
+    }
+
+    // Scene setup
+    const scene = new THREE.Scene();
+    console.log("HeroRibbon: Scene created");
+    
+    // Camera setup
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(0, 0, 12);
+    console.log("HeroRibbon: Camera positioned at", camera.position);
+    
+    // Renderer setup
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: "high-performance"
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    console.log("HeroRibbon: Renderer size set to", container.clientWidth, container.clientHeight);
+
+    // Ribbon Geometry: Long plane to cover full viewport edge-to-edge
+    // Extended length from 25 to 45, width slightly increased, high segment count for smooth folding
+    const geometry = new THREE.PlaneGeometry(45, 4, 700, 36);
+
+    // Shaders
+    const vertexShader = `
+      uniform float uTime;
+      varying vec2 vUv;
+      varying vec3 vWorldPosition;
+
+      void main() {
+        vUv = uv;
+        vec3 pos = position;
+        
+        float t = uTime * 0.08; // Reduced speed by ~45%
+        
+        // Clean, readable torsion instead of aggressive twisting
+        // Increased intensity by 200%, tuned spatial frequency for 4-6 folds
+        float twist = sin(pos.x * 0.4 + t) * 1.6 
+                    + cos(pos.x * 0.15 - t * 0.8) * 1.0; 
+        
+        // Rotate around X axis for gentle folding
+        float s = sin(twist);
+        float c = cos(twist);
+        float y = pos.y * c - pos.z * s;
+        float z = pos.y * s + pos.z * c;
+        
+        pos.y = y;
+        pos.z = z;
+        
+        // Subtle sweeping waves (reduced by an additional 25%)
+        float waveY = sin(pos.x * 0.15 + t * 0.6) * 0.225 + cos(pos.x * 0.25 - t * 0.4) * 0.11;
+        
+        // Depth waves to push folds towards/away from camera cleanly
+        pos.z += sin(pos.x * 0.15 - t * 0.5) * 1.5;
+        pos.z += cos(pos.x * 0.2 + t * 0.7) * 0.8;
+
+        vec4 worldPos = modelMatrix * vec4(pos, 1.0);
+        vWorldPosition = worldPos.xyz;
+        gl_Position = projectionMatrix * viewMatrix * worldPos;
+      }
+    `;
+
+    const fragmentShader = `
+      uniform float uTime;
+      varying vec2 vUv;
+      varying vec3 vWorldPosition;
+
+      // Simple hash for grain
+      float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+      }
+
+      void main() {
+        // Compute normals
+        vec3 dx = dFdx(vWorldPosition);
+        vec3 dy = dFdy(vWorldPosition);
+        vec3 normal = normalize(cross(dx, dy));
+        // --- Hyper-Premium Fluid Color Mesh Palette ---
+        vec3 cCream = vec3(1.0, 0.98, 0.92);   // #FFFBEB Warm Cream/Alabaster
+        vec3 cYellow = vec3(0.99, 0.88, 0.28); // #FDE047 Muted Sandy Yellow
+        vec3 cBlue = vec3(0.23, 0.51, 0.96);   // #3B82F6 Primary Soft Blue
+        vec3 cSky = vec3(0.57, 0.77, 0.99);    // #93C5FD Pastel Sky Blue
+        
+        // Organic smokey blending zone using sub-pixel wave math
+        float noise = sin(vUv.x * 15.0 + vUv.y * 8.0 + uTime * 0.3) * 0.06
+                    + cos(vUv.x * 8.0 - vUv.y * 12.0 - uTime * 0.2) * 0.04;
+        
+        // Apply weave to x coordinate for diagonal interweaving
+        float x = clamp(vUv.x + noise + (vUv.y - 0.5) * 0.2, 0.0, 1.0);
+        
+        // Non-linear Gradient Mesh Structure
+        float w1 = smoothstep(0.0, 0.35, x);   // 0-35%: Cream -> Yellow
+        float w2 = smoothstep(0.35, 0.75, x);  // 35-75%: Yellow -> Blue
+        float w3 = smoothstep(0.75, 1.0, x);   // 75-100%: Blue -> Sky Blue
+        
+        vec3 color = mix(cCream, cYellow, w1);
+        color = mix(color, cBlue, w2);
+        color = mix(color, cSky, w3);
+        
+        // Alpha tapering for absolute edge smoothness into the white backdrop
+        float alpha = 1.0;
+        
+        // 75-100% fade out gracefully
+        alpha *= 1.0 - smoothstep(0.75, 1.0, vUv.x);
+        
+        // Feather top/bottom and left edges (blur/smoothstep)
+        // Reduced blur range by ~60% for crisper edge readability
+        alpha *= smoothstep(0.0, 0.03, vUv.y) * smoothstep(1.0, 0.97, vUv.y);
+        alpha *= smoothstep(0.0, 0.02, vUv.x);
+        
+        gl_FragColor = vec4(color, alpha);
+      }
+    `;
+
+    const material = new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      uniforms: {
+        uTime: { value: 0.0 }
+      },
+      transparent: true,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+      extensions: {
+        derivatives: true
+      }
+    });
+    console.log("HeroRibbon: Shader material created");
+
+    const mesh = new THREE.Mesh(geometry, material);
+    
+    // Rotate to lie somewhat flat but angled
+    mesh.rotation.x = -Math.PI / 6;
+    mesh.rotation.y = Math.PI / 12;
+    scene.add(mesh);
+    console.log("HeroRibbon: Mesh added to scene, rotation:", mesh.rotation);
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+      if (!container) return;
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+    // Animation Loop
+    let time = 0;
+    let animationFrameId: number;
+    let isVisible = false;
+
+    function animate() {
+      if (!isVisible) return;
+      
+      time += 0.015;
+      if (material.uniforms) material.uniforms.uTime.value = time;
+      
+      // Gentle floating of the entire mesh
+      mesh.position.y = Math.sin(time * 0.5) * 0.5;
+      
+      renderer.render(scene, camera);
+      animationFrameId = requestAnimationFrame(animate);
+    }
+
+    // Intersection Observer for scroll optimization
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        isVisible = entry.isIntersecting;
+        console.log("HeroRibbon: Intersection Observer isVisible =", isVisible);
+        if (isVisible) {
+          animationFrameId = requestAnimationFrame(animate);
+        } else {
+          cancelAnimationFrame(animationFrameId);
+        }
+      });
+    }, { threshold: 0.01 });
+
+    observer.observe(container);
+  }
+
+  // Initialize once Astro runs scripts
+  initHeroRibbon();
+</script>
+
+<style>
+  #hero-ribbon-container {
+    position: absolute;
+    bottom: -10%;
+    left: 0;
+    width: 100%;
+    height: 70%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    /* Optional: Subtle mask to fade out edges if it touches the sides */
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  }
+  
+  .noise-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: overlay;
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 10;
+  }
+  #hero-ribbon-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+</style>

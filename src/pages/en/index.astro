@@ -1,0 +1,249 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ProjectSplit from '../../components/ProjectSplit.astro';
+import HeroRibbon from '../../components/HeroRibbon.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<BaseLayout>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" is:inline></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" is:inline></script>
+  <Header />
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero">
+    <HeroRibbon />
+    <div class="hero-inner">
+      <span class="pill">{t('hero.pill')}</span>
+      <h1 class="hero-title">{t('hero.title')}</h1>
+      <p class="hero-subtitle">{t('hero.subtitle')}</p>
+      <a href="#projects" class="btn">{t('hero.cta')}</a>
+    </div>
+  </section>
+
+  <!-- PROJECTS SECTION -->
+  <section class="section" id="projects">
+    <div class="container">
+      <span class="pill">{t('section.projects.pill')}</span>
+      <h2 class="section-title">{t('section.projects.title')}</h2>
+
+      <!-- Block 1: Hanoi Hotels — text LEFT, blob RIGHT -->
+      <ProjectSplit
+        pill={t('project.hanoi.pill')}
+        heading={t('project.hanoi.heading')}
+        features={[
+          t('project.hanoi.feat1'),
+          t('project.hanoi.feat2'),
+          t('project.hanoi.feat3')
+        ]}
+        links={[
+          { label: t('project.hanoi.link1'), href: `/${lang}/projects/hanoi-hotels` },
+          { label: t('project.hanoi.link2'), href: "https://github.com/phamquochung", external: true }
+        ]}
+        blobClass="blob-hanoi"
+        isInteractive={true}
+        projectId="hanoi-hotels"
+      />
+
+      <!-- Block 2: TikTok IMC — blob LEFT, text RIGHT -->
+      <ProjectSplit
+        pill={t('project.tiktok.pill')}
+        heading={t('project.tiktok.heading')}
+        features={[
+          t('project.tiktok.feat1'),
+          t('project.tiktok.feat2'),
+          t('project.tiktok.feat3')
+        ]}
+        links={[
+          { label: t('project.tiktok.link1'), href: `/${lang}/projects/tiktok-imc` }
+        ]}
+        blobClass="blob-tiktok"
+        reverse={true}
+        isInteractive={true}
+        projectId="tiktok"
+        defaultActiveIndex={-1}
+      />
+
+      <!-- Block 3: eJoy — text LEFT, blob RIGHT -->
+      <ProjectSplit
+        pill={t('project.ejoy.pill')}
+        heading={t('project.ejoy.heading')}
+        features={[
+          t('project.ejoy.feat1'),
+          t('project.ejoy.feat2'),
+          t('project.ejoy.feat3')
+        ]}
+        links={[
+          { label: t('project.ejoy.link1'), href: `/${lang}/projects/ejoy` }
+        ]}
+        blobClass="blob-ejoy"
+        isInteractive={true}
+        projectId="ejoy"
+        defaultActiveIndex={-1}
+      />
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <!-- Left: Bio -->
+        <div class="about-bio">
+          <h2 class="section-title">{t('section.about.title')}</h2>
+          <p class="about-text">{t('about.bio.1')}</p>
+          <p class="about-text">{t('about.bio.2')}</p>
+          <p class="about-text">{t('about.bio.3')}</p>
+        </div>
+
+        <!-- Right: Skills -->
+        <div class="about-skills">
+          <div class="skill-row">
+            <span class="skill-label">{t('about.skills.languages')}</span>
+            <span class="skill-value">{t('about.skills.languages.val')}</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-label">{t('about.skills.libraries')}</span>
+            <span class="skill-value">{t('about.skills.libraries.val')}</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-label">{t('about.skills.tools')}</span>
+            <span class="skill-value">{t('about.skills.tools.val')}</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-label">{t('about.skills.currently')}</span>
+            <span class="skill-value">{t('about.skills.currently.val')}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section class="section" id="contact">
+    <div class="container contact-center">
+      <h2 class="section-title">{t('section.contact.title')}</h2>
+      <p class="contact-subtitle">{t('section.contact.subtitle')}</p>
+      <div class="contact-links">
+        <a href={`mailto:${t('contact.email')}`} class="link-arrow">{t('contact.email')}</a>
+        <a href="https://github.com/phamquochung" class="link-arrow" target="_blank" rel="noopener noreferrer">{t('contact.github')}</a>
+        <a href="#" class="link-arrow">{t('contact.linkedin')}</a>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 80px 48px;
+  }
+
+  .hero-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 720px;
+    margin-top: -10vh; /* Push text block slightly higher to give ribbon space below */
+  }
+
+  .hero-title {
+    margin: 24px 0 20px;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    max-width: 560px;
+  }
+
+  /* ===== SECTION TITLES ===== */
+  .section-title {
+    margin: 20px 0 16px;
+  }
+
+  /* ===== ABOUT ===== */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+
+  .about-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .about-skills {
+    padding-top: 60px;
+  }
+
+  /* ===== CONTACT ===== */
+  .contact-center {
+    text-align: center;
+  }
+
+  .contact-subtitle {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 768px) {
+    .hero {
+      padding: 48px 24px;
+      min-height: auto;
+    }
+
+    .hero-blob {
+      width: 300px;
+      height: 200px;
+    }
+
+    .hero-subtitle {
+      font-size: 16px;
+    }
+
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .about-skills {
+      padding-top: 0;
+    }
+
+    .contact-links {
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+  }
+</style>

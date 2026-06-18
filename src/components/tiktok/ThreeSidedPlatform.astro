@@ -1,0 +1,117 @@
+---
+---
+<div class="not-prose my-12 overflow-x-auto">
+  <svg width="100%" viewBox="0 0 680 480" role="img"
+       xmlns="http://www.w3.org/2000/svg">
+    <title>TikTok Shop three-sided platform</title>
+    <desc>Triangle diagram showing Buyers, Sellers, and Creators connected
+    through TikTok Shop, with arrows illustrating network effects.</desc>
+
+    <defs>
+      <marker id="arr-ts" viewBox="0 0 10 10" refX="8" refY="5"
+              markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke"
+              stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round"/>
+      </marker>
+    </defs>
+
+    <!-- Buyers (top center) -->
+    <rect x="250" y="28" width="180" height="64" rx="8"
+          fill="var(--color-background-secondary)"
+          stroke="var(--color-border-primary)" stroke-width="0.5"/>
+    <text x="340" y="54" text-anchor="middle" dominant-baseline="central"
+          font-family="var(--font-sans)" font-size="14" font-weight="500"
+          fill="var(--color-text-primary)">Buyers</text>
+    <text x="340" y="74" text-anchor="middle" dominant-baseline="central"
+          font-family="var(--font-sans)" font-size="12"
+          fill="var(--color-text-secondary)">18–35, Gen Z &amp; Millennials</text>
+
+    <!-- Sellers (bottom left) -->
+    <rect x="50" y="368" width="180" height="64" rx="8"
+          fill="var(--color-background-secondary)"
+          stroke="var(--color-border-primary)" stroke-width="0.5"/>
+    <text x="140" y="394" text-anchor="middle" dominant-baseline="central"
+          font-family="var(--font-sans)" font-size="14" font-weight="500"
+          fill="var(--color-text-primary)">Sellers</text>
+    <text x="140" y="414" text-anchor="middle" dominant-baseline="central"
+          font-family="var(--font-sans)" font-size="12"
+          fill="var(--color-text-secondary)">SMEs to large brands</text>
+
+    <!-- Creators (bottom right) -->
+    <rect x="450" y="368" width="180" height="64" rx="8"
+          fill="var(--color-background-secondary)"
+          stroke="var(--color-border-primary)" stroke-width="0.5"/>
+    <text x="540" y="394" text-anchor="middle" dominant-baseline="central"
+          font-family="var(--font-sans)" font-size="14" font-weight="500"
+          fill="var(--color-text-primary)">Creators</text>
+    <text x="540" y="414" text-anchor="middle" dominant-baseline="central"
+          font-family="var(--font-sans)" font-size="12"
+          fill="var(--color-text-secondary)">KOL, KOC, affiliates</text>
+
+    <!-- TikTok Shop center -->
+    <rect x="255" y="200" width="170" height="56" rx="8"
+          fill="var(--color-background-tertiary)"
+          stroke="var(--color-border-secondary)" stroke-width="1"/>
+    <text x="340" y="222" text-anchor="middle" dominant-baseline="central"
+          font-family="var(--font-sans)" font-size="14" font-weight="500"
+          fill="var(--color-text-primary)">TikTok Shop</text>
+    <text x="340" y="242" text-anchor="middle" dominant-baseline="central"
+          font-family="var(--font-sans)" font-size="12"
+          fill="var(--color-text-secondary)">platform</text>
+
+    <!-- Dashed lines from each group to center -->
+    <line x1="340" y1="92" x2="340" y2="198"
+          stroke="var(--color-border-tertiary)" stroke-width="1"
+          stroke-dasharray="4 3" fill="none"/>
+    <line x1="218" y1="380" x2="254" y2="248"
+          stroke="var(--color-border-tertiary)" stroke-width="1"
+          stroke-dasharray="4 3" fill="none"/>
+    <line x1="452" y1="380" x2="426" y2="258"
+          stroke="var(--color-border-tertiary)" stroke-width="1"
+          stroke-dasharray="4 3" fill="none"/>
+
+    <!-- Network effect arrows: Buyers ↔ Sellers (left side) -->
+    <path d="M280 92 L152 366"
+          stroke="var(--color-border-secondary)" stroke-width="1"
+          fill="none" marker-end="url(#arr-ts)"/>
+    <path d="M194 366 L302 94"
+          stroke="var(--color-border-secondary)" stroke-width="1"
+          fill="none" marker-end="url(#arr-ts)"/>
+
+    <!-- Network effect arrows: Buyers ↔ Creators (right side) -->
+    <path d="M400 92 L528 366"
+          stroke="var(--color-border-secondary)" stroke-width="1"
+          fill="none" marker-end="url(#arr-ts)"/>
+    <path d="M488 366 L376 94"
+          stroke="var(--color-border-secondary)" stroke-width="1"
+          fill="none" marker-end="url(#arr-ts)"/>
+
+    <!-- Network effect arrows: Sellers ↔ Creators (bottom) -->
+    <path d="M232 390 L448 390"
+          stroke="var(--color-border-secondary)" stroke-width="1"
+          fill="none" marker-end="url(#arr-ts)"/>
+    <path d="M448 402 L232 402"
+          stroke="var(--color-border-secondary)" stroke-width="1"
+          fill="none" marker-end="url(#arr-ts)"/>
+
+    <!-- Side annotation labels -->
+    <text x="168" y="230" text-anchor="middle"
+          font-family="var(--font-sans)" font-size="11"
+          fill="var(--color-text-tertiary)">More buyers</text>
+    <text x="168" y="244" text-anchor="middle"
+          font-family="var(--font-sans)" font-size="11"
+          fill="var(--color-text-tertiary)">→ more sellers</text>
+
+    <text x="512" y="230" text-anchor="middle"
+          font-family="var(--font-sans)" font-size="11"
+          fill="var(--color-text-tertiary)">More sellers</text>
+    <text x="512" y="244" text-anchor="middle"
+          font-family="var(--font-sans)" font-size="11"
+          fill="var(--color-text-tertiary)">→ attract creators</text>
+
+    <text x="340" y="452" text-anchor="middle"
+          font-family="var(--font-sans)" font-size="11"
+          fill="var(--color-text-tertiary)">Creators generate content → drive purchases</text>
+  </svg>
+</div>

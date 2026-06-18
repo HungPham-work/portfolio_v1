@@ -1,0 +1,134 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import PositioningMap from "../../../components/tiktok/PositioningMap.astro";
+import { getLangFromUrl, useTranslations } from "../../../i18n/utils";
+import "../../../styles/case-study-hero.css";
+import "../../../styles/case-study-content.css";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<BaseLayout
+  title="IMC Campaign Strategy for TikTok Vietnam — Phạm Quốc Hưng"
+  description="Integrated marketing communications campaign audit for TikTok Shop Vietnam."
+>
+  <Header />
+
+  <article>
+    <!-- Full-viewport hero -->
+    <header class="hero-section">
+      <img class="hero-bg" src="/tiktok-hero.jpg" alt="TikTok Shop Vietnam" />
+      <div class="hero-overlay">
+        <div class="content-container">
+          <a href={`/${lang}/`} style="color: rgba(255,255,255,0.7); text-decoration: none; font-family: 'Inter', sans-serif; font-size: 14px; margin-bottom: 24px; display: inline-block;">
+            ← {t('tiktok.back')}
+          </a>
+          <h1>{t('project.tiktok.heading')}</h1>
+        </div>
+      </div>
+    </header>
+
+    <main class="content-container">
+
+      <section class="article-body" style="padding-top: 40px;">
+        <div class="case-meta" style="margin-top: 0;">
+          <span class="tool-chip">{t('project.tiktok.pill')}</span>
+          <span class="tool-chip">{t('tiktok.pill1')}</span>
+          <span class="tool-chip">{t('tiktok.pill2')}</span>
+          <span class="tool-chip">{t('tiktok.pill3')}</span>
+          <span class="tool-chip">{t('tiktok.pill4')}</span>
+        </div>
+        
+        <h2>{t('tiktok.overviewTitle')}</h2>
+        <p>{t('tiktok.overviewP1')}</p>
+        <p>{t('tiktok.overviewP2')}</p>
+      </section>
+
+      <section class="article-body">
+        <h2>{t('tiktok.marketTitle')}</h2>
+        <p>{t('tiktok.marketP1')}</p>
+        <p>{t('tiktok.marketP2')}</p>
+      </section>
+
+      <PositioningMap />
+
+      <section class="article-body">
+        <h2>{t('tiktok.audienceTitle')}</h2>
+        <p>{t('tiktok.audienceP1')}</p>
+        <p>{t('tiktok.audienceP2')}</p>
+        <p>{t('tiktok.audienceP3')}</p>
+        <p>{t('tiktok.audienceP4')}</p>
+      </section>
+
+      <section class="article-body">
+        <h3>{t('tiktok.messagingTitle')}</h3>
+        <p>{t('tiktok.messagingP1')}</p>
+      </section>
+
+      <section class="article-body">
+        <h2>{t('tiktok.problemsTitle')}</h2>
+        <p>{t('tiktok.problemsP1')}</p>
+        <p>{t('tiktok.problemsP2')}</p>
+        <p>{t('tiktok.problemsP3')}</p>
+        <p>{t('tiktok.problemsP4')}</p>
+      </section>
+
+      <section class="article-body">
+        <h2>{t('tiktok.directionTitle')}</h2>
+        <p>{t('tiktok.directionP1')}</p>
+        <p>{t('tiktok.directionP2')}</p>
+      </section>
+
+      <!-- Campaign images -->
+      <div class="not-prose my-12" style="padding: 0 var(--article-padding, 0);">
+        <div class="campaign-grid">
+          <img src="/tiktok-campaign-1.jpg" alt="Tự Hào Mỗi Vùng campaign" class="campaign-img"/>
+          <img src="/tiktok-campaign-2.jpg" alt="Tự Hào Mỗi Vùng campaign" class="campaign-img"/>
+          <img src="/tiktok-campaign-3.jpg" alt="Tự Hào Mỗi Vùng campaign" class="campaign-img"/>
+        </div>
+      </div>
+
+      <section class="article-body">
+        <p>{t('tiktok.directionP3')}</p>
+
+        <div style="margin-top: 48px; text-align: center;">
+          <a href={`/${lang}/projects/ejoy`}
+            style="font-family: 'Inter', sans-serif; font-size: 16px; color: #111; text-decoration: none; border-bottom: 1px solid #111; padding-bottom: 2px;">
+            {t('tiktok.next')} →
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .campaign-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 12px;
+    height: 400px;
+  }
+  .campaign-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  @media (max-width: 640px) {
+    .campaign-grid {
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+    .campaign-img {
+      aspect-ratio: 4/3;
+      height: auto;
+    }
+  }
+</style>

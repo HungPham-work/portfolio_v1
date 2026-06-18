@@ -1,0 +1,94 @@
+---
+const items = [
+  { label: "Hotel", value: "-0.025" },
+  { label: "Homestay", value: "+0.031", outlier: true },
+  { label: "Apartment", value: "-0.111" }
+];
+---
+
+<section class="property-breakdown">
+  <h2 class="pb-title">
+    Looking Deeper by Property Type
+  </h2>
+
+  <div class="pb-grid">
+    {items.map((item) => (
+      <div class={`pb-item ${item.outlier ? "outlier" : ""}`}>
+        <div class="pb-value">{item.value}</div>
+        <div class="pb-label">{item.label}</div>
+      </div>
+    ))}
+  </div>
+
+  <p class="pb-caption">
+    Homestays are the only segment where the pattern reverses.
+  </p>
+</section>
+
+<style>
+.property-breakdown{
+  padding:120px 0;
+}
+
+.pb-eyebrow{
+  font-family:Inter,sans-serif;
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#999;
+}
+
+.pb-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(36px,5vw,64px);
+  margin:20px 0;
+}
+
+.pb-intro{
+  font-family:'Source Serif 4',serif;
+  font-size:1.2rem;
+  line-height:1.8;
+  max-width:700px;
+  margin-bottom:60px;
+}
+
+.pb-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:40px;
+}
+
+.pb-item{
+  text-align:left;
+}
+
+.pb-value{
+  font-family:Georgia,serif;
+  font-size:clamp(48px,6vw,80px);
+  line-height:1;
+  color:#555;
+}
+
+.pb-item.outlier .pb-value{
+  color:#b65e42;
+}
+
+.pb-label{
+  margin-top:12px;
+  font-family:Inter,sans-serif;
+}
+
+.pb-caption{
+  margin-top:50px;
+  font-family:'Source Serif 4',serif;
+  color:#555;
+  max-width:700px;
+}
+
+@media(max-width:768px){
+  .pb-grid{
+    grid-template-columns:1fr;
+    gap:32px;
+  }
+}
+</style>

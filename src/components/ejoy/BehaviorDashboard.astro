@@ -1,0 +1,86 @@
+---
+---
+<div class="not-prose my-12 border border-border rounded-2xl bg-surface p-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    
+    <!-- Card A: 63% Phone Checking (Bullet Graph) -->
+    <div class="border border-[#E5E5E5] rounded-xl p-6 bg-white flex flex-col justify-center min-h-[160px]">
+      <div class="text-[#111111] uppercase tracking-[0.08em] text-[12px] font-semibold font-['Inter'] mb-6">Phone Checking (63%)</div>
+      
+      <div class="relative w-full h-[6px] bg-[#F5F5F5] rounded-full overflow-hidden mb-2">
+        <!-- Target Marker (e.g., 100%) -->
+        <div class="absolute right-[20%] top-0 bottom-0 w-[1px] bg-[#6B6B6B] z-10"></div>
+        <!-- Progress Bar -->
+        <div class="absolute left-0 top-0 bottom-0 w-[63%] bg-[#079AED]"></div>
+      </div>
+      <div class="flex justify-between text-[#6B6B6B] text-[10px] font-['Inter']">
+        <span>0%</span>
+        <span>Target: 80%</span>
+        <span>100%</span>
+      </div>
+    </div>
+
+    <!-- Card B: 41% Avoidance Behavior (Donut Chart) -->
+    <div class="border border-[#E5E5E5] rounded-xl p-6 bg-white flex items-center justify-between min-h-[160px]">
+      <div class="flex flex-col gap-2">
+        <div class="text-[#111111] uppercase tracking-[0.08em] text-[12px] font-semibold font-['Inter']">Avoidance<br/>Behavior</div>
+        <div class="text-[#079AED] text-[24px] font-['Inter'] font-light">41%</div>
+        <div class="text-[#6B6B6B] text-[10px] font-['Inter'] uppercase">59% Engaged</div>
+      </div>
+      
+      <!-- SVG Donut Chart -->
+      <div class="relative w-[80px] h-[80px]">
+        <svg viewBox="0 0 36 36" class="w-full h-full transform -rotate-90">
+          <path class="text-[#F5F5F5]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" />
+          <path class="text-[#111111]" stroke-dasharray="41, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Card C: 27% Environment Prep (Column Graph) -->
+    <div class="border border-[#E5E5E5] rounded-xl p-6 bg-white flex flex-col justify-between min-h-[160px]">
+      <div class="text-[#111111] uppercase tracking-[0.08em] text-[12px] font-semibold font-['Inter'] mb-4">Environment Prep (27%)</div>
+      
+      <div class="relative w-full h-[60px] flex items-end">
+        <!-- Baseline Ceiling Line -->
+        <div class="absolute left-0 right-0 top-0 border-t border-dashed border-[#6B6B6B]"></div>
+        <div class="absolute right-0 top-[-14px] text-[9px] text-[#6B6B6B] font-['Inter']">100% Ceiling</div>
+        
+        <!-- Progress Column -->
+        <div class="w-[40px] bg-[#111111] relative" style="height: 27%;">
+          <div class="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] text-[#111111] font-['Inter'] font-semibold">27%</div>
+        </div>
+        <!-- Ghost Column to represent gap -->
+        <div class="w-[40px] bg-[#F5F5F5] border border-[#E5E5E5] border-b-0" style="height: 73%;"></div>
+      </div>
+    </div>
+
+    <!-- Card D: 15% Abrupt Drop (Step Graph) -->
+    <div class="border border-[#E5E5E5] rounded-xl p-6 bg-white flex flex-col justify-between min-h-[160px]">
+      <div class="text-[#111111] uppercase tracking-[0.08em] text-[12px] font-semibold font-['Inter'] mb-4">Abrupt Drop (15%)</div>
+      
+      <!-- SVG Step Graph -->
+      <div class="w-full h-[60px] relative">
+        <svg viewBox="0 0 100 40" class="w-full h-full overflow-visible" preserveAspectRatio="none">
+          <!-- Grid lines -->
+          <line x1="0" y1="0" x2="100" y2="0" stroke="#F5F5F5" stroke-width="1" />
+          <line x1="0" y1="20" x2="100" y2="20" stroke="#F5F5F5" stroke-width="1" />
+          <line x1="0" y1="40" x2="100" y2="40" stroke="#F5F5F5" stroke-width="1" />
+          
+          <!-- Step Line -->
+          <path d="M 0 5 L 30 5 L 30 15 L 60 15 L 60 35 L 100 35" fill="none" stroke="#079AED" stroke-width="1.5" />
+          
+          <!-- Drop points -->
+          <circle cx="30" cy="15" r="2" fill="#111111" />
+          <circle cx="60" cy="35" r="2" fill="#111111" />
+        </svg>
+        <div class="absolute bottom-[-16px] left-[55%] text-[9px] text-[#6B6B6B] font-['Inter']">15% Drop-off</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+</style>

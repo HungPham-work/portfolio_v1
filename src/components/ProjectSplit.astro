@@ -1,0 +1,1252 @@
+---
+interface Props {
+  pill: string;
+  heading: string;
+  features: string[];
+  links: { label: string; href: string; external?: boolean }[];
+  blobClass: string;
+  reverse?: boolean;
+  isInteractive?: boolean;
+  projectId?: string;
+  defaultActiveIndex?: number;
+}
+
+const { pill, heading, features, links, blobClass, reverse = false, isInteractive = false, projectId = '', defaultActiveIndex = -1 } = Astro.props;
+---
+
+<div class={`split ${reverse ? 'reverse' : ''}`}>
+  <div class="split-text">
+    <span class="pill">{pill}</span>
+    <h2 class="split-heading">{heading}</h2>
+    <ul class="feature-list">
+      {features.map((feature, index) => (
+        <li
+          class={`feature-item ${isInteractive ? 'interactive' : ''}`}
+          data-index={isInteractive ? index : undefined}
+          data-project-id={isInteractive ? projectId : undefined}
+        >
+          {feature}
+          {isInteractive && (
+            <span class="explore-hint">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+    <div class="split-links">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class="link-arrow"
+          target={link.external ? '_blank' : undefined}
+          rel={link.external ? 'noopener noreferrer' : undefined}
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+  </div>
+  <div class="split-blob">
+    <div class="blob-wrapper">
+      <div class={`blob-container ${blobClass}`}></div>
+      <canvas class="blob-shader-canvas"></canvas>
+
+      {/* ===== HANOI HOTELS DASHBOARD ===== */}
+      {isInteractive && projectId === 'hanoi-hotels' && (
+        <div class="dashboard-container" id="hanoi-hotels-dashboard" data-default-index={defaultActiveIndex} style="display: none; opacity: 0; transform: scale(0.95); pointer-events: none;">
+          <button class="dashboard-close" aria-label="Close dashboard">&times;</button>
+
+          {/* Chart 0: Scrape Counter & Funnel */}
+          <div class="dashboard-chart" id="hanoi-hotels-chart-0" style="display: none;">
+            <div class="chart-header">
+              <span class="header-title">Data Pipeline Yield</span>
+              <span class="header-subtitle">Funnel yield from Booking.com scraping &amp; data cleaning</span>
+            </div>
+            <div class="stat-counter-wrapper">
+              <div class="stat-number" id="hanoi-hotels-counter-listings">0</div>
+              <div class="stat-label">Cleaned Listings in Dataset</div>
+            </div>
+            <div class="funnel-container">
+              <div class="funnel-step raw">
+                <div class="funnel-row-header">
+                  <span class="funnel-label">Raw Scraped Listings</span>
+                  <span class="funnel-val">3,795</span>
+                </div>
+                <div class="funnel-bar" id="hanoi-hotels-funnel-raw" style="width: 0%"></div>
+              </div>
+              <div class="funnel-arrow">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M12 5v14M19 12l-7 7-7-7" />
+                </svg>
+                <span>Filter: Non-null scores &amp; review count &ge; 10</span>
+              </div>
+              <div class="funnel-step clean">
+                <div class="funnel-row-header">
+                  <span class="funnel-label">Cleaned Working Sample</span>
+                  <span class="funnel-val">2,044</span>
+                </div>
+                <div class="funnel-bar" id="hanoi-hotels-funnel-clean" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="funnel-footer">
+              Pipeline yield: <strong>53.9%</strong> of raw data retained
+            </div>
+          </div>
+
+          {/* Chart 1: 7 Dimensions Gap Chart */}
+          <div class="dashboard-chart" id="hanoi-hotels-chart-1" style="display: none;">
+            <div class="chart-header">
+              <span class="header-title">Experience Dimension Mean Gaps</span>
+              <span class="header-subtitle">More negative = exceeds overall rating more (stronger performance)</span>
+            </div>
+            <div class="gap-bars">
+              <div class="gap-row" data-gap="0.605">
+                <span class="gap-label">Staff</span>
+                <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #003580;"></div></div>
+                <span class="gap-val">-0.605</span>
+              </div>
+              <div class="gap-row" data-gap="0.522">
+                <span class="gap-label">Location</span>
+                <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #1a498d;"></div></div>
+                <span class="gap-val">-0.522</span>
+              </div>
+              <div class="gap-row" data-gap="0.346">
+                <span class="gap-label">Wifi</span>
+                <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #335d9a;"></div></div>
+                <span class="gap-val">-0.346</span>
+              </div>
+              <div class="gap-row" data-gap="0.284">
+                <span class="gap-label">Value</span>
+                <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #4d71a7;"></div></div>
+                <span class="gap-val">-0.284</span>
+              </div>
+              <div class="gap-row" data-gap="0.221">
+                <span class="gap-label">Comfort</span>
+                <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #6685b4;"></div></div>
+                <span class="gap-val">-0.221</span>
+              </div>
+              <div class="gap-row" data-gap="0.218">
+                <span class="gap-label">Cleanliness</span>
+                <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #8099c1;"></div></div>
+                <span class="gap-val">-0.218</span>
+              </div>
+              <div class="gap-row highlight" data-gap="0.045">
+                <span class="gap-label">Facilities</span>
+                <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #99adce; outline: 1px solid var(--accent-hanoi);"></div></div>
+                <span class="gap-val">-0.045</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Chart 2: Facilities Gap Comparison by Property Type */}
+          <div class="dashboard-chart" id="hanoi-hotels-chart-2" style="display: none;">
+            <div class="chart-header">
+              <span class="header-title">Facilities Gap by Property Type</span>
+              <span class="header-subtitle">Positive (+) = sub-score is lower than overall rating (underperforms)</span>
+            </div>
+            <div class="comparison-grid">
+              <div class="comparison-row">
+                <div class="comp-label-group">
+                  <span class="comp-name">Homestay</span>
+                  <span class="comp-val positive">+0.031</span>
+                </div>
+                <div class="comp-bar-container">
+                  <div class="comp-baseline"></div>
+                  <div class="comp-bar positive" id="hanoi-hotels-comp-bar-0" style="left: 50%; width: 0%;"></div>
+                </div>
+              </div>
+              <div class="comparison-row">
+                <div class="comp-label-group">
+                  <span class="comp-name">Hotel</span>
+                  <span class="comp-val negative">-0.025</span>
+                </div>
+                <div class="comp-bar-container">
+                  <div class="comp-baseline"></div>
+                  <div class="comp-bar negative" id="hanoi-hotels-comp-bar-1" style="right: 50%; width: 0%;"></div>
+                </div>
+              </div>
+              <div class="comparison-row">
+                <div class="comp-label-group">
+                  <span class="comp-name">Apartment</span>
+                  <span class="comp-val negative">-0.111</span>
+                </div>
+                <div class="comp-bar-container">
+                  <div class="comp-baseline"></div>
+                  <div class="comp-bar negative" id="hanoi-hotels-comp-bar-2" style="right: 50%; width: 0%;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="comp-legend">
+              <div class="legend-item"><span class="legend-dot negative"></span> Outperforms rating (&minus;)</div>
+              <div class="legend-item"><span class="legend-dot positive"></span> Undershoots rating (+)</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ===== TIKTOK DASHBOARD ===== */}
+      {isInteractive && projectId === 'tiktok' && (
+        <div class="dashboard-container" id="tiktok-dashboard" data-default-index={defaultActiveIndex} style="display: none; opacity: 0; transform: scale(0.95); pointer-events: none;">
+          <button class="dashboard-close" aria-label="Close dashboard">&times;</button>
+
+          {/* Chart 0: Market Structure */}
+          <div class="dashboard-chart" id="tiktok-chart-0" style="display: none;">
+            <div class="chart-header">
+              <span class="header-title">Vietnam E-Commerce Market</span>
+              <span class="header-subtitle">Platform share &middot; 2025 &middot; Source: VnExpress / Metric</span>
+            </div>
+            <div class="tiktok-stat-row">
+              <div class="tiktok-stat">
+                <span class="tiktok-stat-number" id="tiktok-gmv">0</span>
+                <span class="tiktok-stat-label">Market size (USD)</span>
+              </div>
+              <div class="tiktok-stat">
+                <span class="tiktok-stat-number" id="tiktok-yoy">0%</span>
+                <span class="tiktok-stat-label">YoY growth</span>
+              </div>
+            </div>
+            <div class="market-bars">
+              <div class="market-row">
+                <span class="market-label">Shopee</span>
+                <div class="market-bar-track">
+                  <div class="market-bar" id="tiktok-bar-shopee" style="width: 0%; background: #EE4D2D;"></div>
+                </div>
+                <span class="market-val">56%</span>
+              </div>
+              <div class="market-row highlight">
+                <span class="market-label">TikTok Shop</span>
+                <div class="market-bar-track">
+                  <div class="market-bar" id="tiktok-bar-tiktok" style="width: 0%; background: #EE1D52;"></div>
+                </div>
+                <span class="market-val">41%</span>
+              </div>
+              <div class="market-row">
+                <span class="market-label">Others</span>
+                <div class="market-bar-track">
+                  <div class="market-bar" id="tiktok-bar-others" style="width: 0%; background: #D0CDC5;"></div>
+                </div>
+                <span class="market-val">3%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Chart 1: Competitive Positioning Map */}
+          <div class="dashboard-chart" id="tiktok-chart-1" style="display: none;">
+            <div class="chart-header">
+              <span class="header-title">Competitive Positioning</span>
+              <span class="header-subtitle">Discovery mechanism vs. trust orientation</span>
+            </div>
+            <div class="pos-map-wrapper">
+              <svg class="pos-map-svg" viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg">
+                <!-- Axis lines -->
+                <line class="pos-axis" x1="20" y1="110" x2="260" y2="110" stroke="#D0CDC5" stroke-width="1" opacity="0"/>
+                <line class="pos-axis" x1="140" y1="10" x2="140" y2="210" stroke="#D0CDC5" stroke-width="1" opacity="0"/>
+                <!-- Axis labels -->
+                <text class="pos-axis-label" x="22" y="107" font-size="7" fill="#6B6B6B" opacity="0">Search-driven</text>
+                <text class="pos-axis-label" x="230" y="107" font-size="7" fill="#6B6B6B" opacity="0">Content-driven</text>
+                <text class="pos-axis-label" x="143" y="20" font-size="7" fill="#6B6B6B" opacity="0">Official/Trust</text>
+                <text class="pos-axis-label" x="143" y="207" font-size="7" fill="#6B6B6B" opacity="0">Mass-market</text>
+                <!-- Lazada dot -->
+                <circle class="pos-dot" id="pos-lazada" cx="80" cy="45" r="6" fill="#6B6B6B" opacity="0"/>
+                <text class="pos-dot-label" id="pos-lazada-label" x="90" y="44" font-size="8" fill="#6B6B6B" opacity="0">Lazada</text>
+                <!-- Shopee dot -->
+                <circle class="pos-dot" id="pos-shopee" cx="90" cy="130" r="6" fill="#EE4D2D" opacity="0"/>
+                <text class="pos-dot-label" id="pos-shopee-label" x="100" y="129" font-size="8" fill="#EE4D2D" opacity="0">Shopee</text>
+                <!-- TikTok Shop dot -->
+                <circle class="pos-dot" id="pos-tiktok" cx="210" cy="150" r="6" fill="#EE1D52" opacity="0"/>
+                <text class="pos-dot-label" id="pos-tiktok-label" x="185" y="168" font-size="8" fill="#EE1D52" opacity="0">TikTok Shop</text>
+                <!-- Drift arrow: from current position toward trust quadrant -->
+                <path class="pos-arrow" id="pos-drift-arrow"
+                  d="M 210 150 C 210 120 200 90 195 75"
+                  stroke="#EE1D52" stroke-width="1.5" stroke-dasharray="3 3"
+                  fill="none" opacity="0"/>
+                <polygon class="pos-arrow" id="pos-arrow-head"
+                  points="191,78 195,68 199,78"
+                  fill="#EE1D52" opacity="0"/>
+                <text class="pos-arrow-label" id="pos-drift-label"
+                  x="145" y="95" font-size="7" fill="#EE1D52" opacity="0">Mall strategy &rarr;</text>
+              </svg>
+            </div>
+          </div>
+
+          {/* Chart 2: 4 Structural Problems */}
+          <div class="dashboard-chart" id="tiktok-chart-2" style="display: none;">
+            <div class="chart-header">
+              <span class="header-title">Structural Communication Problems</span>
+              <span class="header-subtitle">Identified in Chapter 2.2.6 &mdash; limiting long-term brand equity</span>
+            </div>
+            <div class="problem-list">
+              <div class="problem-row" style="opacity: 0; transform: translateY(8px);">
+                <div class="problem-top">
+                  <span class="problem-name">Sale dependency</span>
+                  <span class="problem-severity" style="color: #EE1D52;">CRITICAL</span>
+                </div>
+                <span class="problem-impact">Positions platform as discount channel, not brand</span>
+              </div>
+              <div class="problem-row" style="opacity: 0; transform: translateY(8px);">
+                <div class="problem-top">
+                  <span class="problem-name">Transactional behavior</span>
+                  <span class="problem-severity" style="color: #c0392b;">HIGH</span>
+                </div>
+                <span class="problem-impact">Low engagement outside sale events, weak retention</span>
+              </div>
+              <div class="problem-row" style="opacity: 0; transform: translateY(8px);">
+                <div class="problem-top">
+                  <span class="problem-name">Ecosystem undertold</span>
+                  <span class="problem-severity" style="color: #6B6B6B;">MEDIUM</span>
+                </div>
+                <span class="problem-impact">Content-commerce integration not communicated as value</span>
+              </div>
+              <div class="problem-row" style="opacity: 0; transform: translateY(8px);">
+                <div class="problem-top">
+                  <span class="problem-name">No social identity</span>
+                  <span class="problem-severity" style="color: #6B6B6B;">MEDIUM</span>
+                </div>
+                <span class="problem-impact">High viral reach, no stable community belonging</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      )}
+
+      {/* ===== EJOY DASHBOARD ===== */}
+      {isInteractive && projectId === 'ejoy' && (
+        <div class="dashboard-container" id="ejoy-dashboard" data-default-index={defaultActiveIndex} style="display: none; opacity: 0; transform: scale(0.95); pointer-events: none;">
+          <button class="dashboard-close" aria-label="Close dashboard">&times;</button>
+
+          {/* eJoy Chart 0: Research Stats */}
+          <div class="dashboard-chart" id="ejoy-chart-0" style="display: none;">
+            <div class="chart-header">
+              <span class="header-title">Research Methods</span>
+              <span class="header-subtitle">Mixed-methods study with FTU university students</span>
+            </div>
+            <div class="ejoy-stat-grid">
+              <div class="ejoy-stat-card">
+                <div class="ejoy-stat-num">25+</div>
+                <div class="ejoy-stat-label">Study sessions observed</div>
+              </div>
+              <div class="ejoy-stat-card">
+                <div class="ejoy-stat-num">2</div>
+                <div class="ejoy-stat-label">Focus groups, 2–3 participants each</div>
+              </div>
+              <div class="ejoy-stat-card">
+                <div class="ejoy-stat-num">7+</div>
+                <div class="ejoy-stat-label">Days of learning diaries</div>
+              </div>
+            </div>
+          </div>
+
+          {/* eJoy Chart 1: Emotional Journey Canvas */}
+          <div class="dashboard-chart" id="ejoy-chart-1" style="display: none;">
+            <div class="chart-header">
+              <span class="header-title">Emotional Journey</span>
+              <span class="header-subtitle">Emotion level across a typical learning session</span>
+            </div>
+            <div class="ejoy-canvas-wrapper">
+              <canvas id="ejoy-emotion-canvas"></canvas>
+            </div>
+          </div>
+
+          {/* eJoy Chart 2: Recommendations Grid */}
+          <div class="dashboard-chart" id="ejoy-chart-2" style="display: none;">
+            <div class="chart-header">
+              <span class="header-title">Strategic Recommendations</span>
+              <span class="header-subtitle">4 pillars for emotionally sustainable learning</span>
+            </div>
+            <div class="ejoy-rec-grid">
+              <div class="ejoy-rec-card">
+                <div class="ejoy-rec-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#079AED" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/>
+                  </svg>
+                </div>
+                <div class="ejoy-rec-title">Visual Identity</div>
+                <div class="ejoy-rec-desc">Support colors, Focus Mode, journey progress map</div>
+              </div>
+              <div class="ejoy-rec-card">
+                <div class="ejoy-rec-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#079AED" stroke-width="2">
+                    <circle cx="12" cy="7" r="4"/><path d="M12 14c-4 0-7 2-7 4v1h14v-1c0-2-3-4-7-4z"/>
+                  </svg>
+                </div>
+                <div class="ejoy-rec-title">AI Companion</div>
+                <div class="ejoy-rec-desc">Empathetic coach, not a corrective evaluator</div>
+              </div>
+              <div class="ejoy-rec-card">
+                <div class="ejoy-rec-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#079AED" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </div>
+                <div class="ejoy-rec-title">UX Writing</div>
+                <div class="ejoy-rec-desc">Gentle, humanized prompts instead of streak threats</div>
+              </div>
+              <div class="ejoy-rec-card">
+                <div class="ejoy-rec-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#079AED" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                </div>
+                <div class="ejoy-rec-title">Retention Strategy</div>
+                <div class="ejoy-rec-desc">Psychological safety over pressure streaks</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
+<script>
+  // Per-project state maps so multiple interactive dashboards on the same page don't share state
+  const projectState: Record<string, { activeIndex: number | null; isOpen: boolean }> = {};
+
+  function getState(projectId: string) {
+    if (!projectState[projectId]) projectState[projectId] = { activeIndex: null, isOpen: false };
+    return projectState[projectId];
+  }
+
+  function initInteractiveDashboard() {
+    const items = document.querySelectorAll('.feature-item.interactive');
+    if (!items.length) return;
+
+    items.forEach((item) => {
+      item.addEventListener('click', () => {
+        const indexVal = item.getAttribute('data-index');
+        const projectIdVal = item.getAttribute('data-project-id');
+        if (indexVal !== null && projectIdVal) {
+          const index = parseInt(indexVal, 10);
+          toggleDashboard(projectIdVal, index, item as HTMLElement);
+        }
+      });
+    });
+
+    const closeBtns = document.querySelectorAll('.dashboard-close');
+    closeBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const container = btn.closest('.dashboard-container');
+        if (container) {
+          const id = container.id.replace('-dashboard', '');
+          closeDashboard(id);
+        }
+      });
+    });
+  }
+
+  function toggleDashboard(projectId: string, index: number, clickedItem: HTMLElement) {
+    const dashboard = document.getElementById(`${projectId}-dashboard`);
+    const blob = dashboard?.parentElement?.querySelector('.blob-container') as HTMLElement;
+    const items = document.querySelectorAll(`[data-project-id="${projectId}"]`);
+
+    if (!dashboard || !blob) return;
+
+    const state = getState(projectId);
+    const gsapInstance = (window as any).gsap;
+
+    if (state.isOpen && state.activeIndex === index) {
+      closeDashboard(projectId);
+      return;
+    }
+
+    items.forEach((item) => item.classList.remove('active'));
+    clickedItem.classList.add('active');
+
+    const charts = [0, 1, 2].map(i => document.getElementById(`${projectId}-chart-${i}`) as HTMLElement);
+
+    if (!state.isOpen) {
+      state.isOpen = true;
+      state.activeIndex = index;
+
+      charts.forEach((chart, i) => {
+        if (chart) {
+          chart.style.display = i === index ? 'flex' : 'none';
+          if (i === index) chart.style.opacity = '1';
+        }
+      });
+
+      dashboard.style.display = 'flex';
+      dashboard.style.pointerEvents = 'auto';
+      blob.style.pointerEvents = 'none';
+
+      const shaderCanvas = dashboard.parentElement?.querySelector('.blob-shader-canvas') as HTMLElement;
+      if (shaderCanvas) {
+        shaderCanvas.style.pointerEvents = 'none';
+        shaderCanvas.style.opacity = '0';
+      }
+
+      if (gsapInstance) {
+        gsapInstance.to(blob, { opacity: 0, scale: 0.95, duration: 0.4, ease: 'power2.inOut' });
+        gsapInstance.fromTo(dashboard,
+          { opacity: 0, scale: 0.95 },
+          { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out', delay: 0.1, onComplete: () => {
+            animateChart(projectId, index);
+          }}
+        );
+      } else {
+        blob.style.opacity = '0';
+        dashboard.style.opacity = '1';
+        dashboard.style.transform = 'scale(1)';
+        animateChart(projectId, index);
+      }
+    } else {
+      const prevIndex = state.activeIndex;
+      state.activeIndex = index;
+      const prevChart = prevIndex !== null ? charts[prevIndex] : null;
+      const nextChart = charts[index];
+
+      if (prevChart && nextChart) {
+        if (gsapInstance) {
+          gsapInstance.to(prevChart, {
+            opacity: 0, y: -10, duration: 0.25, ease: 'power2.in',
+            onComplete: () => {
+              prevChart.style.display = 'none';
+              nextChart.style.display = 'flex';
+              gsapInstance.fromTo(nextChart,
+                { opacity: 0, y: 10 },
+                { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out', onComplete: () => {
+                  animateChart(projectId, index);
+                }}
+              );
+            }
+          });
+        } else {
+          prevChart.style.display = 'none';
+          nextChart.style.display = 'flex';
+          nextChart.style.opacity = '1';
+          animateChart(projectId, index);
+        }
+      }
+    }
+  }
+
+  function closeDashboard(projectId: string) {
+    const dashboard = document.getElementById(`${projectId}-dashboard`);
+    const blob = dashboard?.parentElement?.querySelector('.blob-container') as HTMLElement;
+    const items = document.querySelectorAll(`[data-project-id="${projectId}"]`);
+
+    if (!dashboard || !blob) return;
+
+    const state = getState(projectId);
+    state.isOpen = false;
+    state.activeIndex = null;
+    items.forEach((item) => item.classList.remove('active'));
+
+    dashboard.style.pointerEvents = 'none';
+    blob.style.pointerEvents = 'auto';
+
+    const shaderCanvas = dashboard.parentElement?.querySelector('.blob-shader-canvas') as HTMLElement;
+    if (shaderCanvas) {
+      shaderCanvas.style.pointerEvents = 'auto';
+      shaderCanvas.style.opacity = '';
+    }
+
+    const gsapInstance = (window as any).gsap;
+
+    if (gsapInstance) {
+      gsapInstance.to(dashboard, { opacity: 0, scale: 0.95, duration: 0.4, ease: 'power2.inOut', onComplete: () => {
+        dashboard.style.display = 'none';
+        [0, 1, 2].forEach(i => {
+          const chart = document.getElementById(`${projectId}-chart-${i}`);
+          if (chart) chart.style.display = 'none';
+        });
+      }});
+      gsapInstance.to(blob, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out', delay: 0.1 });
+    } else {
+      dashboard.style.display = 'none';
+      dashboard.style.opacity = '0';
+      blob.style.opacity = '1';
+    }
+  }
+
+  function animateChart(projectId: string, index: number) {
+    if (projectId === 'hanoi-hotels') {
+      animateHanoiChart(projectId, index);
+    } else if (projectId === 'ejoy') {
+      animateEjoyChart(index);
+    } else if (projectId === 'tiktok') {
+      animateTikTokChart(index);
+    }
+  }
+
+  function animateHanoiChart(projectId: string, index: number) {
+    const gsapInstance = (window as any).gsap;
+    if (index === 0) {
+      const counter = document.getElementById(`${projectId}-counter-listings`);
+      const funnelRaw = document.getElementById(`${projectId}-funnel-raw`);
+      const funnelClean = document.getElementById(`${projectId}-funnel-clean`);
+      if (!counter || !funnelRaw || !funnelClean) return;
+      if (gsapInstance) {
+        gsapInstance.set([funnelRaw, funnelClean], { width: '0%' });
+        const counterVal = { val: 0 };
+        gsapInstance.to(counterVal, { val: 2044, duration: 1.2, ease: 'power2.out', onUpdate: () => {
+          counter.textContent = Math.floor(counterVal.val).toLocaleString();
+        }});
+        gsapInstance.to(funnelRaw, { width: '100%', duration: 0.8, ease: 'power2.out', delay: 0.2 });
+        gsapInstance.to(funnelClean, { width: '53.9%', duration: 0.8, ease: 'power2.out', delay: 0.4 });
+      } else {
+        counter.textContent = '2,044';
+        funnelRaw.style.width = '100%';
+        funnelClean.style.width = '53.9%';
+      }
+    } else if (index === 1) {
+      const rows = document.querySelectorAll(`#${projectId}-chart-1 .gap-row`);
+      const widths = ['100%', '86.3%', '57.2%', '46.9%', '36.5%', '36.0%', '7.4%'];
+      rows.forEach((row, i) => {
+        const bar = row.querySelector('.gap-bar') as HTMLElement;
+        if (!bar) return;
+        if (gsapInstance) {
+          gsapInstance.set(bar, { width: '0%' });
+          gsapInstance.to(bar, { width: widths[i], duration: 0.8, ease: 'power2.out', delay: i * 0.05 });
+        } else { bar.style.width = widths[i]; }
+      });
+    } else if (index === 2) {
+      const b0 = document.getElementById(`${projectId}-comp-bar-0`);
+      const b1 = document.getElementById(`${projectId}-comp-bar-1`);
+      const b2 = document.getElementById(`${projectId}-comp-bar-2`);
+      if (!b0 || !b1 || !b2) return;
+      if (gsapInstance) {
+        gsapInstance.set([b0, b1, b2], { width: '0%' });
+        gsapInstance.to(b0, { width: '27.9%', duration: 0.8, ease: 'power2.out', delay: 0.1 });
+        gsapInstance.to(b1, { width: '22.5%', duration: 0.8, ease: 'power2.out', delay: 0.2 });
+        gsapInstance.to(b2, { width: '100%', duration: 0.8, ease: 'power2.out', delay: 0.3 });
+      } else {
+        b0.style.width = '27.9%';
+        b1.style.width = '22.5%';
+        b2.style.width = '100%';
+      }
+    }
+  }
+
+  function animateEjoyChart(index: number) {
+    if (index === 0) {
+      // Stat cards: animate the numbers counting up
+      const nums = document.querySelectorAll('#ejoy-chart-0 .ejoy-stat-num');
+      const targets = [25, 2, 7];
+      const suffixes = ['+', '', '+'];
+      nums.forEach((el, i) => {
+        const gsapInstance = (window as any).gsap;
+        if (gsapInstance) {
+          const obj = { val: 0 };
+          gsapInstance.to(obj, { val: targets[i], duration: 0.9, ease: 'power2.out', delay: i * 0.15,
+            onUpdate: () => { el.textContent = Math.floor(obj.val) + suffixes[i]; }
+          });
+        } else {
+          el.textContent = targets[i] + suffixes[i];
+        }
+      });
+    } else if (index === 1) {
+      drawEmotionChart();
+    }
+    // index 2 (recommendations) is pure CSS — no animation needed
+  }
+
+  // ===== TIKTOK DASHBOARD ANIMATIONS =====
+
+  function animateTikTokChart(chartIndex: number) {
+    const gsap = (window as any).gsap;
+    if (!gsap) return;
+
+    if (chartIndex === 0) {
+      // Animate stat counters
+      gsap.to({ val: 0 }, {
+        val: 25,
+        duration: 1.2,
+        ease: "power2.out",
+        onUpdate: function() {
+          const el = document.getElementById('tiktok-gmv');
+          if (el) el.textContent = '$' + Math.round(this.targets()[0].val) + 'B';
+        }
+      });
+      gsap.to({ val: 0 }, {
+        val: 20,
+        duration: 1,
+        ease: "power2.out",
+        delay: 0.2,
+        onUpdate: function() {
+          const el = document.getElementById('tiktok-yoy');
+          if (el) el.textContent = '+' + Math.round(this.targets()[0].val) + '%';
+        }
+      });
+      // Animate market bars
+      const barData = [
+        { id: 'tiktok-bar-shopee', pct: 56 },
+        { id: 'tiktok-bar-tiktok', pct: 41 },
+        { id: 'tiktok-bar-others', pct: 3 },
+      ];
+      barData.forEach((b, i) => {
+        gsap.to(`#${b.id}`, {
+          width: `${b.pct}%`,
+          duration: 0.8,
+          delay: 0.3 + i * 0.15,
+          ease: "power2.out"
+        });
+      });
+    }
+
+    if (chartIndex === 1) {
+      const tl = gsap.timeline();
+      // Draw axes
+      tl.to('.pos-axis', { opacity: 1, duration: 0.3, stagger: 0.1 })
+      // Fade axis labels
+        .to('.pos-axis-label', { opacity: 1, duration: 0.3, stagger: 0.08 }, '-=0.1')
+      // Plot dots one by one
+        .to('#pos-lazada', { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, '+=0.1')
+        .to('#pos-lazada-label', { opacity: 1, duration: 0.2 })
+        .to('#pos-shopee', { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" })
+        .to('#pos-shopee-label', { opacity: 1, duration: 0.2 })
+        .to('#pos-tiktok', { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" })
+        .to('#pos-tiktok-label', { opacity: 1, duration: 0.2 })
+      // Draw drift arrow
+        .to(['#pos-drift-arrow', '#pos-arrow-head', '#pos-drift-label'], {
+          opacity: 1, duration: 0.4, stagger: 0.1
+        }, '+=0.2');
+    }
+
+    if (chartIndex === 2) {
+      const rows = document.querySelectorAll('#tiktok-chart-2 .problem-row');
+
+      gsap.to(rows, {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        stagger: 0.12,
+        ease: "power2.out"
+      });
+    }
+  }
+
+  function drawEmotionChart() {
+    const canvas = document.getElementById('ejoy-emotion-canvas') as HTMLCanvasElement;
+    if (!canvas) return;
+
+    const wrapper = canvas.parentElement!;
+    const dpr = window.devicePixelRatio || 1;
+
+    // Logical (CSS) dimensions
+    const logicalW = wrapper.clientWidth || 320;
+    const logicalH = wrapper.clientHeight || 160;
+
+    // Physical pixels — retina fix
+    canvas.width  = Math.round(logicalW * dpr);
+    canvas.height = Math.round(logicalH * dpr);
+    canvas.style.width  = logicalW + 'px';
+    canvas.style.height = logicalH + 'px';
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Scale context so all coordinates are in logical CSS pixels
+    ctx.scale(dpr, dpr);
+
+    const W = logicalW;
+    const H = logicalH;
+
+    const stages = ['Start', 'New\nContent', 'Practice', 'Plateau', 'Breakthrough'];
+    const emotions = [7, -3, 2, -6, 9];
+    const painLabels: Record<number, string> = { 1: 'Overwhelm', 3: 'Despair' };
+    const ACCENT = '#079AED';
+    const PAD_LEFT   = 36;
+    const PAD_RIGHT  = 44; // extra room so "Breakthrough" label isn't clipped
+    const PAD_TOP    = 20;
+    const PAD_BOTTOM = 38;
+
+    const plotW = W - PAD_LEFT - PAD_RIGHT;
+    const plotH = H - PAD_TOP - PAD_BOTTOM;
+
+    function mapY(val: number) {
+      return PAD_TOP + plotH * (1 - (val + 10) / 20);
+    }
+    function mapX(i: number) {
+      return PAD_LEFT + (i / (stages.length - 1)) * plotW;
+    }
+
+    // Build Catmull-Rom → cubic bezier control points for all segments
+    // Returns array of { p0, cp1, cp2, p1 } for each segment
+    function buildSplineSegments(pts: {x: number; y: number}[]) {
+      const tension = 0.4;
+      const segments = [];
+      for (let i = 0; i < pts.length - 1; i++) {
+        const p0 = pts[Math.max(i - 1, 0)];
+        const p1 = pts[i];
+        const p2 = pts[i + 1];
+        const p3 = pts[Math.min(i + 2, pts.length - 1)];
+
+        const cp1x = p1.x + (p2.x - p0.x) * tension;
+        const cp1y = p1.y + (p2.y - p0.y) * tension;
+        const cp2x = p2.x - (p3.x - p1.x) * tension;
+        const cp2y = p2.y - (p3.y - p1.y) * tension;
+
+        segments.push({ p1, cp1: {x: cp1x, y: cp1y}, cp2: {x: cp2x, y: cp2y}, p2 });
+      }
+      return segments;
+    }
+
+    // Evaluate a cubic bezier at t ∈ [0,1] and return the control points for the sub-curve [0, t]
+    function getPartialBezier(p1: {x:number;y:number}, cp1: {x:number;y:number}, cp2: {x:number;y:number}, p2: {x:number;y:number}, t: number) {
+      const mt = 1 - t;
+      const p01 = { x: mt*p1.x + t*cp1.x, y: mt*p1.y + t*cp1.y };
+      const p12 = { x: mt*cp1.x + t*cp2.x, y: mt*cp1.y + t*cp2.y };
+      const p23 = { x: mt*cp2.x + t*p2.x, y: mt*cp2.y + t*p2.y };
+      const p012 = { x: mt*p01.x + t*p12.x, y: mt*p01.y + t*p12.y };
+      const p123 = { x: mt*p12.x + t*p23.x, y: mt*p12.y + t*p23.y };
+      const p0123 = { x: mt*p012.x + t*p123.x, y: mt*p012.y + t*p123.y };
+      return { cp1: p01, cp2: p012, p2: p0123 };
+    }
+
+    const allPts = emotions.map((e, i) => ({ x: mapX(i), y: mapY(e) }));
+    const segments = buildSplineSegments(allPts);
+
+    let progress = 0;
+    const totalPoints = stages.length;
+
+    function drawFrame() {
+      ctx!.clearRect(0, 0, W, H);
+
+      // ── Zero line (dashed) ──────────────────────────────────────────
+      ctx!.strokeStyle = 'rgba(0,0,0,0.09)';
+      ctx!.lineWidth = 1 / dpr; // hairline
+      ctx!.setLineDash([4, 4]);
+      ctx!.beginPath();
+      ctx!.moveTo(PAD_LEFT, mapY(0));
+      ctx!.lineTo(W - PAD_RIGHT, mapY(0));
+      ctx!.stroke();
+      ctx!.setLineDash([]);
+
+      // ── X-axis labels ───────────────────────────────────────────────
+      ctx!.fillStyle = '#9CA3AF';
+      ctx!.font = '10px Inter, sans-serif';
+      stages.forEach((stage, i) => {
+        const x = mapX(i);
+        const lines = stage.split('\n');
+        // Last label: right-align to prevent clipping
+        ctx!.textAlign = i === stages.length - 1 ? 'right' : 'center';
+        lines.forEach((line, li) => {
+          ctx!.fillText(line, x, H - PAD_BOTTOM + 14 + li * 12);
+        });
+      });
+
+      // ── Y-axis label ────────────────────────────────────────────────
+      ctx!.save();
+      ctx!.translate(10, H / 2);
+      ctx!.rotate(-Math.PI / 2);
+      ctx!.textAlign = 'center';
+      ctx!.fillStyle = '#9CA3AF';
+      ctx!.font = '9px Inter, sans-serif';
+      ctx!.fillText('Emotion', 0, 0);
+      ctx!.restore();
+
+      const drawUpTo = Math.min(progress, totalPoints - 1);
+      const floorDraw = Math.floor(drawUpTo);
+      const frac = drawUpTo - floorDraw;
+
+      // Figure out the partial segment control points at current animation progress
+      let partialSeg: {cp1:{x:number,y:number}, cp2:{x:number,y:number}, p2:{x:number,y:number}} | null = null;
+      if (frac > 0 && floorDraw < segments.length) {
+        const seg = segments[floorDraw];
+        partialSeg = getPartialBezier(seg.p1, seg.cp1, seg.cp2, seg.p2, frac);
+      }
+
+      // ── Filled area (gradient, clipped to animated progress) ────────
+      const grad = ctx!.createLinearGradient(0, PAD_TOP, 0, H - PAD_BOTTOM);
+      grad.addColorStop(0, 'rgba(7,154,237,0.15)');
+      grad.addColorStop(1, 'rgba(7,154,237,0.01)');
+      ctx!.fillStyle = grad;
+      ctx!.beginPath();
+      ctx!.moveTo(mapX(0), mapY(0));
+      ctx!.lineTo(allPts[0].x, allPts[0].y);
+      // Draw completed segments as bezier curves
+      for (let s = 0; s < Math.min(floorDraw, segments.length); s++) {
+        const seg = segments[s];
+        ctx!.bezierCurveTo(seg.cp1.x, seg.cp1.y, seg.cp2.x, seg.cp2.y, seg.p2.x, seg.p2.y);
+      }
+      // Draw partial segment if mid-way
+      if (partialSeg) {
+        ctx!.bezierCurveTo(partialSeg.cp1.x, partialSeg.cp1.y, partialSeg.cp2.x, partialSeg.cp2.y, partialSeg.p2.x, partialSeg.p2.y);
+      }
+      // Close back to baseline
+      const currentTip = partialSeg ? partialSeg.p2 : { x: mapX(floorDraw), y: mapY(emotions[floorDraw]) };
+      ctx!.lineTo(currentTip.x, mapY(0));
+      ctx!.lineTo(mapX(0), mapY(0));
+      ctx!.closePath();
+      ctx!.fill();
+
+      // ── Spline stroke ───────────────────────────────────────────────
+      ctx!.strokeStyle = ACCENT;
+      ctx!.lineWidth = 2.5;
+      ctx!.lineJoin = 'round';
+      ctx!.lineCap  = 'round';
+      ctx!.beginPath();
+      ctx!.moveTo(allPts[0].x, allPts[0].y);
+      for (let s = 0; s < Math.min(floorDraw, segments.length); s++) {
+        const seg = segments[s];
+        ctx!.bezierCurveTo(seg.cp1.x, seg.cp1.y, seg.cp2.x, seg.cp2.y, seg.p2.x, seg.p2.y);
+      }
+      if (partialSeg) {
+        ctx!.bezierCurveTo(partialSeg.cp1.x, partialSeg.cp1.y, partialSeg.cp2.x, partialSeg.cp2.y, partialSeg.p2.x, partialSeg.p2.y);
+      }
+      ctx!.stroke();
+
+      // ── Dots + labels for completed points ──────────────────────────
+      for (let i = 0; i <= floorDraw; i++) {
+        const px = allPts[i].x;
+        const py = allPts[i].y;
+
+        ctx!.beginPath();
+        ctx!.arc(px, py, 4, 0, Math.PI * 2);
+        ctx!.fillStyle = ACCENT;
+        ctx!.fill();
+        ctx!.strokeStyle = 'white';
+        ctx!.lineWidth = 1.5;
+        ctx!.stroke();
+
+        if (painLabels[i]) {
+          ctx!.fillStyle = '#EF4444';
+          ctx!.font = 'bold 9px Inter, sans-serif';
+          ctx!.textAlign = 'center';
+          ctx!.fillText(painLabels[i], px, py + (emotions[i] < 0 ? 18 : -10));
+        }
+      }
+
+    }
+
+    // ── Time-based ease-out driver ────────────────────────────────────
+    const DURATION_MS = 2000;
+    let startTime: number | null = null;
+
+    function easeOutCubic(t: number) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function tick(timestamp: number) {
+      if (startTime === null) startTime = timestamp;
+      const t = Math.min((timestamp - startTime) / DURATION_MS, 1);
+      progress = easeOutCubic(t) * (totalPoints - 1);
+      drawFrame();
+      if (t < 1) requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  // Vertex Shader source
+  const vertexShaderSource = `
+    attribute vec2 position;
+    void main() {
+      gl_Position = vec4(position, 0.0, 1.0);
+    }
+  `;
+
+  // Fragment Shader source (Grayscale FBM noise for overlay compositing)
+  const fragmentShaderSource = `
+    precision mediump float;
+
+    uniform float u_time;
+    uniform vec2 u_resolution;
+    uniform vec2 u_velocity;
+
+    vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+    float snoise(vec2 v){
+      const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+               -0.577350269189626, 0.024390243902439);
+      vec2 i  = floor(v + dot(v, C.yy));
+      vec2 x0 = v -   i + dot(i, C.xx);
+      vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+      vec4 x12 = x0.xyxy + C.xxzz;
+      x12.xy -= i1;
+      i = mod(i, 289.0);
+      vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0))
+        + i.x + vec3(0.0, i1.x, 1.0));
+      vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy),
+        dot(x12.zw,x12.zw)), 0.0);
+      m = m*m;
+      m = m*m;
+      vec3 x = 2.0 * fract(p * C.www) - 1.0;
+      vec3 h = abs(x) - 0.5;
+      vec3 a0 = x - floor(x + 0.5);
+      vec3 g;
+      g.x = a0.x * x0.x + h.x * x0.y;
+      g.y = a0.y * x12.x + h.y * x12.y;
+      g.z = a0.z * x12.z + h.z * x12.w;
+      return 0.5 + 0.5 * dot(m, g) * 130.0;
+    }
+
+    float fbm(vec2 p) {
+      float value = 0.0;
+      float amp = 0.55;
+      float freq = 1.0;
+      for (int i = 0; i < 3; i++) {
+        value += amp * snoise(p * freq);
+        freq *= 2.0;
+        amp *= 0.45;
+      }
+      return value;
+    }
+
+    void main() {
+      vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+      float aspect = u_resolution.x / u_resolution.y;
+      vec2 p = vec2(uv.x * aspect, uv.y);
+      p *= 1.2;
+      float t = u_time * 0.04;
+      vec2 vel = u_velocity * 0.15;
+      vec2 q = vec2(
+        fbm(p + vec2(t * 0.7, t * 0.3) + vel),
+        fbm(p + vec2(5.2, 1.3) + vec2(t * 0.5, t * 0.8) + vel)
+      );
+      vec2 r = vec2(
+        fbm(p + q * 1.6 + vec2(8.3, 2.8) + vec2(t * 0.3)),
+        fbm(p + q * 1.4 + vec2(1.9, 6.4) + vec2(t * 0.4))
+      );
+      float f = fbm(p + r * 1.8);
+      float lum = 0.5 + f * 0.35;
+      gl_FragColor = vec4(vec3(lum), 1.0);
+    }
+  `;
+
+  function initWebGLShaders() {
+    const canvases = document.querySelectorAll('.blob-shader-canvas');
+    canvases.forEach((canvasItem) => {
+      const canvas = canvasItem as HTMLCanvasElement;
+      if ((canvas as any)._initialized) return;
+      (canvas as any)._initialized = true;
+
+      const gl = canvas.getContext('webgl');
+      if (!gl) return;
+
+      const vs = gl.createShader(gl.VERTEX_SHADER)!;
+      gl.shaderSource(vs, vertexShaderSource);
+      gl.compileShader(vs);
+      if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) { console.error(gl.getShaderInfoLog(vs)); return; }
+
+      const fs = gl.createShader(gl.FRAGMENT_SHADER)!;
+      gl.shaderSource(fs, fragmentShaderSource);
+      gl.compileShader(fs);
+      if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) { console.error(gl.getShaderInfoLog(fs)); return; }
+
+      const program = gl.createProgram()!;
+      gl.attachShader(program, vs);
+      gl.attachShader(program, fs);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) { console.error(gl.getProgramInfoLog(program)); return; }
+
+      const positionBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+
+      const positionLocation = gl.getAttribLocation(program, 'position');
+      const timeLocation = gl.getUniformLocation(program, 'u_time');
+      const resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
+      const velocityLocation = gl.getUniformLocation(program, 'u_velocity');
+
+      let isVisible = false;
+      let animationFrameId: number;
+      let lastRenderTime = performance.now();
+      let accumulatedTime = 0;
+      let mouseVelocityX = 0;
+      let mouseVelocityY = 0;
+
+      const wrapper = canvas.closest('.blob-wrapper');
+      if (wrapper) {
+        let lastMouseX = 0.5, lastMouseY = 0.5, lastTime = performance.now();
+        wrapper.addEventListener('mousemove', (e: any) => {
+          const rect = wrapper.getBoundingClientRect();
+          const mouseX = (e.clientX - rect.left) / rect.width;
+          const mouseY = 1.0 - (e.clientY - rect.top) / rect.height;
+          const currentTime = performance.now();
+          const dt = Math.max(currentTime - lastTime, 1);
+          mouseVelocityX = ((mouseX - lastMouseX) / dt) * 45;
+          mouseVelocityY = ((mouseY - lastMouseY) / dt) * 45;
+          lastMouseX = mouseX; lastMouseY = mouseY; lastTime = currentTime;
+        });
+        wrapper.addEventListener('mouseleave', () => { mouseVelocityX = 0; mouseVelocityY = 0; });
+      }
+
+      function render(now: number) {
+        if (!isVisible) return;
+        mouseVelocityX *= 0.95;
+        mouseVelocityY *= 0.95;
+        const dt = (now - lastRenderTime) / 1000.0;
+        lastRenderTime = now;
+        accumulatedTime += Math.min(dt, 0.1);
+
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+        if (canvas.width !== width || canvas.height !== height) {
+          canvas.width = width; canvas.height = height;
+          gl!.viewport(0, 0, width, height);
+        }
+
+        gl!.clearColor(0, 0, 0, 0);
+        gl!.clear(gl!.COLOR_BUFFER_BIT);
+        gl!.useProgram(program);
+        gl!.enableVertexAttribArray(positionLocation);
+        gl!.bindBuffer(gl!.ARRAY_BUFFER, positionBuffer);
+        gl!.vertexAttribPointer(positionLocation, 2, gl!.FLOAT, false, 0, 0);
+        gl!.uniform1f(timeLocation, accumulatedTime);
+        gl!.uniform2f(resolutionLocation, canvas.width, canvas.height);
+        gl!.uniform2f(velocityLocation, mouseVelocityX, mouseVelocityY);
+        gl!.drawArrays(gl!.TRIANGLES, 0, 6);
+        animationFrameId = requestAnimationFrame(render);
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+          if (isVisible) { lastRenderTime = performance.now(); animationFrameId = requestAnimationFrame(render); }
+          else { cancelAnimationFrame(animationFrameId); }
+        });
+      }, { threshold: 0.05 });
+      observer.observe(canvas);
+    });
+  }
+
+  function initAll() {
+    initInteractiveDashboard();
+    initWebGLShaders();
+
+    // Trigger defaultActiveIndex for any projects that specify one
+    document.querySelectorAll('.feature-item.interactive').forEach((item) => {
+      const projectId = item.getAttribute('data-project-id');
+      const indexVal = item.getAttribute('data-index');
+      if (!projectId || indexVal === null) return;
+
+      const dashboard = document.getElementById(`${projectId}-dashboard`);
+      if (!dashboard) return;
+
+      // Read the defaultActiveIndex from a data attribute on the dashboard
+      const defaultIdx = parseInt(dashboard.getAttribute('data-default-index') || '-1', 10);
+      if (!isNaN(defaultIdx) && defaultIdx >= 0 && parseInt(indexVal) === defaultIdx) {
+        // Simulate click after a brief delay so GSAP is ready
+        setTimeout(() => {
+          (item as HTMLElement).click();
+        }, 300);
+      }
+    });
+  }
+
+  initAll();
+</script>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    padding: 80px 0;
+  }
+
+  .split.reverse .split-text { order: 2; }
+  .split.reverse .split-blob { order: 1; }
+
+  .split-heading { margin: 20px 0 24px; }
+
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px;
+  }
+
+  .split-links { display: flex; gap: 24px; flex-wrap: wrap; }
+
+  /* ===== eJoy Stat Cards ===== */
+  .ejoy-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 8px 0 4px;
+  }
+
+  .ejoy-stat-card {
+    background: rgba(7, 154, 237, 0.06);
+    border: 1px solid rgba(7, 154, 237, 0.2);
+    border-radius: 12px;
+    padding: 16px 12px;
+    text-align: center;
+  }
+
+  .ejoy-stat-num {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    color: #079AED;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .ejoy-stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ===== eJoy Emotion Canvas ===== */
+  .ejoy-canvas-wrapper {
+    width: 100%;
+    flex: 1;
+    min-height: 140px;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .ejoy-canvas-wrapper canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* ===== eJoy Recommendations Grid ===== */
+  .ejoy-rec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .ejoy-rec-card {
+    background: rgba(7, 154, 237, 0.04);
+    border: 1px solid rgba(7, 154, 237, 0.15);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ejoy-rec-icon { margin-bottom: 2px; }
+
+  .ejoy-rec-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+  }
+
+  .ejoy-rec-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
+    font-family: 'Inter', sans-serif;
+  }
+
+  @media (max-width: 768px) {
+    .split {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .split .split-blob { order: 1; }
+    .split .split-text { order: 2; }
+    .split.reverse .split-text { order: 2; }
+    .split.reverse .split-blob { order: 1; }
+
+    .ejoy-stat-grid { grid-template-columns: 1fr; }
+    .ejoy-rec-grid { grid-template-columns: 1fr; }
+  }
+</style>

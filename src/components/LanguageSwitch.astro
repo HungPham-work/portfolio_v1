@@ -1,0 +1,42 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getLangFromUrl } from '../i18n/utils';
+
+const currentLang = getLangFromUrl(Astro.url);
+const targetLang = currentLang === 'en' ? 'vi' : 'en';
+
+// To get the path without the locale prefix:
+const pathname = Astro.url.pathname;
+// Remove the current locale prefix from the pathname
+const pathWithoutLocale = pathname.replace(new RegExp(`^/${currentLang}`), '') || '/';
+
+// Safely generate the relative locale URL
+const targetUrl = getRelativeLocaleUrl(targetLang, pathWithoutLocale);
+
+// Preserve query parameters
+const searchParams = Astro.url.search;
+const finalUrl = `${targetUrl}${searchParams}`;
+---
+
+<a href={finalUrl} class="lang-switch" aria-label={`Switch language to ${targetLang.toUpperCase()}`}>
+  {targetLang.toUpperCase()}
+</a>
+
+<style>
+  .lang-switch {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  
+  .lang-switch:hover {
+    color: var(--text);
+    border-color: var(--text-muted);
+  }
+</style>

@@ -1,0 +1,290 @@
+---
+---
+<div class="data-pipeline relative w-full my-12 not-prose overflow-hidden rounded-2xl bg-[#F5F5F5] p-12 lg:p-20" id="data-pipeline">
+  
+  <!-- Raw WebGL Canvas for Shader Background -->
+  <canvas id="pipeline-shader" class="absolute inset-0 w-full h-full pointer-events-none opacity-40 z-0"></canvas>
+
+  <!-- SVG for Connectors and Particles -->
+  <svg id="pipeline-svg" class="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible">
+    <!-- Paths updated dynamically via JS -->
+    <path id="path-1-2" d="" stroke="#111111" stroke-width="1.5" stroke-dasharray="4 4" fill="none" opacity="0.5" />
+    <path id="path-2-3" d="" stroke="#111111" stroke-width="1.5" stroke-dasharray="4 4" fill="none" opacity="0.5" />
+    
+    <!-- Particles -->
+    <circle class="p-stream p1" r="3" fill="#079AED" opacity="0" />
+    <circle class="p-stream p2" r="3" fill="#079AED" opacity="0" />
+    <circle class="p-stream p3" r="3" fill="#079AED" opacity="0" />
+  </svg>
+
+  <!-- Flex Container for Nodes -->
+  <div class="relative z-10 flex flex-col lg:flex-row items-center lg:items-start justify-between gap-16 lg:gap-8 min-h-[100px]">
+    
+    <h3 id="pipeline-node-1" class="pipeline-node font-serif text-2xl lg:text-3xl text-[#111111] cursor-pointer will-change-transform m-0 text-center lg:text-left">
+      Ethnographic Data
+    </h3>
+
+    <h3 id="pipeline-node-2" class="pipeline-node font-serif text-2xl lg:text-3xl text-[#111111] cursor-pointer will-change-transform m-0 text-center lg:text-left">
+      Data Processing & Analysis
+    </h3>
+
+    <h3 id="pipeline-node-3" class="pipeline-node font-serif text-2xl lg:text-3xl text-[#111111] cursor-pointer will-change-transform m-0 text-center lg:text-left">
+      Product Strategy
+    </h3>
+
+  </div>
+</div>
+
+<style>
+  .pipeline-node { transition: color 0.3s ease; }
+  .pipeline-node.hovered { color: #079AED !important; }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" is:inline></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" is:inline></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" is:inline></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js" is:inline></script>
+
+<script>
+  function initDataPipeline() {
+    if (typeof gsap === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+    const wrapper = document.getElementById("data-pipeline");
+    const svg = document.getElementById("pipeline-svg");
+    if (!wrapper || !svg) return;
+
+    // --- 1. WebGL Background Shader ---
+    const canvas = document.getElementById("pipeline-shader") as HTMLCanvasElement;
+    let gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl") as WebGLRenderingContext;
+    let mousePos = [0.5, 0.5];
+
+    if (gl) {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+
+      const vsSource = `
+        attribute vec2 a_position;
+        void main() { gl_Position = vec4(a_position, 0.0, 1.0); }
+      `;
+      const fsSource = `
+        precision mediump float;
+        uniform vec2 u_resolution;
+        uniform vec2 u_mouse;
+        uniform float u_time;
+        
+        vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+        vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+        vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+        float snoise(vec2 v) {
+          const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+          vec2 i  = floor(v + dot(v, C.yy) );
+          vec2 x0 = v -   i + dot(i, C.xx);
+          vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+          vec4 x12 = x0.xyxy + C.xxzz;
+          x12.xy -= i1;
+          i = mod289(i);
+          vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
+          vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+          m = m*m; m = m*m;
+          vec3 x = 2.0 * fract(p * C.www) - 1.0;
+          vec3 h = abs(x) - 0.5;
+          vec3 ox = floor(x + 0.5);
+          vec3 a0 = x - ox;
+          m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+          vec3 g;
+          g.x  = a0.x  * x0.x  + h.x  * x0.y;
+          g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+          return 130.0 * dot(m, g);
+        }
+
+        void main() {
+          vec2 st = gl_FragCoord.xy / u_resolution.xy;
+          float dist = distance(st, vec2(u_mouse.x, 1.0 - u_mouse.y));
+          float glow = smoothstep(0.6, 0.0, dist) * 0.5;
+          float n = snoise(st * 3.0 + u_time * 0.5) * 0.5 + 0.5;
+          
+          vec3 color = mix(vec3(0.95), vec3(0.9, 0.95, 1.0), n);
+          color += vec3(0.0, 0.4, 0.9) * glow * 0.15;
+          gl_FragColor = vec4(color, 1.0);
+        }
+      `;
+
+      const createShader = (gl: WebGLRenderingContext, type: number, source: string) => {
+        const shader = gl.createShader(type)!;
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        return shader;
+      };
+
+      const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
+      const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+      const program = gl.createProgram()!;
+      gl.attachShader(program, vs);
+      gl.attachShader(program, fs);
+      gl.linkProgram(program);
+      gl.useProgram(program);
+
+      const posBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,-1, 1,1, -1,1]), gl.STATIC_DRAW);
+      const posAttr = gl.getAttribLocation(program, "a_position");
+      gl.enableVertexAttribArray(posAttr);
+      gl.vertexAttribPointer(posAttr, 2, gl.FLOAT, false, 0, 0);
+
+      const resLoc = gl.getUniformLocation(program, "u_resolution");
+      const mouseLoc = gl.getUniformLocation(program, "u_mouse");
+      const timeLoc = gl.getUniformLocation(program, "u_time");
+
+      let startTime = performance.now();
+      let rafId: number;
+
+      wrapper.addEventListener("mousemove", (e) => {
+        const rect = wrapper.getBoundingClientRect();
+        mousePos[0] = (e.clientX - rect.left) / rect.width;
+        mousePos[1] = (e.clientY - rect.top) / rect.height;
+      });
+
+      const renderGL = () => {
+        if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+          canvas.width = canvas.clientWidth;
+          canvas.height = canvas.clientHeight;
+          gl.viewport(0, 0, canvas.width, canvas.height);
+        }
+        gl.uniform2f(resLoc, canvas.width, canvas.height);
+        gl.uniform2f(mouseLoc, mousePos[0], mousePos[1]);
+        gl.uniform1f(timeLoc, (performance.now() - startTime) / 1000);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        rafId = requestAnimationFrame(renderGL);
+      };
+      renderGL();
+    } else {
+      wrapper.style.background = "radial-gradient(circle at 50% 50%, #F5F9FF 0%, #FFFFFF 100%)";
+    }
+
+    // --- 2. Dynamic SVG Path Construction ---
+    const path12 = document.getElementById("path-1-2") as SVGPathElement;
+    const path23 = document.getElementById("path-2-3") as SVGPathElement;
+    
+    function buildPaths() {
+      const rectS = svg.getBoundingClientRect();
+      const n1 = document.getElementById("pipeline-node-1")!.getBoundingClientRect();
+      const n2 = document.getElementById("pipeline-node-2")!.getBoundingClientRect();
+      const n3 = document.getElementById("pipeline-node-3")!.getBoundingClientRect();
+      
+      const getC = (n: DOMRect) => ({
+        x: n.left + n.width / 2 - rectS.left,
+        y: n.top + n.height / 2 - rectS.top,
+        r: n.right - rectS.left,
+        l: n.left - rectS.left,
+        b: n.bottom - rectS.top,
+        t: n.top - rectS.top
+      });
+
+      const c1 = getC(n1), c2 = getC(n2), c3 = getC(n3);
+      
+      // Horizontal or Vertical determination
+      if (Math.abs(c1.y - c2.y) < 50) {
+        path12.setAttribute("d", `M ${c1.r} ${c1.y} C ${c1.r + 30} ${c1.y}, ${c2.l - 30} ${c2.y}, ${c2.l} ${c2.y}`);
+        path23.setAttribute("d", `M ${c2.r} ${c2.y} C ${c2.r + 30} ${c2.y}, ${c3.l - 30} ${c3.y}, ${c3.l} ${c3.y}`);
+      } else {
+        path12.setAttribute("d", `M ${c1.x} ${c1.b} C ${c1.x} ${c1.b + 30}, ${c2.x} ${c2.t - 30}, ${c2.x} ${c2.t}`);
+        path23.setAttribute("d", `M ${c2.x} ${c2.b} C ${c2.x} ${c2.b + 30}, ${c3.x} ${c3.t - 30}, ${c3.x} ${c3.t}`);
+      }
+    }
+    
+    buildPaths();
+    window.addEventListener("resize", buildPaths);
+
+    // --- 3. ScrollTrigger Reveal Choreography ---
+    const nodes = document.querySelectorAll(".pipeline-node");
+    
+    gsap.set(nodes, { opacity: 0, y: 30 });
+    
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: wrapper,
+        start: "top 75%",
+        end: "bottom 25%",
+        scrub: 1,
+      }
+    });
+
+    // Phase 1 (0-33%)
+    tl.to(nodes[0], { opacity: 1, y: 0, duration: 1 }, 0);
+    // Phase 2 (33-66%)
+    tl.to(nodes[1], { opacity: 1, y: 0, duration: 1 }, 1);
+    // Phase 3 (66-100%)
+    tl.to(nodes[2], { opacity: 1, y: 0, duration: 1 }, 2);
+
+    // --- 4. Infinite Particle Stream ---
+    const particles = document.querySelectorAll(".p-stream");
+    let particleTl = gsap.timeline({ repeat: -1, paused: true });
+    
+    particles.forEach((p, i) => {
+      const d = i * 1.5;
+      particleTl.set(p, { opacity: 0 }, d)
+        .to(p, { opacity: 1, duration: 0.2 }, d)
+        .to(p, {
+          motionPath: { path: "#path-1-2", align: "#path-1-2", alignOrigin: [0.5, 0.5] },
+          duration: 2, ease: "power1.inOut"
+        }, d)
+        .to(p, {
+          motionPath: { path: "#path-2-3", align: "#path-2-3", alignOrigin: [0.5, 0.5] },
+          duration: 2, ease: "power1.inOut"
+        }, d + 2)
+        .to(p, { opacity: 0, duration: 0.2 }, d + 3.8);
+    });
+
+    const io = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) particleTl.play();
+      else particleTl.pause();
+    }, { threshold: 0.1 });
+    io.observe(wrapper);
+
+    // --- 5. Magnetic Hover & Micro-interactions ---
+    nodes.forEach((node) => {
+      const xTo = gsap.quickTo(node, "x", { duration: 0.4, ease: "power3.out" });
+      const yTo = gsap.quickTo(node, "y", { duration: 0.4, ease: "power3.out" });
+
+      node.addEventListener("mousemove", (e: Event) => {
+        const mouseEvent = e as MouseEvent;
+        const rect = node.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        
+        let dx = mouseEvent.clientX - cx;
+        let dy = mouseEvent.clientY - cy;
+        
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const maxDist = 8;
+        if (dist > maxDist) {
+          dx = (dx / dist) * maxDist;
+          dy = (dy / dist) * maxDist;
+        }
+        
+        xTo(dx);
+        yTo(dy);
+      });
+
+      node.addEventListener("mouseenter", () => {
+        node.classList.add("hovered");
+        gsap.to(particleTl, { timeScale: 2.0, duration: 0.3 });
+      });
+
+      node.addEventListener("mouseleave", () => {
+        node.classList.remove("hovered");
+        xTo(0);
+        yTo(0);
+        gsap.to(particleTl, { timeScale: 1.0, duration: 0.3 });
+      });
+      
+      node.addEventListener("click", () => {
+        gsap.fromTo(node, { scale: 0.98 }, { scale: 1, duration: 0.3, ease: "elastic.out(1, 0.5)" });
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initDataPipeline);
+  document.addEventListener('astro:page-load', initDataPipeline);
+</script>

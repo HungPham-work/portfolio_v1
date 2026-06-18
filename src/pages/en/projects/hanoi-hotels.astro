@@ -1,0 +1,182 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import CollectionStrategyDiagram from "../../../components/case-study/CollectionStrategyDiagram.astro";
+import DimensionRanking from "../../../components/case-study/DimensionRanking.astro";
+import FindingContrast from "../../../components/case-study/FindingContrast.astro";
+import PropertyTypeBreakdown from "../../../components/case-study/PropertyTypeBreakdown.astro";
+import { getLangFromUrl, useTranslations } from "../../../i18n/utils";
+import "../../../styles/case-study-hero.css";
+import "../../../styles/hanoi-nyt.css";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<BaseLayout
+  title="Hanoi Hotels — Phạm Quốc Hưng"
+  description="Analysis of 2,044 Booking.com listings in Hanoi."
+>
+  <Header />
+
+  <article>
+    <!-- Full-viewport hero -->
+    <header class="hero-section">
+      <img
+        class="hero-bg"
+        src="/hotel.png"
+        alt="Hanoi street"
+      />
+      <div class="hero-overlay">
+        <div class="content-container">
+          <a
+            href={`/${lang}/`}
+            style="color: rgba(255,255,255,0.7); text-decoration: none; font-family: 'Inter', sans-serif; font-size: 14px; margin-bottom: 24px; display: inline-block;"
+            >← {t("hanoi.back")}</a
+          >
+          <h1>Hanoi hotel market: what guests actually value</h1>
+
+          <div class="hero-stat-strip">
+            <div class="hero-stat-item">
+              <span class="hero-stat-number" data-target="2044">0</span>
+              <span class="hero-stat-label">listings cleaned</span>
+            </div>
+            <div class="hero-stat-item">
+              <span class="hero-stat-number" data-target="7">0</span>
+              <span class="hero-stat-label">dimensions analyzed</span>
+            </div>
+            <div class="hero-stat-item">
+              <span class="hero-stat-number" data-target="53.9" data-suffix="%"
+                >0</span
+              >
+              <span class="hero-stat-label">pipeline yield</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="content-container">
+      <section class="article-body">
+        <h2>{t("hanoi.overviewTitle")}</h2>
+        <p>{t("hanoi.overviewP1")}</p>
+        <p>{t("hanoi.overviewP2")}</p>
+        <p>{t("hanoi.overviewP3")}</p>
+        <p>{t("hanoi.overviewP4")}</p>
+      </section>
+
+      <section class="article-body">
+        <h2>{t("hanoi.challengeTitle")}</h2>
+        <p>{t("hanoi.challengeP1")}</p>
+        <p>{t("hanoi.challengeP2")}</p>
+      </section>
+
+      <section class="article-body">
+        <h2>{t("hanoi.collectionTitle")}</h2>
+        <h3>{t("hanoi.collectionSub")}</h3>
+        <p>{t("hanoi.collectionP1")}</p>
+        <p>{t("hanoi.collectionP2")}</p>
+      </section>
+
+      <CollectionStrategyDiagram />
+
+      <section class="article-body">
+        <h2>{t("hanoi.validationTitle")}</h2>
+        <p>{t("hanoi.validationP1")}</p>
+        <p>{t("hanoi.validationP2")}</p>
+        <p>{t("hanoi.validationP3")}</p>
+      </section>
+
+      <section class="article-body">
+        <h2>{t("hanoi.discoveryTitle")}</h2>
+        <h3>{t("hanoi.discoverySub")}</h3>
+        <p>{t("hanoi.discoveryP1")}</p>
+        <p style="font-family: monospace; background: #f9f9f9; padding: 12px 24px; border-left: 4px solid #ececec; margin-bottom: 24px; white-space: pre-wrap;">{t("hanoi.discoveryP2")}</p>
+      </section>
+
+      <DimensionRanking />
+
+      <section class="article-body">
+        <h2>{t("hanoi.findingTitle")}</h2>
+        <h3>{t("hanoi.findingSub")}</h3>
+        <p>{t("hanoi.findingP1")}</p>
+        <p>{t("hanoi.findingP2")}</p>
+        <p>{t("hanoi.findingP3")}</p>
+      </section>
+
+      <FindingContrast />
+
+      <section class="article-body">
+        <h2>{t("hanoi.investigationTitle")}</h2>
+        <h3>{t("hanoi.investigationSub")}</h3>
+        <p>{t("hanoi.investigationP1")}</p>
+        <p>{t("hanoi.investigationP2")}</p>
+      </section>
+
+      <PropertyTypeBreakdown />
+
+      <section class="article-body">
+        <h2>{t("hanoi.implicationsTitle")}</h2>
+        <p>{t("hanoi.implicationsP1")}</p>
+        <p>{t("hanoi.implicationsP2")}</p>
+        <p>{t("hanoi.implicationsP3")}</p>
+        <p>{t("hanoi.implicationsP4")}</p>
+      </section>
+
+      <section class="article-body">
+        <h2>{t("hanoi.limitationsTitle")}</h2>
+        <p>{t("hanoi.limitationsP1")}</p>
+        <p>{t("hanoi.limitationsP2")}</p>
+
+        <div style="margin-top: 48px; text-align: center;">
+          <a
+            href={`/${lang}/projects/tiktok-imc`}
+            style="font-family: 'Inter', sans-serif; font-size: 16px; color: #111; text-decoration: none; border-bottom: 1px solid #111; padding-bottom: 2px;"
+            >Next Project: TikTok IMC Strategy →</a
+          >
+        </div>
+      </section>
+    </main>
+  </article>
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    is:inline></script>
+  <script is:inline>
+    function initHeroStats() {
+      if (typeof gsap === "undefined") return;
+
+      const stats = document.querySelectorAll(".hero-stat-number");
+      stats.forEach((stat, i) => {
+        const target = parseFloat(stat.getAttribute("data-target") || "0");
+        const suffix = stat.getAttribute("data-suffix") || "";
+
+        gsap.fromTo(
+          { val: 0 },
+          { val: 0 },
+          {
+            val: target,
+            duration: 2,
+            delay: 0.5 + i * 0.2,
+            ease: "power3.out",
+            onUpdate: function () {
+              const val = this.targets()[0].val;
+              stat.textContent =
+                (target % 1 === 0 ? Math.round(val) : val.toFixed(1)) + suffix;
+            },
+          },
+        );
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initHeroStats);
+    } else {
+      initHeroStats();
+    }
+    document.addEventListener("astro:page-load", initHeroStats);
+  </script>
+
+  <Footer />
+</BaseLayout>

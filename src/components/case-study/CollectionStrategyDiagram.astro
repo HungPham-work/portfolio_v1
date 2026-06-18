@@ -1,0 +1,110 @@
+---
+---
+
+<section class="collection-strategy">
+  <div class="cs-diagram">
+    <div class="cs-box">
+      <span class="cs-number">~4,100</span>
+      <span class="cs-label">listings (Hanoi, Booking.com)</span>
+    </div>
+    
+    <div class="cs-arrow">↓</div>
+    
+    <div class="cs-box cs-process">
+      <span class="cs-label">District × Property Type × Star Rating × Sort Direction</span>
+    </div>
+    
+    <div class="cs-arrow">↓</div>
+    
+    <div class="cs-box cs-final">
+      <span class="cs-number">3,795</span>
+      <span class="cs-label">listings collected</span>
+    </div>
+  </div>
+  
+  <div class="tool-strip">
+    <span class="tool-chip">Playwright</span>
+    <span class="tool-chip">Python</span>
+    <span class="tool-chip">Pandas</span>
+    <span class="tool-chip">Jupyter Notebook</span>
+  </div>
+</section>
+
+<style>
+.collection-strategy {
+  padding: 80px 0;
+}
+
+.cs-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.cs-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 40px;
+  background: #f9f9f9;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.cs-process {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+  padding: 20px 32px;
+}
+
+.cs-process .cs-label {
+  color: #fff;
+  letter-spacing: 0.1em;
+}
+
+.cs-final {
+  background: #f0f7f0;
+  border-color: #dceddc;
+}
+
+.cs-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: #111;
+  line-height: 1.2;
+}
+
+.cs-final .cs-number {
+  color: #2e7d32;
+}
+
+.cs-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+.cs-arrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  color: #999;
+}
+
+@media(max-width: 768px) {
+  .cs-box {
+    padding: 20px;
+  }
+  .cs-process .cs-label {
+    font-size: 11px;
+  }
+}
+</style>

@@ -1,0 +1,319 @@
+---
+---
+<div id="micro-dashboard" class="relative w-full my-16 not-prose bg-[#FAF9F6] paper-texture p-4 md:p-8 overflow-hidden rounded-sm">
+  
+  <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 w-full h-full border border-[#D0CDC5]">
+    
+    <!-- Cell 1: Phone-checking -->
+    <div class="micro-cell relative min-h-[350px] p-8 flex flex-col justify-end group border-b border-[#D0CDC5] md:border-r" data-index="0">
+      <div class="absolute inset-0 w-full h-full p-4 pointer-events-none flex items-center justify-center">
+        <svg class="w-full h-full overflow-visible" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet" stroke-linecap="round" stroke-linejoin="round">
+          <g class="idle-phone-container">
+            <rect class="draw-path" x="140" y="125" width="40" height="70" rx="6" stroke="#1a1a1a" stroke-width="2" fill="none" />
+            <rect class="draw-path fade-fill cyan-accent" x="145" y="135" width="30" height="45" rx="3" stroke="#079AED" stroke-width="1.5" fill="rgba(7, 154, 237, 0.05)" />
+          </g>
+          <circle class="idle-ring cyan-accent" cx="160" cy="160" r="30" stroke="#079AED" stroke-width="1.5" stroke-dasharray="4 4" fill="none" opacity="0" />
+          <circle class="idle-ring cyan-accent" cx="160" cy="160" r="50" stroke="#079AED" stroke-width="1.5" stroke-dasharray="4 4" fill="none" opacity="0" />
+          <circle class="idle-ring cyan-accent" cx="160" cy="160" r="70" stroke="#079AED" stroke-width="1.5" stroke-dasharray="4 4" fill="none" opacity="0" />
+        </svg>
+      </div>
+      <div class="mt-auto flex flex-col z-10 relative pointer-events-none">
+        <span class="stat-number inline-block origin-left text-[56px] text-[#1a1a1a] font-['Instrument_Serif'] leading-none">63%</span>
+        <h3 class="text-[10px] uppercase tracking-[0.12em] text-[#6B6B6B] mt-3 font-['Inter'] font-semibold">Phone-checking</h3>
+        <p class="text-[10px] italic text-[#999999] mt-1 font-['Inter']">High environmental friction.</p>
+      </div>
+    </div>
+
+    <!-- Cell 2: Avoidance -->
+    <div class="micro-cell relative min-h-[350px] p-8 flex flex-col justify-end group border-b border-[#D0CDC5]" data-index="1">
+      <div class="absolute inset-0 w-full h-full p-4 pointer-events-none flex items-center justify-center">
+        <svg class="w-full h-full overflow-visible" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Calendar body -->
+          <rect class="draw-path" x="120" y="95" width="80" height="90" rx="4"
+            stroke="#1a1a1a" stroke-width="2" fill="none" />
+
+          <!-- Binding rings -->
+          <rect class="draw-path" x="143" y="89" width="10" height="14" rx="3"
+            stroke="#1a1a1a" stroke-width="1.5" fill="#FAF9F6" />
+          <rect class="draw-path" x="167" y="89" width="10" height="14" rx="3"
+            stroke="#1a1a1a" stroke-width="1.5" fill="#FAF9F6" />
+
+          <!-- Header bar inside calendar -->
+          <rect class="draw-path" x="120" y="103" width="80" height="18"
+            stroke="#1a1a1a" stroke-width="1.5" fill="none" />
+
+          <!-- Date grid: 6 cells, 2 rows x 3 cols -->
+          <rect class="draw-path" x="128" y="128" width="16" height="14" rx="2"
+            stroke="#6B6B6B" stroke-width="1" fill="none" />
+          <rect class="draw-path" x="152" y="128" width="16" height="14" rx="2"
+            stroke="#6B6B6B" stroke-width="1" fill="none" />
+          <rect class="draw-path" x="176" y="128" width="16" height="14" rx="2"
+            stroke="#6B6B6B" stroke-width="1" fill="none" />
+          <rect class="draw-path" x="128" y="150" width="16" height="14" rx="2"
+            stroke="#6B6B6B" stroke-width="1" fill="none" />
+          <rect class="draw-path" x="152" y="150" width="16" height="14" rx="2"
+            stroke="#6B6B6B" stroke-width="1" fill="none" />
+          <rect class="draw-path" x="176" y="150" width="16" height="14" rx="2"
+            stroke="#6B6B6B" stroke-width="1" fill="none" />
+
+          <!-- X mark overlaid across grid -->
+          <line class="cal-x cyan-accent" x1="128" y1="125" x2="193" y2="167"
+            stroke="#079AED" stroke-width="2.5" stroke-linecap="round" fill="none" />
+          <line class="cal-x cyan-accent" x1="193" y1="125" x2="128" y2="167"
+            stroke="#079AED" stroke-width="2.5" stroke-linecap="round" fill="none" />
+        </svg>
+      </div>
+      <div class="mt-auto flex flex-col z-10 relative pointer-events-none">
+        <span class="stat-number inline-block origin-left text-[56px] text-[#1a1a1a] font-['Instrument_Serif'] leading-none">41%</span>
+        <h3 class="text-[10px] uppercase tracking-[0.12em] text-[#6B6B6B] mt-3 font-['Inter'] font-semibold">Avoidance</h3>
+        <p class="text-[10px] italic text-[#999999] mt-1 font-['Inter']">Involuntary study correlation.</p>
+      </div>
+    </div>
+
+    <!-- Cell 3: Environment Prep -->
+    <div class="micro-cell relative min-h-[350px] p-8 flex flex-col justify-end group border-b md:border-b-0 border-[#D0CDC5] md:border-r" data-index="2">
+      <div class="absolute inset-0 w-full h-full p-4 pointer-events-none flex items-center justify-center">
+        <svg class="w-full h-full overflow-visible" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Row 1: checked -->
+          <rect class="draw-path" x="110" y="128" width="18" height="18" rx="3"
+            stroke="#1a1a1a" stroke-width="2" fill="none" />
+          <polyline class="draw-path" points="114,137 118,142 126,132"
+            stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" fill="none" />
+          <line class="draw-path" x1="138" y1="137" x2="200" y2="137"
+            stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" />
+
+          <!-- Row 2: empty -->
+          <rect class="draw-path" x="110" y="155" width="18" height="18" rx="3"
+            stroke="#6B6B6B" stroke-width="1.5" fill="none" />
+          <line class="draw-path" x1="138" y1="164" x2="200" y2="164"
+            stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" />
+
+          <!-- Row 3: empty -->
+          <rect class="draw-path" x="110" y="182" width="18" height="18" rx="3"
+            stroke="#6B6B6B" stroke-width="1.5" fill="none" />
+          <line class="draw-path" x1="138" y1="191" x2="185" y2="191"
+            stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" />
+
+          <!-- Cursor dot -->
+          <circle class="checklist-cursor" cx="119" cy="164" r="4"
+            stroke="#079AED" stroke-width="1.5" fill="rgba(7,154,237,0.15)"
+            opacity="0" />
+        </svg>
+      </div>
+      <div class="mt-auto flex flex-col z-10 relative pointer-events-none">
+        <span class="stat-number inline-block origin-left text-[56px] text-[#1a1a1a] font-['Instrument_Serif'] leading-none">27%</span>
+        <h3 class="text-[10px] uppercase tracking-[0.12em] text-[#6B6B6B] mt-3 font-['Inter'] font-semibold">Environment Prep</h3>
+        <p class="text-[10px] italic text-[#999999] mt-1 font-['Inter']">Low ritualization of learning.</p>
+      </div>
+    </div>
+
+    <!-- Cell 4: Abrupt Drop -->
+    <div class="micro-cell relative min-h-[350px] p-8 flex flex-col justify-end group" data-index="3">
+      <div class="absolute inset-0 w-full h-full p-4 pointer-events-none flex items-center justify-center">
+        <svg class="w-full h-full overflow-visible" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Battery outer shell -->
+          <rect class="draw-path" x="105" y="145" width="110" height="50" rx="5"
+            stroke="#1a1a1a" stroke-width="2" fill="none" />
+
+          <!-- Battery cap (positive terminal) -->
+          <rect class="draw-path" x="215" y="158" width="10" height="24" rx="3"
+            stroke="#1a1a1a" stroke-width="1.5" fill="none" />
+
+          <!-- Battery fill bar -->
+          <rect class="battery-fill cyan-accent"
+            x="110" y="150" width="100" height="40" rx="3"
+            stroke="none" fill="rgba(7,154,237,0.25)" />
+
+          <!-- Low battery warning line (visible only when fill is small) -->
+          <line class="battery-warn cyan-accent"
+            x1="125" y1="155" x2="125" y2="185"
+            stroke="#079AED" stroke-width="1.5"
+            stroke-dasharray="3 3" opacity="0" />
+        </svg>
+      </div>
+      <div class="mt-auto flex flex-col z-10 relative pointer-events-none">
+        <span class="stat-number inline-block origin-left text-[56px] text-[#1a1a1a] font-['Instrument_Serif'] leading-none">15%</span>
+        <h3 class="text-[10px] uppercase tracking-[0.12em] text-[#6B6B6B] mt-3 font-['Inter'] font-semibold">Abrupt Drop</h3>
+        <p class="text-[10px] italic text-[#999999] mt-1 font-['Inter']">Environmental distractions.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+
+  /* Premium Paper Background */
+  .paper-texture {
+    position: relative;
+  }
+  .paper-texture::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.05;
+  }
+
+  /* Hover Effects */
+  .cyan-accent {
+    transition: filter 0.3s ease, opacity 0.3s ease;
+  }
+  .micro-cell:hover .cyan-accent {
+    filter: drop-shadow(0px 0px 5px rgba(7, 154, 237, 0.4));
+  }
+
+
+  .draw-path {
+    vector-effect: non-scaling-stroke;
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" is:inline></script>
+
+<script>
+  function initMicroDashboard() {
+    if (typeof gsap === 'undefined') return;
+
+    const wrapper = document.getElementById("micro-dashboard");
+    const cells = document.querySelectorAll(".micro-cell");
+    if (!wrapper || cells.length === 0) return;
+
+    let idleTimelines: gsap.core.Animation[] = [];
+
+    // --- 1. Initial Visible States & Hover Setup ---
+    
+    // Set all elements to their fully drawn/revealed state
+    // Note: the broken-piece is already drawn in its final snapped down position in the SVG markup.
+
+    cells.forEach((cell) => {
+      // QuickTo Hover scaling
+      const xTo = gsap.quickTo(cell, "scale", { duration: 0.4, ease: "power3" });
+      const statNumber = cell.querySelector(".stat-number");
+
+      cell.addEventListener("mouseenter", () => {
+        xTo(1.02);
+        if (statNumber) {
+          gsap.to(statNumber, { scale: 1.1, color: "#079AED", textShadow: "0 0 12px rgba(7,154,237,0.3)", duration: 0.3, ease: "power2.out" });
+        }
+      });
+      cell.addEventListener("mouseleave", () => {
+        xTo(1);
+        if (statNumber) {
+          gsap.to(statNumber, { scale: 1, color: "#1a1a1a", textShadow: "none", duration: 0.3, ease: "power2.out" });
+        }
+      });
+    });
+
+    // --- 2. Idle Animations (Continuous Loops) ---
+    
+    // Cell 1: Phone vibrates & rings
+    const phone = document.querySelector(".idle-phone-container");
+    if (phone) {
+      idleTimelines.push(gsap.to(phone, { x: 1.5, duration: 0.05, yoyo: true, repeat: -1, ease: "none" }));
+    }
+    const rings = document.querySelectorAll(".idle-ring");
+    if (rings.length) {
+      // Rings start at opacity 0, scale 1. Pulse outwards.
+      idleTimelines.push(gsap.to(rings, { scale: 1.5, opacity: 0.6, transformOrigin: "center", duration: 1.5, stagger: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut" }));
+    }
+
+    // Cell 2: Calendar X draws and redraws
+    const calXLines = document.querySelectorAll(".cal-x");
+    if (calXLines.length) {
+      calXLines.forEach(line => {
+        const length = (line as SVGLineElement).getTotalLength?.() ?? 80;
+        gsap.set(line, { strokeDasharray: length, strokeDashoffset: length });
+      });
+      const calTl = gsap.timeline({ repeat: -1, repeatDelay: 0.8 });
+      calTl
+        .to(calXLines, {
+          strokeDashoffset: 0,
+          duration: 0.6,
+          stagger: 0.15,
+          ease: "power2.inOut"
+        })
+        .to(calXLines, {
+          opacity: 0,
+          duration: 0.3,
+          delay: 0.8,
+          ease: "power1.in"
+        })
+        .set(calXLines, { strokeDashoffset: (i, el) => {
+          return (el as SVGLineElement).getTotalLength?.() ?? 80;
+        }, opacity: 1 });
+      idleTimelines.push(calTl);
+    }
+
+    // Cell 3: Cursor hesitates near row 2 checkbox
+    const cursor = document.querySelector(".checklist-cursor");
+    if (cursor) {
+      const checkTl = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+      checkTl
+        .set(cursor, { opacity: 0, x: 0, y: 0 })
+        .to(cursor, { opacity: 1, duration: 0.2 })
+        .to(cursor, { x: 0, y: -6, duration: 0.4, ease: "power1.out" })
+        .to(cursor, { x: 0, y: -6, duration: 0.5 })
+        .to(cursor, { x: 5, y: 6, duration: 0.4, ease: "power1.in" })
+        .to(cursor, { opacity: 0, duration: 0.2 });
+      idleTimelines.push(checkTl);
+    }
+
+    // Cell 4: Battery drains to empty then recharges
+    const batteryFill = document.querySelector(".battery-fill");
+    const batteryWarn = document.querySelector(".battery-warn");
+    if (batteryFill && batteryWarn) {
+      const batteryTl = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
+      batteryTl
+        // Full bar, warn line hidden
+        .set(batteryFill, { scaleX: 1, transformOrigin: "left center" })
+        .set(batteryWarn, { opacity: 0 })
+        // Drain to ~15%
+        .to(batteryFill, {
+          scaleX: 0.15,
+          duration: 2.5,
+          ease: "power1.inOut"
+        })
+        // Warn line appears as bar gets low
+        .to(batteryWarn, { opacity: 1, duration: 0.3 }, "-=1.2")
+        // Flash at low battery
+        .to(batteryFill, {
+          opacity: 0.2, duration: 0.2,
+          yoyo: true, repeat: 3, ease: "none"
+        })
+        // Drop to 0
+        .to(batteryFill, { scaleX: 0, duration: 0.4, ease: "power2.in" })
+        .to(batteryWarn, { opacity: 0, duration: 0.2 })
+        // Pause empty
+        .to({}, { duration: 0.8 })
+        // Recharge instantly
+        .set(batteryFill, { scaleX: 1, opacity: 1 });
+      idleTimelines.push(batteryTl);
+    }
+
+    // --- 3. IntersectionObserver (Pause loops when off-screen) ---
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          idleTimelines.forEach(tl => tl.play());
+        } else {
+          idleTimelines.forEach(tl => tl.pause());
+        }
+      });
+    }, { threshold: 0.1 });
+    io.observe(wrapper);
+
+    // Cleanup
+    document.addEventListener('astro:page-unload', () => {
+      io.disconnect();
+      idleTimelines.forEach(tl => tl.kill());
+    }, { once: true });
+  }
+
+  document.addEventListener('DOMContentLoaded', initMicroDashboard);
+  document.addEventListener('astro:page-load', initMicroDashboard);
+</script>

@@ -1,0 +1,473 @@
+---
+---
+<div id="sculpture-dashboard" class="relative w-full my-16 not-prose rounded-2xl bg-transparent overflow-hidden">
+  
+  <canvas id="sculpture-canvas" class="absolute inset-0 w-full h-full z-0 pointer-events-none"></canvas>
+
+  <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 w-full h-full pointer-events-none">
+    
+    <div class="sculpture-cell relative h-[320px] md:h-[400px] pointer-events-auto cursor-pointer flex flex-col justify-end p-8 border-b md:border-b-0 md:border-r border-[#E5E5E5] border-opacity-20 group" data-index="0">
+      <div class="flex items-baseline gap-3">
+        <span class="text-4xl font-light text-[#079AED] font-['Inter'] transition-transform duration-300 group-hover:scale-110 origin-bottom-left">63%</span>
+        <h3 class="text-xs uppercase tracking-widest text-[#111111] font-semibold font-['Inter']">Phone-checking</h3>
+      </div>
+      <p class="text-[10px] text-[#6B6B6B] mt-1 font-['Inter']">High environmental friction</p>
+    </div>
+
+    <div class="sculpture-cell relative h-[320px] md:h-[400px] pointer-events-auto cursor-pointer flex flex-col justify-end p-8 border-b border-[#E5E5E5] border-opacity-20 group" data-index="1">
+      <div class="flex items-baseline gap-3">
+        <span class="text-4xl font-light text-[#079AED] font-['Inter'] transition-transform duration-300 group-hover:scale-110 origin-bottom-left">41%</span>
+        <h3 class="text-xs uppercase tracking-widest text-[#111111] font-semibold font-['Inter']">Avoidance</h3>
+      </div>
+      <p class="text-[10px] text-[#6B6B6B] mt-1 font-['Inter']">Involuntary study correlation</p>
+    </div>
+
+    <div class="sculpture-cell relative h-[320px] md:h-[400px] pointer-events-auto cursor-pointer flex flex-col justify-end p-8 border-b md:border-b-0 md:border-r border-[#E5E5E5] border-opacity-20 group" data-index="2">
+      <div class="flex items-baseline gap-3">
+        <span class="text-4xl font-light text-[#079AED] font-['Inter'] transition-transform duration-300 group-hover:scale-110 origin-bottom-left">27%</span>
+        <h3 class="text-xs uppercase tracking-widest text-[#111111] font-semibold font-['Inter']">Environment Prep</h3>
+      </div>
+      <p class="text-[10px] text-[#6B6B6B] mt-1 font-['Inter']">Low ritualization of learning</p>
+    </div>
+
+    <div class="sculpture-cell relative h-[320px] md:h-[400px] pointer-events-auto cursor-pointer flex flex-col justify-end p-8 group" data-index="3">
+      <div class="flex items-baseline gap-3">
+        <span class="text-4xl font-light text-[#079AED] font-['Inter'] transition-transform duration-300 group-hover:scale-110 origin-bottom-left">15%</span>
+        <h3 class="text-xs uppercase tracking-widest text-[#111111] font-semibold font-['Inter']">Abrupt Drop</h3>
+      </div>
+      <p class="text-[10px] text-[#6B6B6B] mt-1 font-['Inter']">Environmental distractions</p>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" is:inline></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" is:inline></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" is:inline></script>
+
+<script>
+  function initSculptures() {
+    if (typeof THREE === 'undefined' || typeof gsap === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    const wrapper = document.getElementById("sculpture-dashboard");
+    const canvas = document.getElementById("sculpture-canvas") as HTMLCanvasElement;
+    const cells = document.querySelectorAll(".sculpture-cell");
+    if (!wrapper || !canvas || cells.length !== 4) return;
+
+    const colorDark = new THREE.Color(0x2c2c2c);
+    const colorCyan = new THREE.Color(0x079AED);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const scene = new THREE.Scene();
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    dirLight.position.set(5, 10, 5);
+    scene.add(dirLight);
+    const rimLight = new THREE.DirectionalLight(0x079AED, 0.5);
+    rimLight.position.set(-5, 0, -5);
+    scene.add(rimLight);
+
+    const systems: any[] = [];
+    const dummy = new THREE.Object3D();
+    const vColor = new THREE.Color();
+
+    // --- Sculpture 1: Interrupted Focus (63%) ---
+    const group1 = new THREE.Group();
+    const s1DeskGeo = new THREE.BoxGeometry(2.4, 0.1, 1.6);
+    const s1DeskMat = new THREE.MeshStandardMaterial({ color: colorDark, roughness: 0.8 });
+    const s1Desk = new THREE.Mesh(s1DeskGeo, s1DeskMat);
+    s1Desk.position.y = -1;
+    group1.add(s1Desk);
+
+    const s1BookGeo = new THREE.BoxGeometry(0.8, 0.05, 1.2);
+    const s1BookMat = new THREE.MeshStandardMaterial({ color: colorCyan, emissive: colorCyan, emissiveIntensity: 0.4 });
+    const s1Book = new THREE.Mesh(s1BookGeo, s1BookMat);
+    s1Book.position.set(0, -0.925, 0);
+    group1.add(s1Book);
+
+    const s1PhoneGeo = new THREE.BoxGeometry(1.2, 0.8, 0.05);
+    const s1PhoneMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.3 });
+    const s1Phone = new THREE.Mesh(s1PhoneGeo, s1PhoneMat);
+    s1Phone.rotation.x = Math.PI / 2;
+    
+    const s1IconGeo = new THREE.PlaneGeometry(0.3, 0.3);
+    const s1IconMat = new THREE.MeshBasicMaterial({ color: colorCyan });
+    const s1Icon = new THREE.Mesh(s1IconGeo, s1IconMat);
+    s1Icon.position.set(0, 0, -0.03); 
+    s1Icon.rotation.y = Math.PI; 
+    s1Phone.add(s1Icon);
+    group1.add(s1Phone);
+
+    const s1RippleGeo = new THREE.RingGeometry(0.5, 0.6, 32);
+    const s1RippleMat = new THREE.MeshBasicMaterial({ color: colorCyan, transparent: true, opacity: 0, side: THREE.DoubleSide });
+    const s1Ripple = new THREE.Mesh(s1RippleGeo, s1RippleMat);
+    s1Ripple.rotation.x = Math.PI / 2;
+    s1Ripple.position.y = -0.85;
+    group1.add(s1Ripple);
+
+
+    // --- Sculpture 2: Magnetic Pull-Away (41%) ---
+    const group2 = new THREE.Group();
+    const s2BaseGeo = new THREE.CylinderGeometry(1.5, 1.5, 0.1, 32);
+    const s2BaseMat = new THREE.MeshStandardMaterial({ color: colorDark, roughness: 0.8 });
+    const s2Base = new THREE.Mesh(s2BaseGeo, s2BaseMat);
+    s2Base.position.y = -1.5;
+    group2.add(s2Base);
+
+    const s2BookGeo = new THREE.BoxGeometry(0.5, 0.1, 0.4);
+    const s2BookMat = new THREE.MeshStandardMaterial({ color: colorCyan, emissive: colorCyan, emissiveIntensity: 0.4 });
+    const s2Book = new THREE.Mesh(s2BookGeo, s2BookMat);
+    s2Book.position.set(-0.8, -1.4, 0);
+    s2Book.rotation.y = Math.PI / 8;
+    group2.add(s2Book);
+
+    const s2FigGroup = new THREE.Group();
+    const s2BodyGeo = new THREE.CylinderGeometry(0.1, 0.1, 0.6);
+    const s2HeadGeo = new THREE.SphereGeometry(0.15);
+    const s2FigMat = new THREE.MeshStandardMaterial({ color: 0x888888 });
+    const s2Body = new THREE.Mesh(s2BodyGeo, s2FigMat);
+    s2Body.position.y = 0.3;
+    const s2Head = new THREE.Mesh(s2HeadGeo, s2FigMat);
+    s2Head.position.y = 0.75;
+    s2FigGroup.add(s2Body);
+    s2FigGroup.add(s2Head);
+    s2FigGroup.position.set(0, -1.45, 0);
+    s2FigGroup.rotation.z = Math.PI / 12;
+    group2.add(s2FigGroup);
+
+    const s2MagnetGeo = new THREE.TorusGeometry(0.6, 0.2, 16, 32, Math.PI);
+    const s2MagnetMat = new THREE.MeshStandardMaterial({ color: colorDark });
+    const s2Magnet = new THREE.Mesh(s2MagnetGeo, s2MagnetMat);
+    s2Magnet.position.set(1.2, -0.5, 0);
+    s2Magnet.rotation.z = -Math.PI / 2;
+    group2.add(s2Magnet);
+
+    const s2LineMat = new THREE.LineBasicMaterial({ color: colorCyan, transparent: true, opacity: 0.8 });
+    const s2LineGeo = new THREE.BufferGeometry();
+    const s2LinePos = new Float32Array(41 * 6);
+    s2LineGeo.setAttribute('position', new THREE.BufferAttribute(s2LinePos, 3));
+    const s2Lines = new THREE.LineSegments(s2LineGeo, s2LineMat);
+    group2.add(s2Lines);
+
+
+    // --- Sculpture 3: Half-Built Foundation (27%) ---
+    const group3 = new THREE.Group();
+    const s3BaseGeo = new THREE.CylinderGeometry(1.5, 1.5, 0.1, 32);
+    const s3BaseMat = new THREE.MeshStandardMaterial({ color: colorDark });
+    const s3Base = new THREE.Mesh(s3BaseGeo, s3BaseMat);
+    s3Base.position.y = -1.5;
+    group3.add(s3Base);
+
+    const s3PostGeo = new THREE.CylinderGeometry(0.02, 0.02, 3);
+    const s3PostMat = new THREE.MeshBasicMaterial({ color: 0x555555 });
+    for(let i=0; i<4; i++) {
+      const post = new THREE.Mesh(s3PostGeo, s3PostMat);
+      const ang = (i / 4) * Math.PI * 2 + Math.PI/4;
+      post.position.set(Math.cos(ang), 0, Math.sin(ang));
+      group3.add(post);
+    }
+    const s3RingGeo = new THREE.TorusGeometry(1, 0.02, 8, 32);
+    for(let i=0; i<3; i++) {
+      const ring = new THREE.Mesh(s3RingGeo, s3PostMat);
+      ring.rotation.x = Math.PI / 2;
+      ring.position.y = -1 + i * 1.2;
+      group3.add(ring);
+    }
+
+    const s3BrickGeo = new THREE.BoxGeometry(0.2, 0.1, 0.4);
+    const s3BrickMat = new THREE.MeshStandardMaterial({ roughness: 0.9 });
+    const s3BricksMesh = new THREE.InstancedMesh(s3BrickGeo, s3BrickMat, 100);
+    const s3Floaters: any[] = [];
+    
+    for(let i=0; i<100; i++) {
+      const isBuilt = i < 27;
+      vColor.copy(isBuilt ? colorCyan : colorDark);
+      
+      if (isBuilt) {
+        const lvl = Math.floor(i / 6);
+        const posInLvl = i % 6;
+        const ang = (posInLvl / 6) * Math.PI * 2 + (lvl * 0.2);
+        dummy.position.set(Math.cos(ang)*0.6, -1.4 + lvl*0.1, Math.sin(ang)*0.6);
+        dummy.rotation.set(0, -ang + Math.PI/2, 0);
+      } else {
+        const ang = Math.random() * Math.PI * 2;
+        s3Floaters.push({
+          idx: i,
+          x: Math.cos(ang)*(0.2 + Math.random()*0.8),
+          z: Math.sin(ang)*(0.2 + Math.random()*0.8),
+          y: -1.4 + Math.random()*2.5,
+          speed: 0.2 + Math.random()*0.3
+        });
+      }
+      dummy.updateMatrix();
+      s3BricksMesh.setMatrixAt(i, dummy.matrix);
+      s3BricksMesh.setColorAt(i, vColor);
+    }
+    s3BricksMesh.instanceMatrix.needsUpdate = true;
+    s3BricksMesh.instanceColor!.needsUpdate = true;
+    group3.add(s3BricksMesh);
+
+
+    // --- Sculpture 4: Sudden Break (15%) ---
+    const group4 = new THREE.Group();
+    const s4RibbonGeo = new THREE.BoxGeometry(0.1, 0.2, 0.4);
+    const s4RibbonMat = new THREE.MeshStandardMaterial({ color: colorDark, roughness: 0.6 });
+    const s4RibbonMesh = new THREE.InstancedMesh(s4RibbonGeo, s4RibbonMat, 85);
+    
+    for(let i=0; i<85; i++) {
+      const t = i / 100; 
+      const x = (t - 0.5) * 4;
+      const y = Math.sin(t * Math.PI * 3) * 0.5;
+      const z = Math.cos(t * Math.PI * 2) * 0.5;
+      dummy.position.set(x, y, z);
+      dummy.lookAt(new THREE.Vector3(x+0.1, Math.sin((t+0.01)*Math.PI*3)*0.5, Math.cos((t+0.01)*Math.PI*2)*0.5));
+      dummy.updateMatrix();
+      s4RibbonMesh.setMatrixAt(i, dummy.matrix);
+      s4RibbonMesh.setColorAt(i, colorDark);
+    }
+    s4RibbonMesh.instanceMatrix.needsUpdate = true;
+    group4.add(s4RibbonMesh);
+
+    const s4BreakGeo = new THREE.BoxGeometry(0.6, 0.2, 0.4);
+    const s4BreakMat = new THREE.MeshStandardMaterial({ color: colorCyan, emissive: colorCyan, emissiveIntensity: 0.3 });
+    const s4Break = new THREE.Mesh(s4BreakGeo, s4BreakMat);
+    s4Break.position.set(1.6, 0.5, 0.5);
+    s4Break.rotation.set(Math.PI/6, Math.PI/4, 0);
+    group4.add(s4Break);
+
+    const s4DebrisGeo = new THREE.BoxGeometry(0.05, 0.05, 0.05);
+    const s4DebrisMat = new THREE.MeshStandardMaterial({ color: colorCyan });
+    const s4DebrisMesh = new THREE.InstancedMesh(s4DebrisGeo, s4DebrisMat, 30);
+    const s4DebrisData: any[] = [];
+    for(let i=0; i<30; i++) {
+      s4DebrisData.push({
+        x: 1.4 + (Math.random()-0.5)*0.6,
+        y: 0.2 + (Math.random()-0.5)*0.6,
+        z: 0.5 + (Math.random()-0.5)*0.6,
+        vx: (Math.random()-0.5)*0.01,
+        vy: (Math.random()-0.5)*0.01,
+        vz: (Math.random()-0.5)*0.01
+      });
+    }
+    group4.add(s4DebrisMesh);
+
+    // --- Core Systems Array ---
+    const groups = [group1, group2, group3, group4];
+    groups.forEach((g) => {
+      scene.add(g);
+      g.scale.set(0.01, 0.01, 0.01);
+    });
+
+    const cameras: THREE.PerspectiveCamera[] = [];
+    for (let i = 0; i < 4; i++) {
+      const cam = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+      cam.position.z = 10;
+      cameras.push(cam);
+      systems.push({
+        group: groups[i],
+        camera: cam,
+        cell: cells[i] as HTMLElement,
+        targetRot: { x: 0, y: 0 },
+        baseRot: { x: 0, y: 0 },
+        hoverIntensity: 0
+      });
+    }
+
+    // --- Interaction & Resize ---
+    function updateLayout() {
+      const w = wrapper.clientWidth;
+      const h = wrapper.clientHeight;
+      canvas.width = w;
+      canvas.height = h;
+      renderer.setSize(w, h, false);
+      
+      const canvasRect = canvas.getBoundingClientRect();
+      
+      systems.forEach(sys => {
+        const rect = sys.cell.getBoundingClientRect();
+        sys.viewport = {
+          left: rect.left - canvasRect.left,
+          bottom: canvasRect.bottom - rect.bottom,
+          width: rect.width,
+          height: rect.height
+        };
+        sys.camera.aspect = rect.width / rect.height;
+        sys.camera.updateProjectionMatrix();
+      });
+    }
+
+    updateLayout();
+    window.addEventListener('resize', updateLayout);
+
+    // Mouse Parallax & Hover
+    cells.forEach((cell, idx) => {
+      cell.addEventListener('mousemove', (e: Event) => {
+        const me = e as MouseEvent;
+        const rect = cell.getBoundingClientRect();
+        const nx = ((me.clientX - rect.left) / rect.width) * 2 - 1;
+        const ny = -((me.clientY - rect.top) / rect.height) * 2 + 1;
+        
+        systems[idx].targetRot.x = -ny * (Math.PI / 12);
+        systems[idx].targetRot.y = nx * (Math.PI / 12);
+      });
+      
+      cell.addEventListener('mouseenter', () => {
+        gsap.to(systems[idx], { hoverIntensity: 1, duration: 0.4 });
+      });
+
+      cell.addEventListener('mouseleave', () => {
+        systems[idx].targetRot.x = 0;
+        systems[idx].targetRot.y = 0;
+        gsap.to(systems[idx], { hoverIntensity: 0, duration: 0.4 });
+      });
+    });
+
+    // --- Scroll Animations ---
+    ScrollTrigger.create({
+      trigger: wrapper,
+      start: "top 80%",
+      once: true,
+      onEnter: () => {
+        groups.forEach((g, i) => {
+          gsap.to(g.scale, {
+            x: 1, y: 1, z: 1,
+            duration: 1.5,
+            ease: "elastic.out(1, 0.7)",
+            delay: i * 0.2
+          });
+        });
+      }
+    });
+
+    let rafId: number;
+    let isVisible = false;
+    const io = new IntersectionObserver((entries) => {
+      isVisible = entries[0].isIntersecting;
+      if (isVisible) renderLoop(performance.now());
+    }, { threshold: 0.05 });
+    io.observe(wrapper);
+
+    // --- Render Loop ---
+    function renderLoop(time: number) {
+      if (!isVisible) return;
+      const sec = time * 0.001;
+
+      // 1. Interrupted Focus
+      systems[0].baseRot.y = sec * 0.1;
+      const pBob = (sec * 2) % (Math.PI * 2);
+      const pY = 0.5 + Math.sin(pBob) * 0.6; 
+      s1Phone.position.set(0, pY, 0);
+      if (Math.sin(pBob) < -0.9) {
+        s1Ripple.scale.set(1, 1, 1);
+        s1Ripple.material.opacity = 0.8;
+      } else {
+        s1Ripple.scale.addScalar(0.04);
+        s1Ripple.material.opacity *= 0.9;
+      }
+
+      // 2. Magnetic Pull-Away
+      systems[1].baseRot.y = sec * 0.15;
+      s2FigGroup.rotation.z = Math.PI/12 + Math.sin(sec*3)*0.05;
+      const figTop = new THREE.Vector3(0, -0.4, 0); 
+      for(let i=0; i<41; i++) {
+        const pIdx = i * 6;
+        const offY = (Math.random() - 0.5) * 0.1;
+        const offZ = (Math.random() - 0.5) * 0.3;
+        s2LinePos[pIdx] = figTop.x; s2LinePos[pIdx+1] = figTop.y; s2LinePos[pIdx+2] = figTop.z;
+        s2LinePos[pIdx+3] = 1.0; s2LinePos[pIdx+4] = -0.3 + offY; s2LinePos[pIdx+5] = offZ;
+      }
+      s2LineGeo.attributes.position.needsUpdate = true;
+
+      // 3. Half-Built Foundation
+      systems[2].baseRot.y = sec * 0.1;
+      s3Floaters.forEach(f => {
+        f.y += f.speed * 0.02;
+        if (f.y > 1.5) f.y = -1.4;
+        dummy.position.set(f.x, f.y, f.z);
+        dummy.rotation.set(sec, sec, 0);
+        dummy.updateMatrix();
+        s3BricksMesh.setMatrixAt(f.idx, dummy.matrix);
+      });
+      s3BricksMesh.instanceMatrix.needsUpdate = true;
+
+      // 4. Sudden Break
+      systems[3].baseRot.y = sec * 0.1;
+      s4Break.position.y = 0.5 + Math.sin(sec*2)*0.1;
+      s4Break.rotation.x = Math.PI/6 + Math.sin(sec)*0.1;
+      s4DebrisData.forEach((d, i) => {
+        d.x += d.vx; d.y += d.vy; d.z += d.vz;
+        if(Math.abs(d.x - 1.4) > 0.5) d.vx *= -1;
+        if(Math.abs(d.y - 0.2) > 0.5) d.vy *= -1;
+        if(Math.abs(d.z - 0.5) > 0.5) d.vz *= -1;
+        dummy.position.set(d.x, d.y, d.z);
+        dummy.rotation.set(sec, sec*2, 0);
+        dummy.updateMatrix();
+        s4DebrisMesh.setMatrixAt(i, dummy.matrix);
+      });
+      s4DebrisMesh.instanceMatrix.needsUpdate = true;
+
+      // Apply Parallax + Base Rotation
+      systems.forEach(sys => {
+        sys.group.rotation.x += (sys.targetRot.x + sys.baseRot.x - sys.group.rotation.x) * 0.1;
+        sys.group.rotation.y += (sys.targetRot.y + sys.baseRot.y - sys.group.rotation.y) * 0.1;
+      });
+
+      // Render Multi-Viewport Scissor
+      renderer.setScissorTest(true);
+      renderer.setClearColor(0x000000, 0); 
+      
+      systems.forEach(sys => {
+        const v = sys.viewport;
+        renderer.setViewport(v.left, v.bottom, v.width, v.height);
+        renderer.setScissor(v.left, v.bottom, v.width, v.height);
+        
+        groups.forEach(g => g.visible = false);
+        sys.group.visible = true;
+        
+        renderer.render(scene, sys.camera);
+      });
+
+      rafId = requestAnimationFrame(renderLoop);
+    }
+
+    // --- Cleanup ---
+    document.addEventListener('astro:page-unload', () => {
+      io.disconnect();
+      cancelAnimationFrame(rafId);
+      renderer.dispose();
+      
+      s1DeskGeo.dispose(); s1DeskMat.dispose();
+      s1BookGeo.dispose(); s1BookMat.dispose();
+      s1PhoneGeo.dispose(); s1PhoneMat.dispose();
+      s1IconGeo.dispose(); s1IconMat.dispose();
+      s1RippleGeo.dispose(); s1RippleMat.dispose();
+
+      s2BaseGeo.dispose(); s2BaseMat.dispose();
+      s2BookGeo.dispose(); s2BookMat.dispose();
+      s2BodyGeo.dispose(); s2HeadGeo.dispose(); s2FigMat.dispose();
+      s2MagnetGeo.dispose(); s2MagnetMat.dispose();
+      s2LineGeo.dispose(); s2LineMat.dispose();
+
+      s3BaseGeo.dispose(); s3BaseMat.dispose();
+      s3PostGeo.dispose(); s3PostMat.dispose();
+      s3RingGeo.dispose();
+      s3BrickGeo.dispose(); s3BrickMat.dispose();
+
+      s4RibbonGeo.dispose(); s4RibbonMat.dispose();
+      s4BreakGeo.dispose(); s4BreakMat.dispose();
+      s4DebrisGeo.dispose(); s4DebrisMat.dispose();
+    }, { once: true });
+  }
+
+  document.addEventListener('DOMContentLoaded', initSculptures);
+  document.addEventListener('astro:page-load', initSculptures);
+</script>

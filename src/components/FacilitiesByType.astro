@@ -1,0 +1,185 @@
+---
+// TODO: confirm exact property types + values from the 2,044-row dataset.
+// Placeholder values based on prior analysis context.
+const facilitiesByType = [
+  { type: "Hotel", value: -0.04, note: "in line with market" },
+  { type: "Homestay", value: 0.031, note: "only segment exceeding expectations" },
+  { type: "Apartment", value: -0.05, note: "in line with market" },
+];
+---
+
+<section class="facilities-by-type">
+  {facilitiesByType.map((item) => (
+    <div class="ft-cell" data-outlier={item.value > 0 ? "true" : "false"}>
+      <span class="ft-label">{item.type}</span>
+      <span class="ft-number" data-target={item.value}>
+        {item.value > 0 ? "+0.000" : "0.000"}
+      </span>
+      <p class="ft-note">{item.note}</p>
+    </div>
+  ))}
+
+  <p class="ft-caption">
+    Facilities gap across property types. Positive values mean the sub-score
+    exceeds the overall score — the inverse of the market-wide pattern.
+  </p>
+</section>
+
+<style>
+  .facilities-by-type {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 56px 0;
+    position: relative;
+  }
+
+  .ft-cell {
+    padding: 0 32px;
+    border-left: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ft-cell:first-child {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .ft-label {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 6px;
+  }
+
+  .ft-number {
+    font-family: "Georgia", "Times New Roman", serif;
+    font-weight: 700;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: #666;
+  }
+
+  .ft-cell[data-outlier="true"] .ft-number {
+    color: #c1583a; /* terracotta accent */
+  }
+
+  .ft-note {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-style: italic;
+    color: #888;
+    margin-top: 10px;
+    max-width: 180px;
+  }
+
+  .ft-caption {
+    grid-column: 1 / -1;
+    font-family: monospace;
+    font-size: 12px;
+    color: #aaa;
+    text-align: center;
+    margin-top: 32px;
+  }
+
+  @media (max-width: 720px) {
+    .facilities-by-type {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 40px 0;
+    }
+
+    .ft-cell {
+      border-left: none;
+      padding: 0;
+      border-top: 1px solid #eee;
+      padding-top: 24px;
+    }
+
+    .ft-cell:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+  }
+</style>
+
+<script is:inline>
+  function initFacilitiesByType() {
+    if (typeof gsap === "undefined") return;
+
+    const section = document.querySelector(".facilities-by-type");
+    if (!section || section.dataset.inited) return;
+
+    const cells = section.querySelectorAll(".ft-cell");
+
+    const run = () => {
+      section.dataset.inited = "true";
+
+      cells.forEach((cell, i) => {
+        const numberEl = cell.querySelector(".ft-number");
+        const target = parseFloat(numberEl.getAttribute("data-target") || "0");
+        const isOutlier = cell.getAttribute("data-outlier") === "true";
+
+        gsap.fromTo(
+          cell,
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.6, delay: i * 0.15, ease: "power2.out" }
+        );
+
+        gsap.fromTo(
+          { val: 0 },
+          { val: 0 },
+          {
+            val: target,
+            duration: 1.2,
+            delay: 0.2 + i * 0.15,
+            ease: "power3.out",
+            onUpdate: function () {
+              const v = this.targets()[0].val;
+              const sign = v > 0 ? "+" : "";
+              numberEl.textContent = sign + v.toFixed(3);
+            },
+            onComplete: function () {
+              if (isOutlier) {
+                gsap.to(cell, {
+                  scale: 1.05,
+                  duration: 0.25,
+                  yoyo: true,
+                  repeat: 1,
+                  ease: "power1.inOut",
+                });
+              }
+            },
+          }
+        );
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            run();
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    observer.observe(section);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initFacilitiesByType);
+  } else {
+    initFacilitiesByType();
+  }
+  document.addEventListener("astro:page-load", initFacilitiesByType);
+</script>

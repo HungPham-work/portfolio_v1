@@ -1,0 +1,259 @@
+---
+// No frontmatter needed; all interactive code is client‑side
+---
+
+<div class="not-prose my-12">
+  <div
+    id="context-diagram-wrapper"
+    class="relative w-full aspect-[16/9] max-h-[400px] overflow-hidden rounded-2xl border border-border bg-surface"
+  >
+    <!-- SVG Layer (paths + particles) -->
+    <svg
+      class="absolute inset-0 w-full h-full pointer-events-none"
+      viewBox="0 0 1000 400"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <!-- Faint background track -->
+      <path
+        id="context-track-base"
+        d="M 150 200 Q 325 160, 500 200 T 850 200"
+        stroke="#E5E5E5"
+        stroke-width="1.5"
+        fill="none"></path>
+      <!-- Animated colored track -->
+      <path
+        id="context-track-animated"
+        d="M 150 200 Q 325 160, 500 200 T 850 200"
+        stroke="#079AED"
+        stroke-width="1.5"
+        fill="none"></path>
+      <!-- Particles -->
+      <circle class="data-particle" r="5" fill="#079AED" opacity="0"></circle>
+      <circle class="data-particle" r="5" fill="#079AED" opacity="0"></circle>
+      <circle class="data-particle" r="5" fill="#079AED" opacity="0"></circle>
+      <circle class="data-particle" r="5" fill="#079AED" opacity="0"></circle>
+      <circle class="data-particle" r="5" fill="#079AED" opacity="0"></circle>
+      <circle class="data-particle" r="5" fill="#079AED" opacity="0"></circle>
+    </svg>
+
+    <!-- HTML Nodes (positioned using percentages) -->
+    <!-- Node 1 -->
+    <div
+      class="context-node absolute bg-white border border-[#E5E5E5] rounded-xl p-4 flex flex-col gap-2 w-[180px] shadow-none hover:border-[#079AED] transition-colors"
+      style="left: 15%; top: 50%; transform: translate(-50%, -50%);"
+    >
+      <div class="flex items-center gap-2">
+        <!-- Small clipboard icon -->
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#079AED"
+          stroke-width="2"
+          ><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path
+            d="M9 2h6v4H9z"></path><line x1="8" y1="12" x2="16" y2="12"
+          ></line><line x1="8" y1="16" x2="16" y2="16"></line></svg
+        >
+        <span
+          class="text-[11px] font-semibold text-text uppercase tracking-wider"
+          >Ethnographic Data</span
+        >
+      </div>
+      <p class="text-xs text-text-muted">
+        25+ observed sessions, diaries, focus groups
+      </p>
+    </div>
+
+    <!-- Node 2 -->
+    <div
+      class="context-node absolute bg-white border border-[#E5E5E5] rounded-xl p-4 flex flex-col gap-2 w-[180px] shadow-none hover:border-[#079AED] transition-colors"
+      style="left: 50%; top: 50%; transform: translate(-50%, -50%);"
+    >
+      <div class="flex items-center gap-2">
+        <!-- Terminal icon -->
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#079AED"
+          stroke-width="2"
+          ><polyline points="4 17 10 11 4 5"></polyline><line
+            x1="12"
+            y1="19"
+            x2="20"
+            y2="19"></line></svg
+        >
+        <span
+          class="text-[11px] font-semibold text-text uppercase tracking-wider"
+          >Python Pipeline</span
+        >
+      </div>
+      <p class="text-xs text-text-muted font-mono">
+        pandas · clean · aggregate
+      </p>
+    </div>
+
+    <!-- Node 3 -->
+    <div
+      class="context-node absolute bg-white border border-[#E5E5E5] rounded-xl p-4 flex flex-col gap-2 w-[180px] shadow-none hover:border-[#079AED] transition-colors"
+      style="left: 85%; top: 50%; transform: translate(-50%, -50%);"
+    >
+      <div class="flex items-center gap-2">
+        <!-- Target/outcome icon -->
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#079AED"
+          stroke-width="2"
+          ><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"
+          ></circle><circle cx="12" cy="12" r="2"></circle></svg
+        >
+        <span
+          class="text-[11px] font-semibold text-text uppercase tracking-wider"
+          >Product Strategy</span
+        >
+      </div>
+      <p class="text-xs text-text-muted">Emotional design recommendations</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Minimal local overrides – most styling is Tailwind */
+</style>
+
+<!-- GSAP & Plugins (via CDN, as per project spec) -->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+  is:inline></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+  is:inline></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"
+  is:inline></script>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger, MotionPathPlugin } from "gsap/all";
+
+  function initContextDiagram() {
+    if (typeof gsap === "undefined") return;
+
+    gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+    const wrapper = document.querySelector("#context-diagram-wrapper");
+    const path = document.querySelector(
+      "#context-track-animated",
+    ) as SVGPathElement;
+    if (!path) return;
+
+    const length = path.getTotalLength();
+
+    // Hide animated path and all nodes initially
+    gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+    const nodes = document.querySelectorAll(".context-node");
+    gsap.set(nodes, { opacity: 0, y: 20, scale: 0.96 });
+
+    // --- Scroll‑triggered reveal ---
+    const revealTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: wrapper,
+        start: "top 75%",
+        end: "bottom 50%",
+        scrub: 0.8,
+      },
+    });
+
+    // Draw the path
+    revealTl.to(path, { strokeDashoffset: 0, ease: "none" }, 0);
+
+    // Stagger node reveal – the positions along the timeline roughly match the path progress
+    nodes.forEach((node, i) => {
+      revealTl.to(
+        node,
+        { opacity: 1, y: 0, scale: 1, duration: 0.15, ease: "power2.out" },
+        i * 0.25, // 0, 0.25, 0.5
+      );
+    });
+
+    // --- Infinite particle stream ---
+    const particles = document.querySelectorAll(".data-particle");
+    const particleTl = gsap.timeline({ repeat: -1, paused: true });
+
+    particles.forEach((particle, i) => {
+      const stagger = i * 0.6;
+      particleTl
+        .set(particle, { opacity: 0 }, stagger)
+        .to(particle, { opacity: 1, duration: 0.2 }, stagger)
+        .to(
+          particle,
+          {
+            motionPath: {
+              path: "#context-track-animated",
+              align: "#context-track-animated",
+              alignOrigin: [0.5, 0.5],
+            },
+            duration: 2.5,
+            ease: "none",
+          },
+          stagger,
+        )
+        .to(particle, { opacity: 0, duration: 0.2 }, stagger + 2.3);
+    });
+
+    // Start particle loop once the path is fully visible
+    ScrollTrigger.create({
+      trigger: wrapper,
+      start: "center 50%",
+      onEnter: () => particleTl.play(),
+      onEnterBack: () => particleTl.play(),
+    });
+
+    // --- Magnetic hover & timescale feedback ---
+    nodes.forEach((node) => {
+      const xTo = gsap.quickTo(node, "x", {
+        duration: 0.4,
+        ease: "power3.out",
+      });
+      const yTo = gsap.quickTo(node, "y", {
+        duration: 0.4,
+        ease: "power3.out",
+      });
+
+      node.addEventListener("mousemove", (e: Event) => {
+        const mouseEvent = e as MouseEvent;
+        const rect = node.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        let dx = mouseEvent.clientX - cx;
+        let dy = mouseEvent.clientY - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = 8;
+        if (dist > maxDist) {
+          dx = (dx / dist) * maxDist;
+          dy = (dy / dist) * maxDist;
+        }
+        xTo(dx);
+        yTo(dy);
+      });
+
+      node.addEventListener("mouseenter", () => {
+        gsap.to(particleTl, { timeScale: 2.2, duration: 0.3 });
+      });
+
+      node.addEventListener("mouseleave", () => {
+        xTo(0);
+        yTo(0);
+        gsap.to(particleTl, { timeScale: 1.0, duration: 0.3 });
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", initContextDiagram);
+  document.addEventListener("astro:page-load", initContextDiagram);
+</script>
