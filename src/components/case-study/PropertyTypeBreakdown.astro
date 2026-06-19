@@ -1,14 +1,23 @@
 ---
+import { ui, defaultLang, useTranslations } from '../../i18n/utils';
+
+interface Props {
+  lang: keyof typeof ui;
+  t: ReturnType<typeof useTranslations>;
+}
+
+const { lang, t } = Astro.props;
+
 const items = [
-  { label: "Hotel", value: "-0.025" },
-  { label: "Homestay", value: "+0.031", outlier: true },
-  { label: "Apartment", value: "-0.111" }
+  { label: t('hanoi.type.hotel'), value: "-0.025" },
+  { label: t('hanoi.type.homestay'), value: "+0.031", outlier: true },
+  { label: t('hanoi.type.apartment'), value: "-0.111" }
 ];
 ---
 
 <section class="property-breakdown">
   <h2 class="pb-title">
-    Looking Deeper by Property Type
+    {t('hanoi.breakdown.title')}
   </h2>
 
   <div class="pb-grid">
@@ -21,7 +30,7 @@ const items = [
   </div>
 
   <p class="pb-caption">
-    Homestays are the only segment where the pattern reverses.
+    {t('hanoi.breakdown.caption')}
   </p>
 </section>
 

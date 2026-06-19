@@ -46,12 +46,6 @@ const t = useTranslations(lang);
               <span class="hero-stat-number" data-target="7">0</span>
               <span class="hero-stat-label">dimensions analyzed</span>
             </div>
-            <div class="hero-stat-item">
-              <span class="hero-stat-number" data-target="53.9" data-suffix="%"
-                >0</span
-              >
-              <span class="hero-stat-label">pipeline yield</span>
-            </div>
           </div>
         </div>
       </div>
@@ -79,7 +73,7 @@ const t = useTranslations(lang);
         <p>{t("hanoi.collectionP2")}</p>
       </section>
 
-      <CollectionStrategyDiagram />
+      <CollectionStrategyDiagram lang={lang} t={t} />
 
       <section class="article-body">
         <h2>{t("hanoi.validationTitle")}</h2>
@@ -95,7 +89,7 @@ const t = useTranslations(lang);
         <p style="font-family: monospace; background: #f9f9f9; padding: 12px 24px; border-left: 4px solid #ececec; margin-bottom: 24px; white-space: pre-wrap;">{t("hanoi.discoveryP2")}</p>
       </section>
 
-      <DimensionRanking />
+      <DimensionRanking lang={lang} t={t} />
 
       <section class="article-body">
         <h2>{t("hanoi.findingTitle")}</h2>
@@ -105,7 +99,7 @@ const t = useTranslations(lang);
         <p>{t("hanoi.findingP3")}</p>
       </section>
 
-      <FindingContrast />
+      <FindingContrast lang={lang} t={t} />
 
       <section class="article-body">
         <h2>{t("hanoi.investigationTitle")}</h2>
@@ -114,7 +108,7 @@ const t = useTranslations(lang);
         <p>{t("hanoi.investigationP2")}</p>
       </section>
 
-      <PropertyTypeBreakdown />
+      <PropertyTypeBreakdown lang={lang} t={t} />
 
       <section class="article-body">
         <h2>{t("hanoi.implicationsTitle")}</h2>
@@ -122,6 +116,22 @@ const t = useTranslations(lang);
         <p>{t("hanoi.implicationsP2")}</p>
         <p>{t("hanoi.implicationsP3")}</p>
         <p>{t("hanoi.implicationsP4")}</p>
+      </section>
+
+      <section class="article-body">
+        <h2>{t("hanoi.exploreTitle")}</h2>
+        <p>{t("hanoi.exploreP1")}</p>
+
+        <div class="not-prose my-8" style="border: 1px solid var(--color-border-tertiary, #D0CDC5); border-radius: 12px; overflow: hidden;">
+          <iframe
+            src={`/hanoi-dashboard-${lang}.html`}
+            width="100%"
+            height="560"
+            style="border: none; display: block;"
+            title="Interactive gap analysis dashboard"
+            loading="lazy"
+          ></iframe>
+        </div>
       </section>
 
       <section class="article-body">

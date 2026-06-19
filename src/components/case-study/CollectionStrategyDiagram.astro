@@ -1,24 +1,32 @@
 ---
+import { ui, defaultLang, useTranslations } from '../../i18n/utils';
+
+interface Props {
+  lang: keyof typeof ui;
+  t: ReturnType<typeof useTranslations>;
+}
+
+const { lang, t } = Astro.props;
 ---
 
 <section class="collection-strategy">
   <div class="cs-diagram">
     <div class="cs-box">
       <span class="cs-number">~4,100</span>
-      <span class="cs-label">listings (Hanoi, Booking.com)</span>
+      <span class="cs-label">{t('hanoi.diagram.topLabel')}</span>
     </div>
     
     <div class="cs-arrow">↓</div>
     
     <div class="cs-box cs-process">
-      <span class="cs-label">District × Property Type × Star Rating × Sort Direction</span>
+      <span class="cs-label">{t('hanoi.diagram.processLabel')}</span>
     </div>
     
     <div class="cs-arrow">↓</div>
     
     <div class="cs-box cs-final">
       <span class="cs-number">3,795</span>
-      <span class="cs-label">listings collected</span>
+      <span class="cs-label">{t('hanoi.diagram.bottomLabel')}</span>
     </div>
   </div>
   

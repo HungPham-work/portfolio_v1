@@ -1,17 +1,28 @@
+---
+import { ui, defaultLang, useTranslations } from '../../i18n/utils';
+
+interface Props {
+  lang: keyof typeof ui;
+  t: ReturnType<typeof useTranslations>;
+}
+
+const { lang, t } = Astro.props;
+---
+
 <section class="finding-contrast">
   <div class="fc-col">
-    <span class="fc-label">FACILITIES</span>
+    <span class="fc-label">{t('hanoi.contrast.facilitiesLabel')}</span>
     <div class="fc-number weak">-0.045</div>
     <p class="fc-desc">
-      Weakest relative strength
+      {t('hanoi.contrast.weakDesc')}
     </p>
   </div>
 
   <div class="fc-col">
-    <span class="fc-label">STAFF</span>
+    <span class="fc-label">{t('hanoi.contrast.staffLabel')}</span>
     <div class="fc-number strong">-0.605</div>
     <p class="fc-desc">
-      Strongest relative strength
+      {t('hanoi.contrast.strongDesc')}
     </p>
   </div>
 

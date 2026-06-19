@@ -14,7 +14,10 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<BaseLayout title="Hanoi Hotels — Phạm Quốc Hưng" description="Analysis of 2,044 Booking.com listings in Hanoi.">
+<BaseLayout
+  title="Hanoi Hotels — Phạm Quốc Hưng"
+  description="Analysis of 2,044 Booking.com listings in Hanoi."
+>
   <Header />
 
   <article>
@@ -23,21 +26,23 @@ const t = useTranslations(lang);
       <img class="hero-bg" src="/hotel.png" alt="Hanoi street" />
       <div class="hero-overlay">
         <div class="content-container">
-          <a href={`/${lang}/`} style="color: rgba(255,255,255,0.7); text-decoration: none; font-family: 'Inter', sans-serif; font-size: 14px; margin-bottom: 24px; display: inline-block;">← {t("hanoi.back")}</a>
-          <h1>Thị trường khách sạn Hà Nội: khách hàng thực sự coi trọng điều gì</h1>
-          
+          <a
+            href={`/${lang}/`}
+            style="color: rgba(255,255,255,0.7); text-decoration: none; font-family: 'Inter', sans-serif; font-size: 14px; margin-bottom: 24px; display: inline-block;"
+            >← {t("hanoi.back")}</a
+          >
+          <h1>
+            Thị trường khách sạn Hà Nội: khách hàng thực sự coi trọng điều gì
+          </h1>
+
           <div class="hero-stat-strip">
             <div class="hero-stat-item">
               <span class="hero-stat-number" data-target="2044">0</span>
-              <span class="hero-stat-label">danh sách</span>
+              <span class="hero-stat-label">chỗ nghỉ</span>
             </div>
             <div class="hero-stat-item">
               <span class="hero-stat-number" data-target="7">0</span>
               <span class="hero-stat-label">khía cạnh trải nghiệm</span>
-            </div>
-            <div class="hero-stat-item">
-              <span class="hero-stat-number" data-target="53.9" data-suffix="%">0</span>
-              <span class="hero-stat-label">tỷ lệ lợi nhuận đường ống</span>
             </div>
           </div>
         </div>
@@ -66,7 +71,7 @@ const t = useTranslations(lang);
         <p>{t("hanoi.collectionP2")}</p>
       </section>
 
-      <CollectionStrategyDiagram />
+      <CollectionStrategyDiagram lang={lang} t={t} />
 
       <section class="article-body">
         <h2>{t("hanoi.validationTitle")}</h2>
@@ -79,10 +84,14 @@ const t = useTranslations(lang);
         <h2>{t("hanoi.discoveryTitle")}</h2>
         <h3>{t("hanoi.discoverySub")}</h3>
         <p>{t("hanoi.discoveryP1")}</p>
-        <p style="font-family: monospace; background: #f9f9f9; padding: 12px 24px; border-left: 4px solid #ececec; margin-bottom: 24px; white-space: pre-wrap;">{t("hanoi.discoveryP2")}</p>
+        <p
+          style="font-family: monospace; background: #f9f9f9; padding: 12px 24px; border-left: 4px solid #ececec; margin-bottom: 24px; white-space: pre-wrap;"
+        >
+          {t("hanoi.discoveryP2")}
+        </p>
       </section>
 
-      <DimensionRanking />
+      <DimensionRanking lang={lang} t={t} />
 
       <section class="article-body">
         <h2>{t("hanoi.findingTitle")}</h2>
@@ -92,7 +101,7 @@ const t = useTranslations(lang);
         <p>{t("hanoi.findingP3")}</p>
       </section>
 
-      <FindingContrast />
+      <FindingContrast lang={lang} t={t} />
 
       <section class="article-body">
         <h2>{t("hanoi.investigationTitle")}</h2>
@@ -101,7 +110,7 @@ const t = useTranslations(lang);
         <p>{t("hanoi.investigationP2")}</p>
       </section>
 
-      <PropertyTypeBreakdown />
+      <PropertyTypeBreakdown lang={lang} t={t} />
 
       <section class="article-body">
         <h2>{t("hanoi.implicationsTitle")}</h2>
@@ -112,46 +121,74 @@ const t = useTranslations(lang);
       </section>
 
       <section class="article-body">
+        <h2>{t("hanoi.exploreTitle")}</h2>
+        <p>{t("hanoi.exploreP1")}</p>
+
+        <div
+          class="not-prose my-8"
+          style="border: 1px solid var(--color-border-tertiary, #D0CDC5); border-radius: 12px; overflow: hidden;"
+        >
+          <iframe
+            src={`/hanoi-dashboard-${lang}.html`}
+            width="100%"
+            height="560"
+            style="border: none; display: block;"
+            title="Interactive gap analysis dashboard"
+            loading="lazy"></iframe>
+        </div>
+      </section>
+
+      <section class="article-body">
         <h2>{t("hanoi.limitationsTitle")}</h2>
         <p>{t("hanoi.limitationsP1")}</p>
         <p>{t("hanoi.limitationsP2")}</p>
 
-        <div style="margin-top: 48px; text-align: center;">
-          <a href={`/${lang}/projects/tiktok-imc`} style="font-family: 'Inter', sans-serif; font-size: 16px; color: #111; text-decoration: none; border-bottom: 1px solid #111; padding-bottom: 2px;">Next Project: TikTok IMC Strategy →</a>
-        </div>
+        <a
+          href={`/${lang}/projects/tiktok-imc`}
+          class="group inline-flex items-center gap-2 text-sm text-[#6B6B6B] hover:text-[#111111] transition-colors mt-12 mb-20"
+        >
+          {t("hanoi.next")}
+        </a>
       </section>
     </main>
   </article>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" is:inline></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    is:inline></script>
   <script is:inline>
     function initHeroStats() {
-      if (typeof gsap === 'undefined') return;
-      
-      const stats = document.querySelectorAll('.hero-stat-number');
+      if (typeof gsap === "undefined") return;
+
+      const stats = document.querySelectorAll(".hero-stat-number");
       stats.forEach((stat, i) => {
-        const target = parseFloat(stat.getAttribute('data-target') || '0');
-        const suffix = stat.getAttribute('data-suffix') || '';
-        
-        gsap.fromTo({ val: 0 }, { val: 0 }, {
-          val: target,
-          duration: 2,
-          delay: 0.5 + (i * 0.2),
-          ease: "power3.out",
-          onUpdate: function() {
-            const val = this.targets()[0].val;
-            stat.textContent = (target % 1 === 0 ? Math.round(val) : val.toFixed(1)) + suffix;
-          }
-        });
+        const target = parseFloat(stat.getAttribute("data-target") || "0");
+        const suffix = stat.getAttribute("data-suffix") || "";
+
+        gsap.fromTo(
+          { val: 0 },
+          { val: 0 },
+          {
+            val: target,
+            duration: 2,
+            delay: 0.5 + i * 0.2,
+            ease: "power3.out",
+            onUpdate: function () {
+              const val = this.targets()[0].val;
+              stat.textContent =
+                (target % 1 === 0 ? Math.round(val) : val.toFixed(1)) + suffix;
+            },
+          },
+        );
       });
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initHeroStats);
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initHeroStats);
     } else {
       initHeroStats();
     }
-    document.addEventListener('astro:page-load', initHeroStats);
+    document.addEventListener("astro:page-load", initHeroStats);
   </script>
 
   <Footer />

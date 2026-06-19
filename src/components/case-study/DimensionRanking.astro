@@ -1,12 +1,21 @@
 ---
+import { ui, defaultLang, useTranslations } from '../../i18n/utils';
+
+interface Props {
+  lang: keyof typeof ui;
+  t: ReturnType<typeof useTranslations>;
+}
+
+const { lang, t } = Astro.props;
+
 const dimensions = [
-  { label: "Staff", value: -0.605 },
-  { label: "Location", value: -0.522 },
-  { label: "Wi-Fi", value: -0.346 },
-  { label: "Value for Money", value: -0.284 },
-  { label: "Comfort", value: -0.221 },
-  { label: "Cleanliness", value: -0.218 },
-  { label: "Facilities", value: -0.045 }
+  { label: t('hanoi.dim.staff'), value: -0.605 },
+  { label: t('hanoi.dim.location'), value: -0.522 },
+  { label: t('hanoi.dim.wifi'), value: -0.346 },
+  { label: t('hanoi.dim.value'), value: -0.284 },
+  { label: t('hanoi.dim.comfort'), value: -0.221 },
+  { label: t('hanoi.dim.cleanliness'), value: -0.218 },
+  { label: t('hanoi.dim.facilities'), value: -0.045 }
 ];
 
 const max = 0.605;
@@ -14,7 +23,7 @@ const max = 0.605;
 
 <section class="dimension-ranking">
   <h2 class="dr-title">
-    What the Ranking Revealed
+    {t('hanoi.ranking.title')}
   </h2>
 
   <div class="dr-ranking">
