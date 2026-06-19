@@ -1,4 +1,6 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
 interface Props {
   pill: string;
   heading: string;
@@ -12,6 +14,8 @@ interface Props {
 }
 
 const { pill, heading, features, links, blobClass, reverse = false, isInteractive = false, projectId = '', defaultActiveIndex = -1 } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <div class={`split ${reverse ? 'reverse' : ''}`}>
@@ -57,22 +61,22 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
       {/* ===== HANOI HOTELS DASHBOARD ===== */}
       {isInteractive && projectId === 'hanoi-hotels' && (
         <div class="dashboard-container" id="hanoi-hotels-dashboard" data-default-index={defaultActiveIndex} style="display: none; opacity: 0; transform: scale(0.95); pointer-events: none;">
-          <button class="dashboard-close" aria-label="Close dashboard">&times;</button>
+          <button class="dashboard-close" aria-label={t('project.split.close')}>&times;</button>
 
           {/* Chart 0: Scrape Counter & Funnel */}
           <div class="dashboard-chart" id="hanoi-hotels-chart-0" style="display: none;">
             <div class="chart-header">
-              <span class="header-title">Data Pipeline Yield</span>
-              <span class="header-subtitle">Funnel yield from Booking.com scraping &amp; data cleaning</span>
+              <span class="header-title">{t('hanoi.chart0.title')}</span>
+              <span class="header-subtitle">{t('hanoi.chart0.subtitle')}</span>
             </div>
             <div class="stat-counter-wrapper">
               <div class="stat-number" id="hanoi-hotels-counter-listings">0</div>
-              <div class="stat-label">Cleaned Listings in Dataset</div>
+              <div class="stat-label">{t('hanoi.chart0.listingsLabel')}</div>
             </div>
             <div class="funnel-container">
               <div class="funnel-step raw">
                 <div class="funnel-row-header">
-                  <span class="funnel-label">Raw Scraped Listings</span>
+                  <span class="funnel-label">{t('hanoi.chart0.rawLabel')}</span>
                   <span class="funnel-val">3,795</span>
                 </div>
                 <div class="funnel-bar" id="hanoi-hotels-funnel-raw" style="width: 0%"></div>
@@ -81,60 +85,60 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <path d="M12 5v14M19 12l-7 7-7-7" />
                 </svg>
-                <span>Filter: Non-null scores &amp; review count &ge; 10</span>
+                <span>{t('hanoi.chart0.filterLabel')}</span>
               </div>
               <div class="funnel-step clean">
                 <div class="funnel-row-header">
-                  <span class="funnel-label">Cleaned Working Sample</span>
+                  <span class="funnel-label">{t('hanoi.chart0.cleanLabel')}</span>
                   <span class="funnel-val">2,044</span>
                 </div>
                 <div class="funnel-bar" id="hanoi-hotels-funnel-clean" style="width: 0%"></div>
               </div>
             </div>
             <div class="funnel-footer">
-              Pipeline yield: <strong>53.9%</strong> of raw data retained
+              {t('hanoi.chart0.footerPrefix')}<strong>53.9%</strong>{t('hanoi.chart0.footerSuffix')}
             </div>
           </div>
 
           {/* Chart 1: 7 Dimensions Gap Chart */}
           <div class="dashboard-chart" id="hanoi-hotels-chart-1" style="display: none;">
             <div class="chart-header">
-              <span class="header-title">Experience Dimension Mean Gaps</span>
-              <span class="header-subtitle">More negative = exceeds overall rating more (stronger performance)</span>
+              <span class="header-title">{t('hanoi.chart1.title')}</span>
+              <span class="header-subtitle">{t('hanoi.chart1.subtitle')}</span>
             </div>
             <div class="gap-bars">
               <div class="gap-row" data-gap="0.605">
-                <span class="gap-label">Staff</span>
+                <span class="gap-label">{t('hanoi.chart1.staff')}</span>
                 <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #003580;"></div></div>
                 <span class="gap-val">-0.605</span>
               </div>
               <div class="gap-row" data-gap="0.522">
-                <span class="gap-label">Location</span>
+                <span class="gap-label">{t('hanoi.chart1.location')}</span>
                 <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #1a498d;"></div></div>
                 <span class="gap-val">-0.522</span>
               </div>
               <div class="gap-row" data-gap="0.346">
-                <span class="gap-label">Wifi</span>
+                <span class="gap-label">{t('hanoi.chart1.wifi')}</span>
                 <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #335d9a;"></div></div>
                 <span class="gap-val">-0.346</span>
               </div>
               <div class="gap-row" data-gap="0.284">
-                <span class="gap-label">Value</span>
+                <span class="gap-label">{t('hanoi.chart1.value')}</span>
                 <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #4d71a7;"></div></div>
                 <span class="gap-val">-0.284</span>
               </div>
               <div class="gap-row" data-gap="0.221">
-                <span class="gap-label">Comfort</span>
+                <span class="gap-label">{t('hanoi.chart1.comfort')}</span>
                 <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #6685b4;"></div></div>
                 <span class="gap-val">-0.221</span>
               </div>
               <div class="gap-row" data-gap="0.218">
-                <span class="gap-label">Cleanliness</span>
+                <span class="gap-label">{t('hanoi.chart1.cleanliness')}</span>
                 <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #8099c1;"></div></div>
                 <span class="gap-val">-0.218</span>
               </div>
               <div class="gap-row highlight" data-gap="0.045">
-                <span class="gap-label">Facilities</span>
+                <span class="gap-label">{t('hanoi.chart1.facilities')}</span>
                 <div class="gap-bar-wrapper"><div class="gap-bar" style="width: 0%; background-color: #99adce; outline: 1px solid var(--accent-hanoi);"></div></div>
                 <span class="gap-val">-0.045</span>
               </div>
@@ -144,13 +148,13 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
           {/* Chart 2: Facilities Gap Comparison by Property Type */}
           <div class="dashboard-chart" id="hanoi-hotels-chart-2" style="display: none;">
             <div class="chart-header">
-              <span class="header-title">Facilities Gap by Property Type</span>
-              <span class="header-subtitle">Positive (+) = sub-score is lower than overall rating (underperforms)</span>
+              <span class="header-title">{t('hanoi.chart2.title')}</span>
+              <span class="header-subtitle">{t('hanoi.chart2.subtitle')}</span>
             </div>
             <div class="comparison-grid">
               <div class="comparison-row">
                 <div class="comp-label-group">
-                  <span class="comp-name">Homestay</span>
+                  <span class="comp-name">{t('hanoi.chart2.homestay')}</span>
                   <span class="comp-val positive">+0.031</span>
                 </div>
                 <div class="comp-bar-container">
@@ -160,7 +164,7 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
               </div>
               <div class="comparison-row">
                 <div class="comp-label-group">
-                  <span class="comp-name">Hotel</span>
+                  <span class="comp-name">{t('hanoi.chart2.hotel')}</span>
                   <span class="comp-val negative">-0.025</span>
                 </div>
                 <div class="comp-bar-container">
@@ -170,7 +174,7 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
               </div>
               <div class="comparison-row">
                 <div class="comp-label-group">
-                  <span class="comp-name">Apartment</span>
+                  <span class="comp-name">{t('hanoi.chart2.apartment')}</span>
                   <span class="comp-val negative">-0.111</span>
                 </div>
                 <div class="comp-bar-container">
@@ -180,8 +184,8 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
               </div>
             </div>
             <div class="comp-legend">
-              <div class="legend-item"><span class="legend-dot negative"></span> Outperforms rating (&minus;)</div>
-              <div class="legend-item"><span class="legend-dot positive"></span> Undershoots rating (+)</div>
+              <div class="legend-item"><span class="legend-dot negative"></span> {t('hanoi.chart2.legendNeg')}</div>
+              <div class="legend-item"><span class="legend-dot positive"></span> {t('hanoi.chart2.legendPos')}</div>
             </div>
           </div>
         </div>
@@ -190,41 +194,41 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
       {/* ===== TIKTOK DASHBOARD ===== */}
       {isInteractive && projectId === 'tiktok' && (
         <div class="dashboard-container" id="tiktok-dashboard" data-default-index={defaultActiveIndex} style="display: none; opacity: 0; transform: scale(0.95); pointer-events: none;">
-          <button class="dashboard-close" aria-label="Close dashboard">&times;</button>
+          <button class="dashboard-close" aria-label={t('project.split.close')}>&times;</button>
 
           {/* Chart 0: Market Structure */}
           <div class="dashboard-chart" id="tiktok-chart-0" style="display: none;">
             <div class="chart-header">
-              <span class="header-title">Vietnam E-Commerce Market</span>
-              <span class="header-subtitle">Platform share &middot; 2025 &middot; Source: VnExpress / Metric</span>
+              <span class="header-title">{t('tiktok.chart0.title')}</span>
+              <span class="header-subtitle">{t('tiktok.chart0.subtitle')}</span>
             </div>
             <div class="tiktok-stat-row">
               <div class="tiktok-stat">
-                <span class="tiktok-stat-number" id="tiktok-gmv">0</span>
-                <span class="tiktok-stat-label">Market size (USD)</span>
+                <span class="tiktok-stat-number" id="tiktok-gmv" data-prefix={t('tiktok.chart0.gmvPrefix')} data-suffix={t('tiktok.chart0.gmvSuffix')}>0</span>
+                <span class="tiktok-stat-label">{t('tiktok.chart0.gmvLabel')}</span>
               </div>
               <div class="tiktok-stat">
                 <span class="tiktok-stat-number" id="tiktok-yoy">0%</span>
-                <span class="tiktok-stat-label">YoY growth</span>
+                <span class="tiktok-stat-label">{t('tiktok.chart0.yoyLabel')}</span>
               </div>
             </div>
             <div class="market-bars">
               <div class="market-row">
-                <span class="market-label">Shopee</span>
+                <span class="market-label">{t('tiktok.chart0.shopee')}</span>
                 <div class="market-bar-track">
                   <div class="market-bar" id="tiktok-bar-shopee" style="width: 0%; background: #EE4D2D;"></div>
                 </div>
                 <span class="market-val">56%</span>
               </div>
               <div class="market-row highlight">
-                <span class="market-label">TikTok Shop</span>
+                <span class="market-label">{t('tiktok.chart0.tiktok')}</span>
                 <div class="market-bar-track">
                   <div class="market-bar" id="tiktok-bar-tiktok" style="width: 0%; background: #EE1D52;"></div>
                 </div>
                 <span class="market-val">41%</span>
               </div>
               <div class="market-row">
-                <span class="market-label">Others</span>
+                <span class="market-label">{t('tiktok.chart0.others')}</span>
                 <div class="market-bar-track">
                   <div class="market-bar" id="tiktok-bar-others" style="width: 0%; background: #D0CDC5;"></div>
                 </div>
@@ -236,8 +240,8 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
           {/* Chart 1: Competitive Positioning Map */}
           <div class="dashboard-chart" id="tiktok-chart-1" style="display: none;">
             <div class="chart-header">
-              <span class="header-title">Competitive Positioning</span>
-              <span class="header-subtitle">Discovery mechanism vs. trust orientation</span>
+              <span class="header-title">{t('tiktok.chart1.title')}</span>
+              <span class="header-subtitle">{t('tiktok.chart1.subtitle')}</span>
             </div>
             <div class="pos-map-wrapper">
               <svg class="pos-map-svg" viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg">
@@ -245,19 +249,19 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
                 <line class="pos-axis" x1="20" y1="110" x2="260" y2="110" stroke="#D0CDC5" stroke-width="1" opacity="0"/>
                 <line class="pos-axis" x1="140" y1="10" x2="140" y2="210" stroke="#D0CDC5" stroke-width="1" opacity="0"/>
                 <!-- Axis labels -->
-                <text class="pos-axis-label" x="22" y="107" font-size="7" fill="#6B6B6B" opacity="0">Search-driven</text>
-                <text class="pos-axis-label" x="230" y="107" font-size="7" fill="#6B6B6B" opacity="0">Content-driven</text>
-                <text class="pos-axis-label" x="143" y="20" font-size="7" fill="#6B6B6B" opacity="0">Official/Trust</text>
-                <text class="pos-axis-label" x="143" y="207" font-size="7" fill="#6B6B6B" opacity="0">Mass-market</text>
+                <text class="pos-axis-label" x="22" y="107" font-size="7" fill="#6B6B6B" opacity="0">{t('tiktok.chart1.axisSearch')}</text>
+                <text class="pos-axis-label" x="230" y="107" font-size="7" fill="#6B6B6B" opacity="0">{t('tiktok.chart1.axisContent')}</text>
+                <text class="pos-axis-label" x="143" y="20" font-size="7" fill="#6B6B6B" opacity="0">{t('tiktok.chart1.axisTrust')}</text>
+                <text class="pos-axis-label" x="143" y="207" font-size="7" fill="#6B6B6B" opacity="0">{t('tiktok.chart1.axisMass')}</text>
                 <!-- Lazada dot -->
                 <circle class="pos-dot" id="pos-lazada" cx="80" cy="45" r="6" fill="#6B6B6B" opacity="0"/>
-                <text class="pos-dot-label" id="pos-lazada-label" x="90" y="44" font-size="8" fill="#6B6B6B" opacity="0">Lazada</text>
+                <text class="pos-dot-label" id="pos-lazada-label" x="90" y="44" font-size="8" fill="#6B6B6B" opacity="0">{t('tiktok.chart1.lazada')}</text>
                 <!-- Shopee dot -->
                 <circle class="pos-dot" id="pos-shopee" cx="90" cy="130" r="6" fill="#EE4D2D" opacity="0"/>
-                <text class="pos-dot-label" id="pos-shopee-label" x="100" y="129" font-size="8" fill="#EE4D2D" opacity="0">Shopee</text>
+                <text class="pos-dot-label" id="pos-shopee-label" x="100" y="129" font-size="8" fill="#EE4D2D" opacity="0">{t('tiktok.chart1.shopee')}</text>
                 <!-- TikTok Shop dot -->
                 <circle class="pos-dot" id="pos-tiktok" cx="210" cy="150" r="6" fill="#EE1D52" opacity="0"/>
-                <text class="pos-dot-label" id="pos-tiktok-label" x="185" y="168" font-size="8" fill="#EE1D52" opacity="0">TikTok Shop</text>
+                <text class="pos-dot-label" id="pos-tiktok-label" x="185" y="168" font-size="8" fill="#EE1D52" opacity="0">{t('tiktok.chart1.tiktok')}</text>
                 <!-- Drift arrow: from current position toward trust quadrant -->
                 <path class="pos-arrow" id="pos-drift-arrow"
                   d="M 210 150 C 210 120 200 90 195 75"
@@ -267,7 +271,7 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
                   points="191,78 195,68 199,78"
                   fill="#EE1D52" opacity="0"/>
                 <text class="pos-arrow-label" id="pos-drift-label"
-                  x="145" y="95" font-size="7" fill="#EE1D52" opacity="0">Mall strategy &rarr;</text>
+                  x="145" y="95" font-size="7" fill="#EE1D52" opacity="0">{t('tiktok.chart1.drift')}</text>
               </svg>
             </div>
           </div>
@@ -275,37 +279,37 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
           {/* Chart 2: 4 Structural Problems */}
           <div class="dashboard-chart" id="tiktok-chart-2" style="display: none;">
             <div class="chart-header">
-              <span class="header-title">Structural Communication Problems</span>
-              <span class="header-subtitle">Identified in Chapter 2.2.6 &mdash; limiting long-term brand equity</span>
+              <span class="header-title">{t('tiktok.chart2.title')}</span>
+              <span class="header-subtitle">{t('tiktok.chart2.subtitle')}</span>
             </div>
             <div class="problem-list">
               <div class="problem-row" style="opacity: 0; transform: translateY(8px);">
                 <div class="problem-top">
-                  <span class="problem-name">Sale dependency</span>
-                  <span class="problem-severity" style="color: #EE1D52;">CRITICAL</span>
+                  <span class="problem-name">{t('tiktok.chart2.prob1.name')}</span>
+                  <span class="problem-severity" style="color: #EE1D52;">{t('tiktok.chart2.prob1.severity')}</span>
                 </div>
-                <span class="problem-impact">Positions platform as discount channel, not brand</span>
+                <span class="problem-impact">{t('tiktok.chart2.prob1.impact')}</span>
               </div>
               <div class="problem-row" style="opacity: 0; transform: translateY(8px);">
                 <div class="problem-top">
-                  <span class="problem-name">Transactional behavior</span>
-                  <span class="problem-severity" style="color: #c0392b;">HIGH</span>
+                  <span class="problem-name">{t('tiktok.chart2.prob2.name')}</span>
+                  <span class="problem-severity" style="color: #c0392b;">{t('tiktok.chart2.prob2.severity')}</span>
                 </div>
-                <span class="problem-impact">Low engagement outside sale events, weak retention</span>
+                <span class="problem-impact">{t('tiktok.chart2.prob2.impact')}</span>
               </div>
               <div class="problem-row" style="opacity: 0; transform: translateY(8px);">
                 <div class="problem-top">
-                  <span class="problem-name">Ecosystem undertold</span>
-                  <span class="problem-severity" style="color: #6B6B6B;">MEDIUM</span>
+                  <span class="problem-name">{t('tiktok.chart2.prob3.name')}</span>
+                  <span class="problem-severity" style="color: #6B6B6B;">{t('tiktok.chart2.prob3.severity')}</span>
                 </div>
-                <span class="problem-impact">Content-commerce integration not communicated as value</span>
+                <span class="problem-impact">{t('tiktok.chart2.prob3.impact')}</span>
               </div>
               <div class="problem-row" style="opacity: 0; transform: translateY(8px);">
                 <div class="problem-top">
-                  <span class="problem-name">No social identity</span>
-                  <span class="problem-severity" style="color: #6B6B6B;">MEDIUM</span>
+                  <span class="problem-name">{t('tiktok.chart2.prob4.name')}</span>
+                  <span class="problem-severity" style="color: #6B6B6B;">{t('tiktok.chart2.prob4.severity')}</span>
                 </div>
-                <span class="problem-impact">High viral reach, no stable community belonging</span>
+                <span class="problem-impact">{t('tiktok.chart2.prob4.impact')}</span>
               </div>
             </div>
           </div>
@@ -316,26 +320,26 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
       {/* ===== EJOY DASHBOARD ===== */}
       {isInteractive && projectId === 'ejoy' && (
         <div class="dashboard-container" id="ejoy-dashboard" data-default-index={defaultActiveIndex} style="display: none; opacity: 0; transform: scale(0.95); pointer-events: none;">
-          <button class="dashboard-close" aria-label="Close dashboard">&times;</button>
+          <button class="dashboard-close" aria-label={t('project.split.close')}>&times;</button>
 
           {/* eJoy Chart 0: Research Stats */}
           <div class="dashboard-chart" id="ejoy-chart-0" style="display: none;">
             <div class="chart-header">
-              <span class="header-title">Research Methods</span>
-              <span class="header-subtitle">Mixed-methods study with FTU university students</span>
+              <span class="header-title">{t('ejoy.chart0.title')}</span>
+              <span class="header-subtitle">{t('ejoy.chart0.subtitle')}</span>
             </div>
             <div class="ejoy-stat-grid">
               <div class="ejoy-stat-card">
                 <div class="ejoy-stat-num">25+</div>
-                <div class="ejoy-stat-label">Study sessions observed</div>
+                <div class="ejoy-stat-label">{t('ejoy.chart0.stat1.label')}</div>
               </div>
               <div class="ejoy-stat-card">
                 <div class="ejoy-stat-num">2</div>
-                <div class="ejoy-stat-label">Focus groups, 2–3 participants each</div>
+                <div class="ejoy-stat-label">{t('ejoy.chart0.stat2.label')}</div>
               </div>
               <div class="ejoy-stat-card">
                 <div class="ejoy-stat-num">7+</div>
-                <div class="ejoy-stat-label">Days of learning diaries</div>
+                <div class="ejoy-stat-label">{t('ejoy.chart0.stat3.label')}</div>
               </div>
             </div>
           </div>
@@ -343,19 +347,33 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
           {/* eJoy Chart 1: Emotional Journey Canvas */}
           <div class="dashboard-chart" id="ejoy-chart-1" style="display: none;">
             <div class="chart-header">
-              <span class="header-title">Emotional Journey</span>
-              <span class="header-subtitle">Emotion level across a typical learning session</span>
+              <span class="header-title">{t('ejoy.chart1.title')}</span>
+              <span class="header-subtitle">{t('ejoy.chart1.subtitle')}</span>
             </div>
             <div class="ejoy-canvas-wrapper">
-              <canvas id="ejoy-emotion-canvas"></canvas>
+              <canvas
+                id="ejoy-emotion-canvas"
+                data-stages={JSON.stringify([
+                  t('ejoy.chart1.canvas.start'),
+                  t('ejoy.chart1.canvas.newContent'),
+                  t('ejoy.chart1.canvas.practice'),
+                  t('ejoy.chart1.canvas.plateau'),
+                  t('ejoy.chart1.canvas.breakthrough')
+                ])}
+                data-pain-labels={JSON.stringify({
+                  1: t('ejoy.chart1.canvas.overwhelm'),
+                  3: t('ejoy.chart1.canvas.despair')
+                })}
+                data-y-label={t('ejoy.chart1.canvas.yLabel')}
+              ></canvas>
             </div>
           </div>
 
           {/* eJoy Chart 2: Recommendations Grid */}
           <div class="dashboard-chart" id="ejoy-chart-2" style="display: none;">
             <div class="chart-header">
-              <span class="header-title">Strategic Recommendations</span>
-              <span class="header-subtitle">4 pillars for emotionally sustainable learning</span>
+              <span class="header-title">{t('ejoy.chart2.title')}</span>
+              <span class="header-subtitle">{t('ejoy.chart2.subtitle')}</span>
             </div>
             <div class="ejoy-rec-grid">
               <div class="ejoy-rec-card">
@@ -364,8 +382,8 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
                     <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/>
                   </svg>
                 </div>
-                <div class="ejoy-rec-title">Visual Identity</div>
-                <div class="ejoy-rec-desc">Support colors, Focus Mode, journey progress map</div>
+                <div class="ejoy-rec-title">{t('ejoy.chart2.rec1.title')}</div>
+                <div class="ejoy-rec-desc">{t('ejoy.chart2.rec1.desc')}</div>
               </div>
               <div class="ejoy-rec-card">
                 <div class="ejoy-rec-icon">
@@ -373,8 +391,8 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
                     <circle cx="12" cy="7" r="4"/><path d="M12 14c-4 0-7 2-7 4v1h14v-1c0-2-3-4-7-4z"/>
                   </svg>
                 </div>
-                <div class="ejoy-rec-title">AI Companion</div>
-                <div class="ejoy-rec-desc">Empathetic coach, not a corrective evaluator</div>
+                <div class="ejoy-rec-title">{t('ejoy.chart2.rec2.title')}</div>
+                <div class="ejoy-rec-desc">{t('ejoy.chart2.rec2.desc')}</div>
               </div>
               <div class="ejoy-rec-card">
                 <div class="ejoy-rec-icon">
@@ -382,8 +400,8 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                   </svg>
                 </div>
-                <div class="ejoy-rec-title">UX Writing</div>
-                <div class="ejoy-rec-desc">Gentle, humanized prompts instead of streak threats</div>
+                <div class="ejoy-rec-title">{t('ejoy.chart2.rec3.title')}</div>
+                <div class="ejoy-rec-desc">{t('ejoy.chart2.rec3.desc')}</div>
               </div>
               <div class="ejoy-rec-card">
                 <div class="ejoy-rec-icon">
@@ -391,8 +409,8 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                   </svg>
                 </div>
-                <div class="ejoy-rec-title">Retention Strategy</div>
-                <div class="ejoy-rec-desc">Psychological safety over pressure streaks</div>
+                <div class="ejoy-rec-title">{t('ejoy.chart2.rec4.title')}</div>
+                <div class="ejoy-rec-desc">{t('ejoy.chart2.rec4.desc')}</div>
               </div>
             </div>
           </div>
@@ -660,7 +678,11 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
         ease: "power2.out",
         onUpdate: function() {
           const el = document.getElementById('tiktok-gmv');
-          if (el) el.textContent = '$' + Math.round(this.targets()[0].val) + 'B';
+          if (el) {
+            const prefix = el.getAttribute('data-prefix') || '';
+            const suffix = el.getAttribute('data-suffix') || '';
+            el.textContent = prefix + Math.round(this.targets()[0].val) + suffix;
+          }
         }
       });
       gsap.to({ val: 0 }, {
@@ -747,9 +769,10 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
     const W = logicalW;
     const H = logicalH;
 
-    const stages = ['Start', 'New\nContent', 'Practice', 'Plateau', 'Breakthrough'];
+    const stages = JSON.parse(canvas.getAttribute('data-stages') || '["Start", "New\\nContent", "Practice", "Plateau", "Breakthrough"]');
     const emotions = [7, -3, 2, -6, 9];
-    const painLabels: Record<number, string> = { 1: 'Overwhelm', 3: 'Despair' };
+    const painLabels: Record<number, string> = JSON.parse(canvas.getAttribute('data-pain-labels') || '{"1": "Overwhelm", "3": "Despair"}');
+    const yLabel = canvas.getAttribute('data-y-label') || 'Emotion';
     const ACCENT = '#079AED';
     const PAD_LEFT   = 36;
     const PAD_RIGHT  = 44; // extra room so "Breakthrough" label isn't clipped
@@ -838,7 +861,7 @@ const { pill, heading, features, links, blobClass, reverse = false, isInteractiv
       ctx!.textAlign = 'center';
       ctx!.fillStyle = '#9CA3AF';
       ctx!.font = '9px Inter, sans-serif';
-      ctx!.fillText('Emotion', 0, 0);
+      ctx!.fillText(yLabel, 0, 0);
       ctx!.restore();
 
       const drawUpTo = Math.min(progress, totalPoints - 1);
