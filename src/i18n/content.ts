@@ -26,13 +26,9 @@ export const ui = {
     'section.contact.subtitle': 'Open to internship opportunities',
 
     // About Section
-    'about.bio.1': 'Third-year Business English student at FTU Hanoi. Self-taught in Python and SQL, with a focus on the engineering side of data — building scrapers, cleaning datasets, and making analysis reproducible.',
-    'about.bio.2': "I'm drawn to analytics engineering: the work that happens before the dashboard, where clean pipelines make good decisions possible.",
-    'about.bio.3': 'Looking for a Data Analyst or Analytics Engineer internship where I can contribute from day one.',
-    'about.skills.languages': 'Languages',
-    'about.skills.languages.val': 'English (Fluent)',
-    'about.skills.tools': 'Tools',
-    'about.skills.tools.val': 'Git · Microsoft Office · Canva · Basic PowerBI · Google Sheets'
+    'about.bio.1': "Third-year Business English student at FTU Hanoi. I've always been fascinated by why people make the choices they do and how those choices shape their experiences.",
+    'about.bio.2': "This curiosity naturally led me to data. I love diving into messy datasets to uncover the hidden stories behind user behavior and figure out what truly drives engagement.",
+    'about.bio.3': "Ultimately, my goal is to blend data analysis with product development, using actionable insights to build better, more intuitive experiences for users.",
 
     // Contact & Footer
     'contact.email': 'quochungpham.working@gmail.com',
@@ -333,13 +329,9 @@ export const ui = {
     'section.contact.subtitle': 'Sẵn sàng đón nhận cơ hội thực tập',
 
     // About Section
-    'about.bio.1': 'Sinh viên năm ba chuyên ngành Tiếng Anh Thương mại tại ĐH Ngoại Thương Hà Nội. Tự học Python và SQL, tập trung vào phần kỹ thuật dữ liệu: xây scraper, làm sạch dữ liệu, đảm bảo phân tích có thể chạy lại được.',
-    'about.bio.2': 'Tôi thấy hứng thú nhất với những công việc liên quan đến dữ liệu, tìm insight và cải thiện vận hành',
-    'about.bio.3': 'Tôi cũng quan tâm đến các lĩnh vực khám phá tư duy khách hàng với sản phẩm.',
-    'about.skills.languages': 'Ngôn ngữ',
-    'about.skills.languages.val': 'Tiếng Việt (Bản ngữ) · Tiếng Anh (chuyên ngành)',
-    'about.skills.tools': 'Công cụ',
-    'about.skills.tools.val': 'Jupyter · Git · SQL · Google sheets · Word · Canva',
+    'about.bio.1': "Là sinh viên năm ba chuyên ngành Tiếng Anh Thương mại tại ĐH Ngoại Thương Hà Nội. Tôi luôn bị cuốn hút bởi lý do tại sao mọi người lại đưa ra những quyết định của họ và những lựa chọn đó định hình trải nghiệm ra sao.",
+    'about.bio.2': "Sự tò mò này tự nhiên dẫn tôi đến với dữ liệu. Tôi thích đào sâu vào những tập dữ liệu để khám phá những câu chuyện ẩn giấu đằng sau hành vi người dùng và tìm ra những yếu tố thực sự tạo nên sự tương tác.",
+    'about.bio.3': "Mục tiêu của tôi là kết hợp phân tích dữ liệu với phát triển sản phẩm, sử dụng insight thực tế để xây dựng những trải nghiệm tốt hơn và trực quan hơn cho người dùng.",
 
     // Contact & Footer
     'contact.email': 'quochungpham.working@gmail.com',
