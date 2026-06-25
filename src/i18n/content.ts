@@ -39,7 +39,7 @@ export const ui = {
     'about.skills.currently.val': 'Portfolio · Booking.com market analysis',
 
     // Contact & Footer
-    'contact.email': 'phamquochung@gmail.com',
+    'contact.email': 'quochungpham.working@gmail.com',
     'contact.github': 'GitHub',
     'contact.linkedin': 'LinkedIn',
     'footer.text': '© 2025 Phạm Quốc Hưng · FTU Hanoi',
