@@ -419,11 +419,13 @@ h2 {
   }
 
   .blob-container {
-    aspect-ratio: 4/3;
+    aspect-ratio: 1/1;
   }
 
   .dashboard-container {
     padding: 12px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .chart-header .header-title {
@@ -599,6 +601,8 @@ h2 {
   box-sizing: border-box;
   z-index: 10;
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Close button */
