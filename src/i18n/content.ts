@@ -14,7 +14,7 @@ export const ui = {
 
     // Hero
     'hero.pill': 'Available for internship · 2025',
-    'hero.title': 'Phạm Quốc Hưng',
+    'hero.title': 'Pham Quoc Hung',
     'hero.subtitle': 'Business English student at FTU Hanoi, turned data analyst. I build scrapers, clean messy datasets, and turn raw numbers into decisions that make sense.',
     'hero.cta': 'View projects →',
 
