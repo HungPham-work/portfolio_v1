@@ -42,6 +42,7 @@ body {
   background-color: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 img {
@@ -282,10 +283,10 @@ h2 {
   opacity: 0.6;
 }
 
-/* ===== MOBILE BREAKPOINT ===== */
+/* ===== MOBILE BREAKPOINT — 768px ===== */
 @media (max-width: 768px) {
   .container {
-    padding: 0 24px;
+    padding: 0 20px;
   }
 
   .section {
@@ -294,7 +295,15 @@ h2 {
 
   .split {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 32px;
+  }
+
+  .split .split-blob {
+    order: 1;
+  }
+
+  .split .split-text {
+    order: 2;
   }
 
   .split.reverse .split-text {
@@ -306,7 +315,212 @@ h2 {
   }
 
   .hero {
-    padding: 48px 24px;
+    padding: 48px 20px;
+  }
+
+  .blob-container {
+    aspect-ratio: 3/2;
+  }
+
+  /* Dashboard mobile adjustments */
+  .dashboard-container {
+    padding: 16px;
+  }
+
+  .chart-header .header-title {
+    font-size: 20px;
+  }
+
+  .stat-number {
+    font-size: 40px;
+  }
+
+  .gap-row {
+    grid-template-columns: 60px 1fr 36px;
+    gap: 8px;
+  }
+
+  .gap-label {
+    font-size: 10px;
+  }
+
+  .funnel-bar {
+    height: 24px;
+    font-size: 11px;
+  }
+
+  .tiktok-stat-number {
+    font-size: 24px;
+  }
+
+  .market-label {
+    width: 60px;
+    font-size: 10px;
+  }
+
+  .problem-name {
+    width: 110px;
+    font-size: 10px;
+  }
+
+  .problem-severity {
+    font-size: 9px;
+  }
+
+  .problem-impact {
+    font-size: 9px;
+  }
+
+  .comp-bar-container {
+    height: 14px;
+  }
+
+  .comp-label-group {
+    font-size: 10px;
+  }
+
+  .skill-row {
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 0;
+  }
+
+  .prose p,
+  .prose li {
+    font-size: 15px;
+  }
+
+  .prose h2 {
+    font-size: 22px;
+    margin: 32px 0 12px;
+  }
+}
+
+/* ===== SMALL MOBILE BREAKPOINT — 480px ===== */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .section {
+    padding: 60px 0;
+  }
+
+  h1 {
+    font-size: clamp(32px, 8vw, 48px);
+  }
+
+  h2 {
+    font-size: clamp(24px, 6vw, 32px);
+  }
+
+  .split {
+    gap: 24px;
+  }
+
+  .blob-container {
+    aspect-ratio: 4/3;
+  }
+
+  .dashboard-container {
+    padding: 12px;
+  }
+
+  .chart-header .header-title {
+    font-size: 18px;
+  }
+
+  .chart-header .header-subtitle {
+    font-size: 11px;
+  }
+
+  .stat-number {
+    font-size: 36px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .gap-row {
+    grid-template-columns: 50px 1fr 32px;
+    gap: 6px;
+  }
+
+  .gap-label {
+    font-size: 9px;
+  }
+
+  .gap-val {
+    font-size: 9px;
+  }
+
+  .funnel-bar {
+    height: 22px;
+    padding: 0 8px;
+    font-size: 10px;
+  }
+
+  .tiktok-stat-number {
+    font-size: 22px;
+  }
+
+  .tiktok-stat-label {
+    font-size: 9px;
+  }
+
+  .market-label {
+    width: 50px;
+    font-size: 9px;
+  }
+
+  .market-val {
+    font-size: 10px;
+    width: 24px;
+  }
+
+  .problem-name {
+    width: 90px;
+    font-size: 9px;
+  }
+
+  .comp-bar-container {
+    height: 12px;
+  }
+
+  .comp-label-group {
+    font-size: 9px;
+  }
+
+  .comp-legend {
+    font-size: 9px;
+  }
+
+  .pill {
+    font-size: 11px;
+    padding: 5px 12px;
+  }
+
+  .btn {
+    font-size: 13px;
+    padding: 10px 20px;
+  }
+
+  .skill-row {
+    font-size: 13px;
+  }
+
+  .prose p,
+  .prose li {
+    font-size: 14px;
+  }
+
+  .prose h2 {
+    font-size: 20px;
+  }
+
+  .text-muted {
+    font-size: 13px;
   }
 }
 

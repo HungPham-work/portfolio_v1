@@ -9,13 +9,34 @@ const t = useTranslations(lang);
 <header class="header">
   <div class="header-inner container">
     <a href={`/${lang}/`} class="logo">My Portfolio</a>
-    <nav class="nav">
+
+    <!-- Desktop nav (hidden on mobile) -->
+    <nav class="nav nav-desktop">
       <a href={`/${lang}/#projects`} class="nav-link">{t("nav.projects")}</a>
       <a href={`/${lang}/#about`} class="nav-link">{t("nav.about")}</a>
       <a href={`/${lang}/#contact`} class="nav-link">{t("nav.contact")}</a>
       <LanguageSwitch />
     </nav>
+
+    <!-- Hamburger button (visible on mobile) -->
+    <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
   </div>
+
+  <!-- Mobile drawer -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <nav class="drawer" id="drawer-nav" aria-hidden="true">
+    <button class="drawer-close" id="drawer-close" aria-label="Close menu">&times;</button>
+    <a href={`/${lang}/#projects`} class="drawer-link">{t("nav.projects")}</a>
+    <a href={`/${lang}/#about`} class="drawer-link">{t("nav.about")}</a>
+    <a href={`/${lang}/#contact`} class="drawer-link">{t("nav.contact")}</a>
+    <div class="drawer-lang">
+      <LanguageSwitch />
+    </div>
+  </nav>
 </header>
 
 <style>
@@ -45,9 +66,10 @@ const t = useTranslations(lang);
     color: rgba(255, 255, 255, 0.95);
     text-decoration: none;
     transition: color 0.3s ease;
+    z-index: 52;
   }
 
-  .nav {
+  .nav-desktop {
     display: flex;
     gap: 32px;
     align-items: center;
@@ -106,9 +128,153 @@ const t = useTranslations(lang);
     border-color: var(--text-muted);
   }
 
+  /* ===== HAMBURGER BUTTON ===== */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 52;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 2px;
+    transition: background 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .header.is-scrolled .hamburger-line {
+    background: var(--text);
+  }
+
+  /* Hamburger → X animation */
+  .hamburger.is-open .hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .hamburger.is-open .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.is-open .hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ===== DRAWER ===== */
+  .drawer-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 51;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+
+  .drawer-backdrop.is-visible {
+    display: block;
+    opacity: 1;
+  }
+
+  .drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    max-width: 80vw;
+    height: 100vh;
+    height: 100dvh;
+    background: white;
+    z-index: 53;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    padding: 80px 32px 40px;
+    gap: 0;
+    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.08);
+  }
+
+  .drawer.is-open {
+    transform: translateX(0);
+  }
+
+  .drawer-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: var(--text-muted);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .drawer-close:hover {
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  .drawer-link {
+    font-family: "Inter", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s, padding-left 0.2s;
+  }
+
+  .drawer-link:first-of-type {
+    border-top: 1px solid var(--border);
+  }
+
+  .drawer-link:hover {
+    color: var(--text-muted);
+    padding-left: 8px;
+  }
+
+  .drawer-lang {
+    margin-top: 24px;
+  }
+
+  /* Force drawer language switch to dark style */
+  .drawer :global(.lang-switch) {
+    color: var(--text-muted) !important;
+    border-color: var(--border) !important;
+  }
+
+  .drawer :global(.lang-switch:hover) {
+    color: var(--text) !important;
+    border-color: var(--text-muted) !important;
+  }
+
+  /* ===== MOBILE BREAKPOINT ===== */
   @media (max-width: 768px) {
-    .nav {
+    .nav-desktop {
       display: none;
+    }
+    .hamburger {
+      display: flex;
     }
   }
 </style>
@@ -120,14 +286,19 @@ const t = useTranslations(lang);
 
     const hero = document.querySelector(".hero-section");
 
+    // Also check for the homepage hero (class "hero" without "hero-section")
+    const homeHero = document.querySelector(".hero");
+
+    const heroEl = hero || homeHero;
+
     // No hero on this page → header is always solid
-    if (!hero) {
+    if (!heroEl) {
       header.classList.add("is-scrolled");
       return;
     }
 
     const toggle = () => {
-      const heroHeight = hero.offsetHeight;
+      const heroHeight = heroEl.offsetHeight;
       if (window.scrollY > heroHeight - 80) {
         header.classList.add("is-scrolled");
       } else {
@@ -139,10 +310,61 @@ const t = useTranslations(lang);
     window.addEventListener("scroll", toggle, { passive: true });
   }
 
+  function initMobileDrawer() {
+    const hamburger = document.getElementById("hamburger-btn");
+    const drawer = document.getElementById("drawer-nav");
+    const backdrop = document.getElementById("drawer-backdrop");
+    const closeBtn = document.getElementById("drawer-close");
+    const drawerLinks = document.querySelectorAll(".drawer-link");
+
+    if (!hamburger || !drawer || !backdrop) return;
+
+    function openDrawer() {
+      drawer.classList.add("is-open");
+      drawer.setAttribute("aria-hidden", "false");
+      backdrop.classList.add("is-visible");
+      hamburger.classList.add("is-open");
+      hamburger.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove("is-open");
+      drawer.setAttribute("aria-hidden", "true");
+      backdrop.classList.remove("is-visible");
+      hamburger.classList.remove("is-open");
+      hamburger.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    }
+
+    hamburger.addEventListener("click", () => {
+      const isOpen = drawer.classList.contains("is-open");
+      if (isOpen) closeDrawer();
+      else openDrawer();
+    });
+
+    if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
+    backdrop.addEventListener("click", closeDrawer);
+
+    drawerLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        // Small delay so user sees the tap before closing
+        setTimeout(closeDrawer, 150);
+      });
+    });
+  }
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initHeaderScroll);
+    document.addEventListener("DOMContentLoaded", () => {
+      initHeaderScroll();
+      initMobileDrawer();
+    });
   } else {
     initHeaderScroll();
+    initMobileDrawer();
   }
-  document.addEventListener("astro:page-load", initHeaderScroll);
+  document.addEventListener("astro:page-load", () => {
+    initHeaderScroll();
+    initMobileDrawer();
+  });
 </script>

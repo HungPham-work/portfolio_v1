@@ -86,6 +86,13 @@ const { lang, t } = Astro.props;
     opacity: 1;
     transform: none;
   }
+
+  @media (max-width: 480px) {
+    .pos-map-fade > div {
+      padding: 1rem;
+      border-radius: 8px;
+    }
+  }
 </style>
 
 <script>

@@ -84,4 +84,17 @@ const { lang, t } = Astro.props;
     gap:48px;
   }
 }
+
+@media(max-width:480px){
+  .finding-contrast{
+    padding:60px 0;
+    gap:32px;
+  }
+  .fc-number{
+    font-size:clamp(48px,10vw,80px);
+  }
+  .fc-desc{
+    font-size:14px;
+  }
+}
 </style>

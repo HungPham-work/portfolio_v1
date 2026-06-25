@@ -45,13 +45,15 @@
       antialias: true,
       powerPreference: "high-performance"
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1.5 : 2));
     renderer.setSize(container.clientWidth, container.clientHeight);
     console.log("HeroRibbon: Renderer size set to", container.clientWidth, container.clientHeight);
 
-    // Ribbon Geometry: Long plane to cover full viewport edge-to-edge
-    // Extended length from 25 to 45, width slightly increased, high segment count for smooth folding
-    const geometry = new THREE.PlaneGeometry(45, 4, 700, 36);
+    // Ribbon Geometry: Reduce complexity on mobile for GPU performance
+    const isMobile = window.innerWidth < 768;
+    const segX = isMobile ? 300 : 700;
+    const segY = isMobile ? 18 : 36;
+    const geometry = new THREE.PlaneGeometry(45, 4, segX, segY);
 
     // Shaders
     const vertexShader = `

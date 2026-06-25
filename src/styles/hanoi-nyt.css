@@ -125,3 +125,29 @@ color:#777;
   color: #333;
   border-radius: 4px;
 }
+
+@media (max-width: 480px) {
+  .article-body {
+    padding: 28px 0;
+    font-size: 1.1rem;
+  }
+  .article-body h2 {
+    font-size: 1.6rem;
+    margin-top: 32px;
+    margin-bottom: 16px;
+  }
+  .article-body h3 {
+    font-size: 0.875rem;
+  }
+  .visual-figure {
+    margin: 48px 0;
+    min-height: 50vh;
+  }
+  .visual-content {
+    padding: 16px;
+  }
+  .tool-chip {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+}
