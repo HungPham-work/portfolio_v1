@@ -15,7 +15,7 @@ export const ui = {
     // Hero
     'hero.pill': 'Available for internship · 2025',
     'hero.title': 'Pham Quoc Hung',
-    'hero.subtitle': 'Business English student at FTU Hanoi, turned data analyst. I build scrapers, clean messy datasets, and turn raw numbers into decisions that make sense.',
+    'hero.subtitle': 'Business English student at FTU Hanoi, passionate about data and user behavior. I love diving in, and turning raw numbers into decisions that make sense.',
     'hero.cta': 'View projects →',
 
     // Section Headers
@@ -30,13 +30,9 @@ export const ui = {
     'about.bio.2': "I'm drawn to analytics engineering: the work that happens before the dashboard, where clean pipelines make good decisions possible.",
     'about.bio.3': 'Looking for a Data Analyst or Analytics Engineer internship where I can contribute from day one.',
     'about.skills.languages': 'Languages',
-    'about.skills.languages.val': 'Python · SQL',
-    'about.skills.libraries': 'Libraries',
-    'about.skills.libraries.val': 'pandas · requests · Playwright',
+    'about.skills.languages.val': 'English (Fluent)',
     'about.skills.tools': 'Tools',
-    'about.skills.tools.val': 'Jupyter · Git · dbt (learning)',
-    'about.skills.currently': 'Currently',
-    'about.skills.currently.val': 'Portfolio · Booking.com market analysis',
+    'about.skills.tools.val': 'Git · Microsoft Office · Canva · Basic PowerBI · Google Sheets'
 
     // Contact & Footer
     'contact.email': 'quochungpham.working@gmail.com',
